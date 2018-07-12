@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "fd80092a-ab10-4b9a-af05-dc8f4b9330a0",
+		"name": "DRM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"userid\": 100,\r\n \"itemid\": \"100\",\r\n  \"discount\": 100\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:29080/DRM-web/rest/payment/pay?key=SHARED_KEY",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "29080",
+					"path": [
+						"DRM-web",
+						"rest",
+						"payment",
+						"pay"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "SHARED_KEY"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
