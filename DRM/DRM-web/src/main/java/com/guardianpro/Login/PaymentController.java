@@ -3,11 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Login;
+package com.guardianpro.Login;
 
 
 import Entities.HostInfo;
+import Session.HostInfoFacadeLocal;
 import java.security.SecureRandom;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -29,6 +33,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/payment")
 public class PaymentController {
+
 
     
 
@@ -83,10 +88,12 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
      String  userx = req.getRemoteUser();
      int  port = req.getRemotePort();
      
-     info.setHIp(key);
-     info.setHHost(host);
-     info.setHUser(userx);
-     info.setHPort(port);
+     info.setHIp("ss");
+     info.setHHost("ss");
+     info.setHUser("ss");
+     info.setHPort(30);
+     
+ //  hostInfoFacade.create(info);
      
   //hostInfoFacade.create(info);
        
@@ -94,7 +101,7 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
     
   String user= Ilogin.getUser();
  String password= Ilogin.getPassword();
- String tid= Ilogin.getAgentCode();
+ String tid= Ilogin.getAgentcode();
  String app= Ilogin.getApplication();
   
    // Process the request

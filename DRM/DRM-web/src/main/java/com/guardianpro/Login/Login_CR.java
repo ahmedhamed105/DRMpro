@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Login;
+package com.guardianpro.Login;
 
 /**
  *
@@ -14,7 +14,7 @@ public class Login_CR {
   
  private String user;
  private String password;
- private String AgentCode;
+ private String agentcode;
  private String application;
 
     public String getUser() {
@@ -33,13 +33,16 @@ public class Login_CR {
         this.password = password;
     }
 
-    public String getAgentCode() {
-        return AgentCode;
+    public String getAgentcode() {
+        return agentcode;
     }
 
-    public void setAgentCode(String AgentCode) {
-        this.AgentCode = AgentCode;
+    public void setAgentcode(String agentcode) {
+        this.agentcode = agentcode;
     }
+
+ 
+  
 
     public String getApplication() {
         return application;
