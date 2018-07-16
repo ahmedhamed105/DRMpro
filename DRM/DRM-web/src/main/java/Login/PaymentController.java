@@ -6,30 +6,31 @@
 package Login;
 
 
+import Entities.HostInfo;
 import java.security.SecureRandom;
-import java.util.Arrays;
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 
 /**
  *
  * @author ahmed.elemam
  */
 
-@RestController
-@RequestMapping("/payment")
+
+@Path("/payment")
 public class PaymentController {
+
     
-
-
 
     /**
      * This is a sample web service operation
@@ -51,30 +52,55 @@ private static final SecureRandom random = new SecureRandom();
 private static final char[] symbols = CHARACTERS.toCharArray();
 
 private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
+
+
+
+        @GET
+	@Path("/{param}")
+	public Response getMsg(@PathParam("param") String msg) {
  
+		String output = "Jersey say : " + msg;
  
+		return Response.status(200).entity(output).build();
  
- @RequestMapping(value = "/Login", method = RequestMethod.POST)
- public Login_ouput Login(@Context HttpServletRequest req,@RequestParam(value = "key") String key, @RequestBody Login_CR request) {
+	}
+
+  @POST
+ @Path("/Login/{key}") 
+ @Produces(MediaType.APPLICATION_JSON) 
+ @Consumes(MediaType.APPLICATION_JSON) 
+ public Login_ouput Login(@Context HttpServletRequest req,@PathParam("key") String key,Login_CR Ilogin) {
+
   Login_ouput response = new Login_ouput();
   if (sharedKey.equalsIgnoreCase(key)) {
+      
+      HostInfo info=new HostInfo();
+      
+      
       
      String  ip = req.getRemoteAddr();
      String  host = req.getRemoteHost();
      String  userx = req.getRemoteUser();
      int  port = req.getRemotePort();
+     
+     info.setHIp(key);
+     info.setHHost(host);
+     info.setHUser(userx);
+     info.setHPort(port);
+     
+  //hostInfoFacade.create(info);
        
     System.out.println("ip :"+ip+" "+host+" "+userx+" "+port);
     
-   String user= request.getUser();
-  String password= request.getPassword();
-  String tid= request.getAgentCode();
-  String app= request.getApplication();
+  String user= Ilogin.getUser();
+ String password= Ilogin.getPassword();
+ String tid= Ilogin.getAgentCode();
+ String app= Ilogin.getApplication();
   
    // Process the request
    // ....
 
-
+    System.out.println("ip :"+user+" "+password+" "+tid+" "+app);
    
    
    response.setTokean(nextToken());
@@ -96,4 +122,6 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
         buf[idx] = symbols[random.nextInt(symbols.length)];
     return new String(buf);
 }
+
+  
 }
