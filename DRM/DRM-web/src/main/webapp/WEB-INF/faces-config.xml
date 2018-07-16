@@ -8,4 +8,9 @@
         <managed-bean-class>com.guardianpro.Login.M_Login</managed-bean-class>
     
         <managed-bean-scope>application</managed-bean-scope></managed-bean>
+    <managed-bean>
+        <managed-bean-name>go</managed-bean-name>
+        <managed-bean-class>com.guardianpro.Login.Go</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>
