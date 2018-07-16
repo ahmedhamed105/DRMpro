@@ -14,9 +14,8 @@ public class Login_CR {
   
  private String user;
  private String password;
- private String tid;
- private String mid;
- private String key;
+ private String AgentCode;
+ private String application;
 
     public String getUser() {
         return user;
@@ -34,29 +33,23 @@ public class Login_CR {
         this.password = password;
     }
 
-    public String getTid() {
-        return tid;
+    public String getAgentCode() {
+        return AgentCode;
     }
 
-    public void setTid(String tid) {
-        this.tid = tid;
+    public void setAgentCode(String AgentCode) {
+        this.AgentCode = AgentCode;
     }
 
-    public String getMid() {
-        return mid;
+    public String getApplication() {
+        return application;
     }
 
-    public void setMid(String mid) {
-        this.mid = mid;
+    public void setApplication(String application) {
+        this.application = application;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
+  
  
  
  

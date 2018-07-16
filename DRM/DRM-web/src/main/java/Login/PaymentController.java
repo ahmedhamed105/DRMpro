@@ -8,6 +8,11 @@ package Login;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {
+    
+
+
 
     /**
      * This is a sample web service operation
@@ -47,14 +55,22 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
  
  
  @RequestMapping(value = "/Login", method = RequestMethod.POST)
- public Login_ouput pay(@RequestParam(value = "key") String key, @RequestBody Login_CR request) {
+ public Login_ouput Login(@Context HttpServletRequest req,@RequestParam(value = "key") String key, @RequestBody Login_CR request) {
   Login_ouput response = new Login_ouput();
   if (sharedKey.equalsIgnoreCase(key)) {
+      
+     String  ip = req.getRemoteAddr();
+     String  host = req.getRemoteHost();
+     String  userx = req.getRemoteUser();
+     int  port = req.getRemotePort();
+       
+    System.out.println("ip :"+ip+" "+host+" "+userx+" "+port);
+    
    String user= request.getUser();
   String password= request.getPassword();
-  String tid= request.getTid();
-  String mid= request.getMid();
-  String keys = request.getKey();
+  String tid= request.getAgentCode();
+  String app= request.getApplication();
+  
    // Process the request
    // ....
 
@@ -62,10 +78,12 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
    
    
    response.setTokean(nextToken());
-   response.setCode(CODE_SUCCESS);
+   response.setStatusCode(CODE_SUCCESS);
+   response.setExpiretime("10");
   } else {
    response.setTokean(ERROR_STATUS);
-   response.setCode(AUTH_FAILURE);
+   response.setStatusCode(AUTH_FAILURE);
+    response.setExpiretime("0");
   }
   
      // Return success response to the client.

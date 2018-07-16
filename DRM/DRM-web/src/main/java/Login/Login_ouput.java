@@ -12,16 +12,27 @@ package Login;
 public class Login_ouput {
  
     
- private Integer code;
+ private Integer StatusCode;
  private String tokean;
+  private String Expiretime;
 
-    public Integer getCode() {
-        return code;
+    public Integer getStatusCode() {
+        return StatusCode;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setStatusCode(Integer StatusCode) {
+        this.StatusCode = StatusCode;
     }
+
+    public String getExpiretime() {
+        return Expiretime;
+    }
+
+    public void setExpiretime(String Expiretime) {
+        this.Expiretime = Expiretime;
+    }
+
+    
 
     public String getTokean() {
         return tokean;

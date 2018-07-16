@@ -27,3 +27,6 @@ hs_err_pid*
 /Line_format/nbproject/private/
 /Line_format/build/
 /Line_format/dist/
+/FrontEndDRM/FrontEndDRM-ejb/target/
+/FrontEndDRM/FrontEndDRM-web/target/
+/FrontEndDRM/FrontEndDRM-ear/target/
