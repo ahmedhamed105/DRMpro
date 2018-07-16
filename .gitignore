@@ -24,3 +24,5 @@ hs_err_pid*
 /DRM/DRM-ejb/target/
 /DRM/DRM-web/target/
 /DRM/DRM-ear/target/
+/Line_format/nbproject/private/
+/Line_format/build/
