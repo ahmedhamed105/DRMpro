@@ -30,3 +30,6 @@ hs_err_pid*
 /FrontEndDRM/FrontEndDRM-ejb/target/
 /FrontEndDRM/FrontEndDRM-web/target/
 /FrontEndDRM/FrontEndDRM-ear/target/
+/CustomerDB/nbproject/private/
+/DRM/nbproject/private/
+/DRM/target/
