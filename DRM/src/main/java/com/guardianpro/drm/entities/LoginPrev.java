@@ -6,10 +6,8 @@
 package com.guardianpro.drm.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,15 +17,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -41,7 +36,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "LoginPrev.findById", query = "SELECT l FROM LoginPrev l WHERE l.id = :id"),
     @NamedQuery(name = "LoginPrev.findByAdminLock", query = "SELECT l FROM LoginPrev l WHERE l.adminLock = :adminLock"),
     @NamedQuery(name = "LoginPrev.findByLockcount", query = "SELECT l FROM LoginPrev l WHERE l.lockcount = :lockcount"),
-    @NamedQuery(name = "LoginPrev.findByKey", query = "SELECT l FROM LoginPrev l WHERE l.key = :key"),
+    @NamedQuery(name = "LoginPrev.findBySerKey", query = "SELECT l FROM LoginPrev l WHERE l.serKey = :serKey"),
     @NamedQuery(name = "LoginPrev.findByCreateDate", query = "SELECT l FROM LoginPrev l WHERE l.createDate = :createDate"),
     @NamedQuery(name = "LoginPrev.findByUpdateDate", query = "SELECT l FROM LoginPrev l WHERE l.updateDate = :updateDate")})
 public class LoginPrev implements Serializable {
@@ -63,8 +58,8 @@ public class LoginPrev implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256)
-    @Column(name = "Key", nullable = false, length = 256)
-    private String key;
+    @Column(name = "Ser_Key", nullable = false, length = 256)
+    private String serKey;
     @Basic(optional = false)
     @NotNull
     @Column(name = "create_date", nullable = false)
@@ -75,8 +70,6 @@ public class LoginPrev implements Serializable {
     @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loginprevID")
-    private Collection<TokeanGo> tokeanGoCollection;
     @JoinColumn(name = "Host_info_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private HostInfo hostinfoID;
@@ -88,11 +81,11 @@ public class LoginPrev implements Serializable {
         this.id = id;
     }
 
-    public LoginPrev(Integer id, int adminLock, int lockcount, String key, Date createDate, Date updateDate) {
+    public LoginPrev(Integer id, int adminLock, int lockcount, String serKey, Date createDate, Date updateDate) {
         this.id = id;
         this.adminLock = adminLock;
         this.lockcount = lockcount;
-        this.key = key;
+        this.serKey = serKey;
         this.createDate = createDate;
         this.updateDate = updateDate;
     }
@@ -121,12 +114,12 @@ public class LoginPrev implements Serializable {
         this.lockcount = lockcount;
     }
 
-    public String getKey() {
-        return key;
+    public String getSerKey() {
+        return serKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setSerKey(String serKey) {
+        this.serKey = serKey;
     }
 
     public Date getCreateDate() {
@@ -143,16 +136,6 @@ public class LoginPrev implements Serializable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public Collection<TokeanGo> getTokeanGoCollection() {
-        return tokeanGoCollection;
-    }
-
-    public void setTokeanGoCollection(Collection<TokeanGo> tokeanGoCollection) {
-        this.tokeanGoCollection = tokeanGoCollection;
     }
 
     public HostInfo getHostinfoID() {

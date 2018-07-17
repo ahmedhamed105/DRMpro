@@ -11,8 +11,10 @@ package com.guardianpro.drm.service;
 
 import com.guardianpro.drm.entities.DrmParameter;
 import com.guardianpro.drm.entities.HostInfo;
+import com.guardianpro.drm.entities.LoginPrev;
 import com.guardianpro.drm.sessions.DrmParameterFacade;
 import com.guardianpro.drm.sessions.HostInfoFacade;
+import com.guardianpro.drm.sessions.LoginPrevFacade;
 import com.guardianpro.drm.sessions.UserFacade;
 import java.security.SecureRandom;
 import java.sql.Date;
@@ -42,6 +44,9 @@ import javax.ws.rs.core.Response;
 @Stateless
 @LocalBean
 public class PaymentController {
+
+    @EJB
+    private LoginPrevFacade loginPrevFacade;
 
     @EJB
     private DrmParameterFacade drmParameterFacade;
@@ -135,6 +140,15 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
   
   //create a login_prev
   
+         LoginPrev pre=new LoginPrev();
+         pre.setAdminLock(0);
+         pre.setHostinfoID(info);
+         pre.setCreateDate(date);
+         pre.setUpdateDate(date);
+         pre.setSerKey(key);
+         pre.setLockcount(0);
+        loginPrevFacade.create(pre);
+      
   info1=info;
      }else{
      info1.setHHost(host);
