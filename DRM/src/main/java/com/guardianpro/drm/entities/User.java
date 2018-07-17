@@ -47,6 +47,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "User.findByUpdateDate", query = "SELECT u FROM User u WHERE u.updateDate = :updateDate")})
 public class User implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<DrmParameter> drmParameterCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -524,6 +527,16 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.guardianpro.drm.entities.User[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<DrmParameter> getDrmParameterCollection() {
+        return drmParameterCollection;
+    }
+
+    public void setDrmParameterCollection(Collection<DrmParameter> drmParameterCollection) {
+        this.drmParameterCollection = drmParameterCollection;
     }
     
 }

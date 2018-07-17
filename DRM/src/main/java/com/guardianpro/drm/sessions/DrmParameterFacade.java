@@ -5,8 +5,8 @@
  */
 package com.guardianpro.drm.sessions;
 
+import com.guardianpro.drm.entities.DrmParameter;
 import com.guardianpro.drm.entities.HostInfo;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,7 +17,7 @@ import javax.persistence.Query;
  * @author ahmed.elemam
  */
 @Stateless
-public class HostInfoFacade extends AbstractFacade<HostInfo> {
+public class DrmParameterFacade extends AbstractFacade<DrmParameter> {
 
     @PersistenceContext(unitName = "com.guardianpro_DRM_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -27,17 +27,17 @@ public class HostInfoFacade extends AbstractFacade<HostInfo> {
         return em;
     }
 
-    public HostInfoFacade() {
-        super(HostInfo.class);
+    public DrmParameterFacade() {
+        super(DrmParameter.class);
     }
     
     
-    public HostInfo ip_find(String ip){
-      Query hostip = em.createNamedQuery("HostInfo.findByHIp");
-        hostip.setParameter("hIp", ip);
+    public DrmParameter para_find(String parametername){
+      Query parag = em.createNamedQuery("DrmParameter.findByParametername");
+        parag.setParameter("parametername", parametername);
         try {
-                HostInfo  ips = (HostInfo) hostip.getSingleResult();
-                return ips;        
+                DrmParameter  para = (DrmParameter) parag.getSingleResult();
+                return para;        
         } catch (Exception e) {
             return null;
         }

@@ -9,8 +9,11 @@ package com.guardianpro.drm.service;
 
 
 
+import com.guardianpro.drm.entities.DrmParameter;
 import com.guardianpro.drm.entities.HostInfo;
+import com.guardianpro.drm.sessions.DrmParameterFacade;
 import com.guardianpro.drm.sessions.HostInfoFacade;
+import com.guardianpro.drm.sessions.UserFacade;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.util.Calendar;
@@ -41,7 +44,16 @@ import javax.ws.rs.core.Response;
 public class PaymentController {
 
     @EJB
+    private DrmParameterFacade drmParameterFacade;
+
+    @EJB
+    private UserFacade userFacade;
+
+    @EJB
     private HostInfoFacade hostInfoFacade;
+    
+    
+    
 
 
     
@@ -49,11 +61,11 @@ public class PaymentController {
     /**
      * This is a sample web service operation
      */
-   private final String sharedKey = "SHARED_KEY";
- private static final String SUCCESS_STATUS = "success";
- private static final String ERROR_STATUS = "error";
- private static final int CODE_SUCCESS = 100;
- private static final int AUTH_FAILURE = 102;
+ private String Serverkey = "SHARED_KEY";
+ private static  String SUCCESS_STATUS = "success";
+ private static  String ERROR_STATUS = "error";
+ private static  int CODE_SUCCESS = 100;
+ private static  int AUTH_FAILURE = 102;
  
  
  public static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -86,33 +98,61 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
  public Login_ouput Login(@Context HttpServletRequest req,@PathParam("key") String key,Login_CR Ilogin) {
 
   Login_ouput response = new Login_ouput();
-  if (sharedKey.equalsIgnoreCase(key)) {
+  
+      DrmParameter para = drmParameterFacade.para_find("Server_key");
+      if(para == null){
+    response.setTokean("");
+    response.setStatusCode(Error_codes.notfound_key);
+    response.setExpiretime("0");
+      
+      }else{
+          //check Server key
+      Serverkey=para.getParameterValue();
+  
+  if (Serverkey.equalsIgnoreCase(key)) {
       
       Date  date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
       
-      HostInfo info=new HostInfo();
-      
-      
+  //get ip is allowed or not
       
      String  ip = req.getRemoteAddr();
      String  host = req.getRemoteHost();
      String  userx = req.getRemoteUser();
      int  port = req.getRemotePort();
      
-     info.setHIp(ip);
+     HostInfo info1=hostInfoFacade.ip_find(ip);
+     if(info1==null){
+         HostInfo info=new HostInfo();       
+         info.setHIp(ip);
      info.setHHost(host);
      info.setHUser(userx);
      info.setHPort(port);
-     info.setRequestcount(2);
-     
+     info.setRequestcount(1);  
      info.setCreateDate(date);
      info.setUpdateDate(date);
      
   hostInfoFacade.create(info);
+  
+  //create a login_prev
+  
+  info1=info;
+     }else{
+     info1.setHHost(host);
+     info1.setHUser(userx);
+     info1.setHPort(port);
+     info1.setRequestcount(info1.getRequestcount()+1);  
+     info1.setUpdateDate(date);
      
-  //hostInfoFacade.create(info);
-       
-    System.out.println("ip :"+ip+" "+host+" "+userx+" "+port);
+  hostInfoFacade.edit(info1);
+  
+    //check ip is allowed or not
+     
+     }
+           
+
+     
+ 
+   // System.out.println("ip :"+ip+" "+host+" "+userx+" "+port);
     
   String user= Ilogin.getUser();
  String password= Ilogin.getPassword();
@@ -122,17 +162,19 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
    // Process the request
    // ....
 
-    System.out.println("ip :"+user+" "+password+" "+tid+" "+app);
+    System.out.println("ip :"+user+" "+password+" "+tid+" "+app+" "+key);
    
    
    response.setTokean(nextToken());
    response.setStatusCode(CODE_SUCCESS);
    response.setExpiretime("10");
   } else {
-   response.setTokean(ERROR_STATUS);
-   response.setStatusCode(AUTH_FAILURE);
+   response.setTokean("");
+   response.setStatusCode(Error_codes.Wrong_key);
     response.setExpiretime("0");
   }
+  
+      }
   
      // Return success response to the client.
   return response;
