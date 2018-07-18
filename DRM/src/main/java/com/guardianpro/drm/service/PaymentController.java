@@ -151,15 +151,70 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
       
   info1=info;
      }else{
-     info1.setHHost(host);
+         
+    
+
+  
+    //check ip is allowed or not
+    
+         LoginPrev pre=loginPrevFacade.host_find(info1);        
+         if(pre == null){
+           response.setTokean("");
+   response.setStatusCode(Error_codes.NO_prelogin);
+    response.setExpiretime("0");  
+         return response;
+         }
+         
+             if(pre.getAdminLock() == 1){
+        response.setTokean("");
+        response.setStatusCode(Error_codes.Lock_Admin);
+        response.setExpiretime("0");  
+         return response;
+         }
+
+         
+        if(info1.getRequestcount() >= 3 && date.getTime() - info1.getUpdateDate().getTime() >= 1*60*1000 ){
+           info1.setRequestcount(0);
+           pre.setLockcount(pre.getLockcount()+1);
+         }
+        
+            if(pre.getLockcount() >= 3){
+              info1.setRequestcount(0);
+              pre.setLockcount(0);
+              pre.setAdminLock(1);
+             }
+        
+        
+        
+        
+      loginPrevFacade.edit(pre);
+      
+           info1.setHHost(host);
      info1.setHUser(userx);
      info1.setHPort(port);
      info1.setRequestcount(info1.getRequestcount()+1);  
      info1.setUpdateDate(date);
      
   hostInfoFacade.edit(info1);
-  
-    //check ip is allowed or not
+        
+           if(pre.getAdminLock() == 1){
+        response.setTokean("");
+        response.setStatusCode(Error_codes.Lock_Admin);
+        response.setExpiretime("0");  
+         return response;
+         }
+         
+         
+        if(info1.getRequestcount() >= 3){
+        response.setTokean("");
+        response.setStatusCode(Error_codes.Lock_3times);
+        response.setExpiretime("0");  
+         return response;
+         }
+        
+    
+
+     
      
      }
            

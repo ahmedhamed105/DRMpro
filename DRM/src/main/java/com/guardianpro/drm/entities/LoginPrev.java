@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "LoginPrev.findAll", query = "SELECT l FROM LoginPrev l"),
+    @NamedQuery(name = "LoginPrev.findByhost", query = "SELECT l FROM LoginPrev l WHERE l.hostinfoID = :id"),
     @NamedQuery(name = "LoginPrev.findById", query = "SELECT l FROM LoginPrev l WHERE l.id = :id"),
     @NamedQuery(name = "LoginPrev.findByAdminLock", query = "SELECT l FROM LoginPrev l WHERE l.adminLock = :adminLock"),
     @NamedQuery(name = "LoginPrev.findByLockcount", query = "SELECT l FROM LoginPrev l WHERE l.lockcount = :lockcount"),

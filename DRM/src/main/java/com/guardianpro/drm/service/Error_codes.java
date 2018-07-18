@@ -15,5 +15,6 @@ public class Error_codes {
     static int Wrong_key=102;
     static int Lock_3times=103;
     static int Lock_Admin=104;
+    static int NO_prelogin=105;
     
 }

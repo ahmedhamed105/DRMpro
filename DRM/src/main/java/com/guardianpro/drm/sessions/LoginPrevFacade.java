@@ -5,10 +5,13 @@
  */
 package com.guardianpro.drm.sessions;
 
+import com.guardianpro.drm.entities.DrmParameter;
+import com.guardianpro.drm.entities.HostInfo;
 import com.guardianpro.drm.entities.LoginPrev;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +30,21 @@ public class LoginPrevFacade extends AbstractFacade<LoginPrev> {
 
     public LoginPrevFacade() {
         super(LoginPrev.class);
+    }
+    
+    
+       public LoginPrev host_find(HostInfo host){
+      Query parag = em.createNamedQuery("LoginPrev.findByhost");
+        parag.setParameter("is", host);
+        try {
+                LoginPrev  para = (LoginPrev) parag.getSingleResult();
+                return para;        
+        } catch (Exception e) {
+            return null;
+        }
+    
+    
+    
     }
     
 }
