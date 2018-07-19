@@ -35,7 +35,7 @@ public class LoginPrevFacade extends AbstractFacade<LoginPrev> {
     
        public LoginPrev host_find(HostInfo host){
       Query parag = em.createNamedQuery("LoginPrev.findByhost");
-        parag.setParameter("is", host);
+        parag.setParameter("id", host);
         try {
                 LoginPrev  para = (LoginPrev) parag.getSingleResult();
                 return para;        
