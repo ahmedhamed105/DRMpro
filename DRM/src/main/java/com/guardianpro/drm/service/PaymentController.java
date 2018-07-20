@@ -24,8 +24,6 @@ import com.guardianpro.drm.sessions.UserFacade;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -95,10 +93,7 @@ public class PaymentController {
   SecureRandom random = new SecureRandom();
 
      char[] symbols = CHARACTERS.toCharArray();
-    @PersistenceContext(unitName = "com.guardianpro_DRM_war_1.0-SNAPSHOTPU")
-    private EntityManager em;
-    @Resource
-    private javax.transaction.UserTransaction utx;
+
 
    char[] buf = null;
 
@@ -253,11 +248,10 @@ public class PaymentController {
             
             User usr=userFacade.password_username(user);
             if(usr != null){
-            String decrypted = Encryption.encrypt( usr.getUserPasswordID().getPassword());
+            String decrypted = Encryption.decrypt(usr.getUserPasswordID().getPassword());
+                System.out.println(decrypted);
             if(decrypted.equals(password)){
             // user correct    
-            
-           
                 LoginHistory history=new LoginHistory();
                 history.setHIp(ip);
                 history.setHHost(host);
