@@ -85,22 +85,16 @@ public class PaymentController {
     /**
      * This is a sample web service operation
      */
- private String Serverkey = "SHARED_KEY";
- private static  String SUCCESS_STATUS = "success";
- private static  String ERROR_STATUS = "error";
- private static  int CODE_SUCCESS = 100;
- private static  int AUTH_FAILURE = 102;
- 
- 
- public static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  String Serverkey = "SHARED_KEY";
+  String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 // 2048 bit keys should be secure until 2030 - https://web.archive.org/web/20170417095741/https://www.emc.com/emc-plus/rsa-labs/historical/twirl-and-rsa-key-size.htm
   int SECURE_TOKEN_LENGTH = 256;
   String Expire_time = "10";
 
- final SecureRandom random = new SecureRandom();
+  SecureRandom random = new SecureRandom();
 
- static final char[] symbols = CHARACTERS.toCharArray();
+     char[] symbols = CHARACTERS.toCharArray();
     @PersistenceContext(unitName = "com.guardianpro_DRM_war_1.0-SNAPSHOTPU")
     private EntityManager em;
     @Resource
@@ -258,7 +252,9 @@ public class PaymentController {
         if(userFacade.user_find(user)){
             
             User usr=userFacade.password_username(user);
-            if(usr != null && usr.getUserPasswordID().getPassword().equals(password)){
+            if(usr != null){
+            String decrypted = Encryption.encrypt( usr.getUserPasswordID().getPassword());
+            if(decrypted.equals(password)){
             // user correct    
             
            
@@ -286,6 +282,7 @@ public class PaymentController {
                 tok.setLoginprevID(pre);
                 tok.setUserID(usr);
                 tok.setTokean(nextToken());
+                tok.setExipretime(Expire_time);
                 tokeanGoFacade.create(tok);
   
      response.setTokean(tok.getTokean());
@@ -321,7 +318,7 @@ public class PaymentController {
         
         
         }else{
-             // user not found 
+             // user not found NULL
                 LoginHistory history=new LoginHistory();
                 history.setHIp(ip);
                 history.setHHost(host);
@@ -343,7 +340,28 @@ public class PaymentController {
         
         
         }
+        }else{
+           // user not found 
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.User_notfound);
+                loginHistoryFacade.create(history);
+                
+                   info1.setRequestcount(info1.getRequestcount()+1);   
+     hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.User_notfound);
+        response.setExpiretime("0");  
+         return response;
         
+        }
  
 
   } else {

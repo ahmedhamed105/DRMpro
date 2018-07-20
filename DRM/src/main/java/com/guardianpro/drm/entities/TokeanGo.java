@@ -39,6 +39,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TokeanGo.findByUpdateDate", query = "SELECT t FROM TokeanGo t WHERE t.updateDate = :updateDate")})
 public class TokeanGo implements Serializable {
 
+    @Size(max = 45)
+    @Column(name = "Exipre_time", length = 45)
+    private String exipretime;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -152,6 +156,14 @@ public class TokeanGo implements Serializable {
     @Override
     public String toString() {
         return "com.guardianpro.drm.entities.TokeanGo[ id=" + id + " ]";
+    }
+
+    public String getExipretime() {
+        return exipretime;
+    }
+
+    public void setExipretime(String exipretime) {
+        this.exipretime = exipretime;
     }
     
 }
