@@ -64,12 +64,12 @@ public class UserFacade extends AbstractFacade<User> {
     }
         
  
-    public  String password_username(String Username){      
+    public  User password_username(String Username){      
        Query password_username = em.createNamedQuery("User.findByUsername");
         password_username.setParameter("username", Username);
         try {
                 User users = (User) password_username.getSingleResult();     
-                return users.getUserPasswordID().getPassword();
+                return users;
         } catch (Exception e) {
             return null;
         }

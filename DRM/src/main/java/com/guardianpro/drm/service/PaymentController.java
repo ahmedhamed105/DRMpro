@@ -11,17 +11,27 @@ package com.guardianpro.drm.service;
 
 import com.guardianpro.drm.entities.DrmParameter;
 import com.guardianpro.drm.entities.HostInfo;
+import com.guardianpro.drm.entities.LoginHistory;
 import com.guardianpro.drm.entities.LoginPrev;
+import com.guardianpro.drm.entities.TokeanGo;
+import com.guardianpro.drm.entities.User;
 import com.guardianpro.drm.sessions.DrmParameterFacade;
 import com.guardianpro.drm.sessions.HostInfoFacade;
+import com.guardianpro.drm.sessions.LoginHistoryFacade;
 import com.guardianpro.drm.sessions.LoginPrevFacade;
+import com.guardianpro.drm.sessions.TokeanGoFacade;
 import com.guardianpro.drm.sessions.UserFacade;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -46,6 +56,12 @@ import javax.ws.rs.core.Response;
 public class PaymentController {
 
     @EJB
+    private TokeanGoFacade tokeanGoFacade;
+
+    @EJB
+    private LoginHistoryFacade loginHistoryFacade;
+
+    @EJB
     private LoginPrevFacade loginPrevFacade;
 
     @EJB
@@ -56,6 +72,9 @@ public class PaymentController {
 
     @EJB
     private HostInfoFacade hostInfoFacade;
+    
+    
+    
     
     
     
@@ -76,13 +95,18 @@ public class PaymentController {
  public static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 // 2048 bit keys should be secure until 2030 - https://web.archive.org/web/20170417095741/https://www.emc.com/emc-plus/rsa-labs/historical/twirl-and-rsa-key-size.htm
-public static final int SECURE_TOKEN_LENGTH = 256;
+  int SECURE_TOKEN_LENGTH = 256;
+  String Expire_time = "10";
 
-private static final SecureRandom random = new SecureRandom();
+ final SecureRandom random = new SecureRandom();
 
-private static final char[] symbols = CHARACTERS.toCharArray();
+ static final char[] symbols = CHARACTERS.toCharArray();
+    @PersistenceContext(unitName = "com.guardianpro_DRM_war_1.0-SNAPSHOTPU")
+    private EntityManager em;
+    @Resource
+    private javax.transaction.UserTransaction utx;
 
-private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
+   char[] buf = null;
 
 
 
@@ -103,9 +127,12 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
  public Login_ouput Login(@Context HttpServletRequest req,@PathParam("key") String key,Login_CR Ilogin) {
 
   Login_ouput response = new Login_ouput();
+   LoginPrev pre;
   
       DrmParameter para = drmParameterFacade.para_find("Server_key");
-      if(para == null){
+       DrmParameter para1 = drmParameterFacade.para_find("Tokean_length");
+        DrmParameter para2 = drmParameterFacade.para_find("Tokean_expire");
+      if(para == null || para1 == null || para2 == null){
     response.setTokean("");
     response.setStatusCode(Error_codes.notfound_key);
     response.setExpiretime("0");
@@ -113,6 +140,9 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
       }else{
           //check Server key
       Serverkey=para.getParameterValue();
+      SECURE_TOKEN_LENGTH=Integer.parseInt(para1.getParameterValue());
+       buf = new char[SECURE_TOKEN_LENGTH];
+       Expire_time=para2.getParameterValue();
   
   if (Serverkey.equalsIgnoreCase(key)) {
       
@@ -140,7 +170,7 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
   
   //create a login_prev
   
-         LoginPrev pre=new LoginPrev();
+          pre=new LoginPrev();
          pre.setAdminLock(0);
          pre.setHostinfoID(info);
          pre.setCreateDate(date);
@@ -157,7 +187,7 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
   
     //check ip is allowed or not
     
-         LoginPrev pre=loginPrevFacade.host_find(info1);        
+          pre=loginPrevFacade.host_find(info1);        
          if(pre == null){
            response.setTokean("");
    response.setStatusCode(Error_codes.NO_prelogin);
@@ -184,18 +214,10 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
               pre.setAdminLock(1);
              }
         
-        
-        
-        
+     
       loginPrevFacade.edit(pre);
       
-           info1.setHHost(host);
-     info1.setHUser(userx);
-     info1.setHPort(port);
-     info1.setRequestcount(info1.getRequestcount()+1);  
-     info1.setUpdateDate(date);
      
-  hostInfoFacade.edit(info1);
         
            if(pre.getAdminLock() == 1){
         response.setTokean("");
@@ -222,21 +244,108 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
      
  
    // System.out.println("ip :"+ip+" "+host+" "+userx+" "+port);
+   
+     // Process the request
+   // ....
     
-  String user= Ilogin.getUser();
+ String user= Ilogin.getUser();
  String password= Ilogin.getPassword();
  String tid= Ilogin.getAgentcode();
  String app= Ilogin.getApplication();
+ 
+ 
+    
+        if(userFacade.user_find(user)){
+            
+            User usr=userFacade.password_username(user);
+            if(usr != null && usr.getUserPasswordID().getPassword().equals(password)){
+            // user correct    
+            
+           
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginsucess(date);
+                history.setFailedSucess(1);
+                  history.setLoginprevID(pre);
+                           history.setErrorCode(Error_codes.Sucess_login);
+                loginHistoryFacade.create(history);
+         
+     info1.setHHost(host);
+     info1.setHUser(userx);
+     info1.setHPort(port);
+     info1.setRequestcount(0);  
+     info1.setUpdateDate(date);
+     
+  hostInfoFacade.edit(info1);
+                TokeanGo tok=new TokeanGo();
+                tok.setCreateDate(date);
+                tok.setUpdateDate(date);
+                tok.setLoginprevID(pre);
+                tok.setUserID(usr);
+                tok.setTokean(nextToken());
+                tokeanGoFacade.create(tok);
   
-   // Process the request
-   // ....
+     response.setTokean(tok.getTokean());
+        response.setStatusCode(Error_codes.Sucess_login);
+        response.setExpiretime(Expire_time);  
+         return response;
+            
+            }else{
+                
+ // user password wrong 
+     info1.setRequestcount(info1.getRequestcount()+1);   
+     hostInfoFacade.edit(info1);
+     
+        LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                  history.setLoginprevID(pre);
+                          history.setErrorCode(Error_codes.Wrong_password);
+                loginHistoryFacade.create(history);
+            
+                response.setTokean("");
+        response.setStatusCode(Error_codes.Wrong_password);
+        response.setExpiretime("0");  
+         return response;
+            }
+            
 
-    System.out.println("ip :"+user+" "+password+" "+tid+" "+app+" "+key);
-   
-   
-   response.setTokean(nextToken());
-   response.setStatusCode(CODE_SUCCESS);
-   response.setExpiretime("10");
+     
+        
+        
+        }else{
+             // user not found 
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.User_notfound);
+                loginHistoryFacade.create(history);
+                
+                   info1.setRequestcount(info1.getRequestcount()+1);   
+     hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.User_notfound);
+        response.setExpiretime("0");  
+         return response;
+        
+        
+        }
+        
+ 
+
   } else {
    response.setTokean("");
    response.setStatusCode(Error_codes.Wrong_key);
@@ -250,11 +359,13 @@ private static final char[] buf = new char[SECURE_TOKEN_LENGTH];
  }
  
  
- public static String nextToken() {
+ public  String nextToken() {
     for (int idx = 0; idx < buf.length; ++idx)
         buf[idx] = symbols[random.nextInt(symbols.length)];
     return new String(buf);
 }
+
+   
 
   
 }

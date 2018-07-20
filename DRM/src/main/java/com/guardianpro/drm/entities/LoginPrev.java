@@ -6,8 +6,10 @@
 package com.guardianpro.drm.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +19,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -41,6 +46,17 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "LoginPrev.findByCreateDate", query = "SELECT l FROM LoginPrev l WHERE l.createDate = :createDate"),
     @NamedQuery(name = "LoginPrev.findByUpdateDate", query = "SELECT l FROM LoginPrev l WHERE l.updateDate = :updateDate")})
 public class LoginPrev implements Serializable {
+
+    @Column(name = "Login_failed")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date loginfailed;
+    @Column(name = "Login_sucess")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date loginsucess;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loginprevID")
+    private Collection<TokeanGo> tokeanGoCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loginprevID")
+    private Collection<LoginHistory> loginHistoryCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -170,6 +186,42 @@ public class LoginPrev implements Serializable {
     @Override
     public String toString() {
         return "com.guardianpro.drm.entities.LoginPrev[ id=" + id + " ]";
+    }
+
+    public Date getLoginfailed() {
+        return loginfailed;
+    }
+
+    public void setLoginfailed(Date loginfailed) {
+        this.loginfailed = loginfailed;
+    }
+
+    public Date getLoginsucess() {
+        return loginsucess;
+    }
+
+    public void setLoginsucess(Date loginsucess) {
+        this.loginsucess = loginsucess;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<TokeanGo> getTokeanGoCollection() {
+        return tokeanGoCollection;
+    }
+
+    public void setTokeanGoCollection(Collection<TokeanGo> tokeanGoCollection) {
+        this.tokeanGoCollection = tokeanGoCollection;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<LoginHistory> getLoginHistoryCollection() {
+        return loginHistoryCollection;
+    }
+
+    public void setLoginHistoryCollection(Collection<LoginHistory> loginHistoryCollection) {
+        this.loginHistoryCollection = loginHistoryCollection;
     }
     
 }

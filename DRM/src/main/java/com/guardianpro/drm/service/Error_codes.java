@@ -16,5 +16,7 @@ public class Error_codes {
     static int Lock_3times=103;
     static int Lock_Admin=104;
     static int NO_prelogin=105;
+    static int User_notfound=106;
+    static int Wrong_password=107;
     
 }
