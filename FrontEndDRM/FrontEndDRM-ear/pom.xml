@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
     <artifactId>FrontEndDRM</artifactId>
-    <groupId>com.ayad</groupId>
+    <groupId>com.drm</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-    <groupId>com.ayad</groupId>
+    <groupId>com.drm</groupId>
     <artifactId>FrontEndDRM-ear</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>ear</packaging>
@@ -23,10 +23,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.5.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -42,13 +42,13 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.ayad</groupId>
+            <groupId>com.drm</groupId>
             <artifactId>FrontEndDRM-ejb</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>ejb</type>
         </dependency>
         <dependency>
-            <groupId>com.ayad</groupId>
+            <groupId>com.drm</groupId>
             <artifactId>FrontEndDRM-web</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>war</type>

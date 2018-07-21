@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
     <artifactId>FrontEndDRM</artifactId>
-    <groupId>com.ayad</groupId>
+    <groupId>com.drm</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-    <groupId>com.ayad</groupId>
+    <groupId>com.drm</groupId>
     <artifactId>FrontEndDRM-web</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
@@ -26,6 +26,18 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.drm</groupId>
+            <artifactId>FrontEndDRM-ejb</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>6.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -33,10 +45,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.5.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
