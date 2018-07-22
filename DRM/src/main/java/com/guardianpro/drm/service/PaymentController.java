@@ -9,16 +9,24 @@ package com.guardianpro.drm.service;
 
 
 
+import com.guardianpro.drm.entities.ApplicationUser;
+import com.guardianpro.drm.entities.Applications;
 import com.guardianpro.drm.entities.DrmParameter;
 import com.guardianpro.drm.entities.HostInfo;
 import com.guardianpro.drm.entities.LoginHistory;
 import com.guardianpro.drm.entities.LoginPrev;
+import com.guardianpro.drm.entities.LoginQuery;
+import com.guardianpro.drm.entities.Terminal;
 import com.guardianpro.drm.entities.TokeanGo;
 import com.guardianpro.drm.entities.User;
+import com.guardianpro.drm.sessions.ApplicationUserFacade;
+import com.guardianpro.drm.sessions.ApplicationsFacade;
 import com.guardianpro.drm.sessions.DrmParameterFacade;
 import com.guardianpro.drm.sessions.HostInfoFacade;
 import com.guardianpro.drm.sessions.LoginHistoryFacade;
 import com.guardianpro.drm.sessions.LoginPrevFacade;
+import com.guardianpro.drm.sessions.LoginQueryFacade;
+import com.guardianpro.drm.sessions.TerminalFacade;
 import com.guardianpro.drm.sessions.TokeanGoFacade;
 import com.guardianpro.drm.sessions.UserFacade;
 import java.security.SecureRandom;
@@ -48,10 +56,22 @@ import javax.ws.rs.core.Response;
  */
 
 
-@Path("/payment")
+@Path("/Login")
 @Stateless
 @LocalBean
 public class PaymentController {
+
+    @EJB
+    private LoginQueryFacade loginQueryFacade;
+
+    @EJB
+    private ApplicationUserFacade applicationUserFacade;
+
+    @EJB
+    private ApplicationsFacade applicationsFacade;
+
+    @EJB
+    private TerminalFacade terminalFacade;
 
     @EJB
     private TokeanGoFacade tokeanGoFacade;
@@ -70,6 +90,8 @@ public class PaymentController {
 
     @EJB
     private HostInfoFacade hostInfoFacade;
+    
+    
     
     
     
@@ -110,7 +132,7 @@ public class PaymentController {
 	}
 
   @POST
- @Path("/Login/{key}") 
+ @Path("/Auth/{key}") 
  @Produces(MediaType.APPLICATION_JSON) 
  @Consumes(MediaType.APPLICATION_JSON) 
  public Login_ouput Login(@Context HttpServletRequest req,@PathParam("key") String key,Login_CR Ilogin) {
@@ -237,10 +259,10 @@ public class PaymentController {
      // Process the request
    // ....
     
- String user= Ilogin.getUser();
- String password= Ilogin.getPassword();
- String tid= Ilogin.getAgentcode();
- String app= Ilogin.getApplication();
+ String user= Ilogin.getUser().trim();
+ String password= Ilogin.getPassword().trim();
+ String tid= Ilogin.getAgentcode().trim();
+ String app= Ilogin.getApplication().trim();
  
  
     
@@ -251,8 +273,84 @@ public class PaymentController {
             String decrypted = Encryption.decrypt(usr.getUserPasswordID().getPassword());
                 System.out.println(decrypted);
             if(decrypted.equals(password)){
-            // user correct    
+            // user correct   
+            
+            // check application code is correct
+                Applications appl=applicationsFacade.APP_find(app);
+                   if(appl == null){
+                       
+                         // App not found NULL
                 LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.APP_notfound);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.APP_notfound);
+        response.setExpiretime("0");  
+         return response;
+                   
+                   }else{
+             //check application user
+             
+                       ApplicationUser appuser=applicationUserFacade.App_user(appl, usr);
+                         if(appuser == null){
+                           // application not related to user
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.APP_notrelated_user);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.APP_notrelated_user);
+        response.setExpiretime("0");  
+         return response;
+                         
+                         }else{
+                       
+            //check terminal id
+               Terminal terminal_id = terminalFacade.Terminal_find(tid);
+               if(terminal_id == null){
+                 // terminal not found NULL
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.terminal_notfound);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.terminal_notfound);
+        response.setExpiretime("0");  
+         return response;
+               }else{
+               
+                    LoginHistory history=new LoginHistory();
                 history.setHIp(ip);
                 history.setHHost(host);
                 history.setHUser(userx);
@@ -270,19 +368,40 @@ public class PaymentController {
      info1.setUpdateDate(date);
      
   hostInfoFacade.edit(info1);
+  
+  String toke=nextToken();
                 TokeanGo tok=new TokeanGo();
                 tok.setCreateDate(date);
                 tok.setUpdateDate(date);
                 tok.setLoginprevID(pre);
                 tok.setUserID(usr);
-                tok.setTokean(nextToken());
+                tok.setTokean(toke);
                 tok.setExipretime(Expire_time);
+                tok.setTerminalID(terminal_id);
                 tokeanGoFacade.create(tok);
+                
+                
+                
+                   LoginQuery query=new LoginQuery();
+                   query.setCreateDate(date);
+                   query.setUpdateDate(date);
+                   query.setLogin(1);
+                   query.setTokean(toke);
+                   query.setApplicationuserID(appuser);
+                   query.setExpiretime(Expire_time);          
+                   loginQueryFacade.create(query);
   
      response.setTokean(tok.getTokean());
         response.setStatusCode(Error_codes.Sucess_login);
         response.setExpiretime(Expire_time);  
          return response;
+               
+               }
+               
+                   }
+            
+                   }
+           
             
             }else{
                 

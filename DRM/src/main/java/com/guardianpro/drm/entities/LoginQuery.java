@@ -29,23 +29,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ahmed.elemam
  */
 @Entity
-@Table(name = "tokean_go", catalog = "guardianpro", schema = "")
+@Table(name = "login_query", catalog = "guardianpro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TokeanGo.findAll", query = "SELECT t FROM TokeanGo t"),
-    @NamedQuery(name = "TokeanGo.findById", query = "SELECT t FROM TokeanGo t WHERE t.id = :id"),
-    @NamedQuery(name = "TokeanGo.findByTokean", query = "SELECT t FROM TokeanGo t WHERE t.tokean = :tokean"),
-    @NamedQuery(name = "TokeanGo.findByCreateDate", query = "SELECT t FROM TokeanGo t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TokeanGo.findByUpdateDate", query = "SELECT t FROM TokeanGo t WHERE t.updateDate = :updateDate")})
-public class TokeanGo implements Serializable {
-
-    @JoinColumn(name = "Terminal_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private Terminal terminalID;
-
-    @Size(max = 45)
-    @Column(name = "Exipre_time", length = 45)
-    private String exipretime;
+    @NamedQuery(name = "LoginQuery.findAll", query = "SELECT l FROM LoginQuery l"),
+    @NamedQuery(name = "LoginQuery.findById", query = "SELECT l FROM LoginQuery l WHERE l.id = :id"),
+    @NamedQuery(name = "LoginQuery.findByLogin", query = "SELECT l FROM LoginQuery l WHERE l.login = :login"),
+    @NamedQuery(name = "LoginQuery.findByTokean", query = "SELECT l FROM LoginQuery l WHERE l.tokean = :tokean"),
+    @NamedQuery(name = "LoginQuery.findByExpiretime", query = "SELECT l FROM LoginQuery l WHERE l.expiretime = :expiretime"),
+    @NamedQuery(name = "LoginQuery.findByCreateDate", query = "SELECT l FROM LoginQuery l WHERE l.createDate = :createDate"),
+    @NamedQuery(name = "LoginQuery.findByUpdateDate", query = "SELECT l FROM LoginQuery l WHERE l.updateDate = :updateDate")})
+public class LoginQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,9 +49,18 @@ public class TokeanGo implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
-    @Column(name = "Tokean", nullable = false, length = 500)
+    @Column(name = "Login", nullable = false)
+    private int login;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "Tokean", nullable = false, length = 45)
     private String tokean;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "Expire_time", nullable = false, length = 45)
+    private String expiretime;
     @Basic(optional = false)
     @NotNull
     @Column(name = "create_date", nullable = false)
@@ -68,23 +71,22 @@ public class TokeanGo implements Serializable {
     @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-    @JoinColumn(name = "Login_prev_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "Application_user_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private LoginPrev loginprevID;
-    @JoinColumn(name = "User_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private User userID;
+    private ApplicationUser applicationuserID;
 
-    public TokeanGo() {
+    public LoginQuery() {
     }
 
-    public TokeanGo(Integer id) {
+    public LoginQuery(Integer id) {
         this.id = id;
     }
 
-    public TokeanGo(Integer id, String tokean, Date createDate, Date updateDate) {
+    public LoginQuery(Integer id, int login, String tokean, String expiretime, Date createDate, Date updateDate) {
         this.id = id;
+        this.login = login;
         this.tokean = tokean;
+        this.expiretime = expiretime;
         this.createDate = createDate;
         this.updateDate = updateDate;
     }
@@ -97,12 +99,28 @@ public class TokeanGo implements Serializable {
         this.id = id;
     }
 
+    public int getLogin() {
+        return login;
+    }
+
+    public void setLogin(int login) {
+        this.login = login;
+    }
+
     public String getTokean() {
         return tokean;
     }
 
     public void setTokean(String tokean) {
         this.tokean = tokean;
+    }
+
+    public String getExpiretime() {
+        return expiretime;
+    }
+
+    public void setExpiretime(String expiretime) {
+        this.expiretime = expiretime;
     }
 
     public Date getCreateDate() {
@@ -121,20 +139,12 @@ public class TokeanGo implements Serializable {
         this.updateDate = updateDate;
     }
 
-    public LoginPrev getLoginprevID() {
-        return loginprevID;
+    public ApplicationUser getApplicationuserID() {
+        return applicationuserID;
     }
 
-    public void setLoginprevID(LoginPrev loginprevID) {
-        this.loginprevID = loginprevID;
-    }
-
-    public User getUserID() {
-        return userID;
-    }
-
-    public void setUserID(User userID) {
-        this.userID = userID;
+    public void setApplicationuserID(ApplicationUser applicationuserID) {
+        this.applicationuserID = applicationuserID;
     }
 
     @Override
@@ -147,10 +157,10 @@ public class TokeanGo implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TokeanGo)) {
+        if (!(object instanceof LoginQuery)) {
             return false;
         }
-        TokeanGo other = (TokeanGo) object;
+        LoginQuery other = (LoginQuery) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -159,23 +169,7 @@ public class TokeanGo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.guardianpro.drm.entities.TokeanGo[ id=" + id + " ]";
-    }
-
-    public String getExipretime() {
-        return exipretime;
-    }
-
-    public void setExipretime(String exipretime) {
-        this.exipretime = exipretime;
-    }
-
-    public Terminal getTerminalID() {
-        return terminalID;
-    }
-
-    public void setTerminalID(Terminal terminalID) {
-        this.terminalID = terminalID;
+        return "com.guardianpro.drm.entities.LoginQuery[ id=" + id + " ]";
     }
     
 }
