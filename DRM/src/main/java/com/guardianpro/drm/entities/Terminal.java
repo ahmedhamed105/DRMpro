@@ -55,6 +55,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "Terminal.findByScheduleEnd", query = "SELECT t FROM Terminal t WHERE t.scheduleEnd = :scheduleEnd")})
 public class Terminal implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "terminalID")
+    private Collection<TokeanGo> tokeanGoCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -304,6 +307,16 @@ public class Terminal implements Serializable {
     @Override
     public String toString() {
         return "com.guardianpro.drm.entities.Terminal[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<TokeanGo> getTokeanGoCollection() {
+        return tokeanGoCollection;
+    }
+
+    public void setTokeanGoCollection(Collection<TokeanGo> tokeanGoCollection) {
+        this.tokeanGoCollection = tokeanGoCollection;
     }
     
 }

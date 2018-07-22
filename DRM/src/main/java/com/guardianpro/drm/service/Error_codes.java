@@ -18,5 +18,8 @@ public class Error_codes {
     static int NO_prelogin=105;
     static int User_notfound=106;
     static int Wrong_password=107;
+    static int terminal_notfound=108;
+    static int APP_notfound=109;
+    static int APP_notrelated_user=110;
     
 }

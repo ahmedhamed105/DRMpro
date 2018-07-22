@@ -47,6 +47,13 @@ import org.codehaus.jackson.annotate.JsonIgnore;
     @NamedQuery(name = "User.findByUpdateDate", query = "SELECT u FROM User u WHERE u.updateDate = :updateDate")})
 public class User implements Serializable {
 
+
+
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<ApplicationUser> applicationUserCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
     private Collection<DrmParameter> drmParameterCollection;
 
@@ -538,5 +545,19 @@ public class User implements Serializable {
     public void setDrmParameterCollection(Collection<DrmParameter> drmParameterCollection) {
         this.drmParameterCollection = drmParameterCollection;
     }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<ApplicationUser> getApplicationUserCollection() {
+        return applicationUserCollection;
+    }
+
+    public void setApplicationUserCollection(Collection<ApplicationUser> applicationUserCollection) {
+        this.applicationUserCollection = applicationUserCollection;
+    }
+
+ 
+
+    
     
 }
