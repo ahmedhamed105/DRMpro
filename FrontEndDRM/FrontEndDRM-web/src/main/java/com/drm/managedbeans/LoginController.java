@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.drm.utils.Constants.SYSTEM_PAGES;
 import javax.faces.application.FacesMessage;
+import org.apache.log4j.Logger;
 
 /**
  *
