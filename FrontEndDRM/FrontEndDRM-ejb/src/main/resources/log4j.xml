@@ -32,7 +32,7 @@
         <param name="Password" value="root"/>
         <param name="URL" value="jdbc:mysql://localhost:3306/guardianpro?zeroDateTimeBehavior=convertToNull"/>
         <param name="driver" value="com.mysql.jdbc.Driver"/>
-        <param name="sql" value="insert into logger (date,logger,level,message) values('%d{yyyy-MM-dd-HH-mm}','%C','%p','%m')"/>
+        <param name="sql" value="insert into logger (date,logger,level,message) values('%d{yyyy-MM-dd-HH-mm}','%c','%p','%m')"/>
  
     </appender>
   
@@ -41,10 +41,13 @@
         <appender-ref ref="debugFileAppender" /> 
         <appender-ref ref="errorFileAppender"/>
     </logger>-->
-  
+    <logger name="com.drm">
+        <level value="debug"/>
+        <appender-ref ref="jdbcAppender" /> 
+    </logger>
     <root> 
         <priority value ="debug" /> 
-        <appender-ref ref="jdbcAppender" />    
+        <appender-ref ref="console" />    
     </root>
   
 </log4j:configuration>

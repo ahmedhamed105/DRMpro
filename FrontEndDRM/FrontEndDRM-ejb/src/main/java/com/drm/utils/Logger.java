@@ -1,16 +1,7 @@
 package com.drm.utils;
 
-import java.net.URL;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.Level;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.xml.DOMConfigurator;
 
 public class Logger implements Informative {
 
@@ -38,6 +29,7 @@ public class Logger implements Informative {
     }
 
     public static final Logger getLogger(String loggerId) {
+        System.out.println("loggerId "+loggerId);
         Logger logger = null;
         if (cache.containsKey(loggerId)) {
             logger = cache.get(loggerId);

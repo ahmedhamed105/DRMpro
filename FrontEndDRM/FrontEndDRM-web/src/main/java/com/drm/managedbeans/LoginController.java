@@ -16,8 +16,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.drm.utils.Constants.SYSTEM_PAGES;
+import com.drm.utils.Logger;
 import javax.faces.application.FacesMessage;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 @SessionScoped
 public class LoginController extends AbstractManagedBean {
 
+    private static final Logger logger = Logger.getLogger(LoginController.class);
     private static final String VIEW_STATE_HIDDEN_FIELD_NAME = "javax.faces.ViewState";
     private String username;
     private String password;
@@ -36,22 +37,30 @@ public class LoginController extends AbstractManagedBean {
     private SecurityService securityService;
 
     public String doLogin() {
+        logger.debug("doLogin user name " + username + " password " + password);
         FacesContext facesContext = JSFUtils.getFacesContext();
         if (securityService != null) {
+            logger.debug("securityService not null");
             String checkSumKey = JSFUtils.getRequestParamValue(VIEW_STATE_HIDDEN_FIELD_NAME);
+            logger.debug(VIEW_STATE_HIDDEN_FIELD_NAME + " " + checkSumKey + " hashsum " + hashsum);
             System.out.println("checkSumKey " + checkSumKey + " hashsum " + hashsum + " username " + username + " password " + password);
             SecurityService.LoginData loginData = securityService.validateUserLogin(username, password, checkSumKey, hashsum);
             switch (loginData.getLoginStatus()) {
                 case SUCCESS_LOGIN:
                     User user = loginData.getUser();
+                    logger.debug("SUCCESS_LOGIN " + user.getUsername());
                     signInUser(user);
+                    logger.debug(user.getUsername() + " signed in session successfully");
+                    logger.debug("send " + user.getUsername() + " to home " + SYSTEM_PAGES.HOME_PAGE_URL.getUrl());
                     return SYSTEM_PAGES.HOME_PAGE_URL.getUrl();
                 case USER_NOTFOUND:
                 case LOGIN_FAILED:
                     JSFUtils.addErrorMessage("Login error! Incorrect username or password.");
+                    logger.debug("Login error! Incorrect username or password.");
                     break;
                 default:
                     JSFUtils.addErrorMessage("Login error! Incorrect username or password.");
+                    logger.debug("Login error! Incorrect username or password.");
                     break;
             }
         } else {
@@ -60,12 +69,16 @@ public class LoginController extends AbstractManagedBean {
                     "ERROR MSG");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             facesContext.addMessage(null, msg);
+            logger.debug("securityService is null");
             return null;
         }
+        logger.debug("Login error! Incorrect username or password.");
+        logger.debug("send user to" + SYSTEM_PAGES.FORM_LOGIN_URL.getUrl() + " an error happened");
         return SYSTEM_PAGES.FORM_LOGIN_URL.getUrl();
     }
 
     private void signInUser(User user) {
+        logger.debug("signInUser " + user.getUsername());
         DrmUtils.registerAuthenticatedUserInSession(user,
                 (HttpServletResponse) JSFUtils.getExternalContext()
                         .getResponse(), (HttpServletRequest) JSFUtils

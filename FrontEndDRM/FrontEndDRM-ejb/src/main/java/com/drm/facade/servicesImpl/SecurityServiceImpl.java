@@ -7,6 +7,7 @@ import com.drm.facade.services.SecurityService;
 import com.drm.facade.services.SecurityService;
 import com.drm.model.entities.User;
 import com.drm.utils.DrmUtils;
+import com.drm.utils.Logger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,6 +27,8 @@ import javax.persistence.Query;
 public class SecurityServiceImpl extends AbstractService implements
         SecurityService {
 
+    private static final Logger logger = Logger.getLogger(SecurityServiceImpl.class);
+
     @PostConstruct
     private void init() {
     }
@@ -43,6 +46,7 @@ public class SecurityServiceImpl extends AbstractService implements
     public LoginData validateUserLogin(String submittedUsername,
             String submittedPassword, String checksumKey,
             String submittedHashSum) {
+        logger.debug("validateUserLogin " + submittedUsername);
 
         // TODO user not found
         // TODO user Locked
@@ -55,7 +59,7 @@ public class SecurityServiceImpl extends AbstractService implements
         LoginData loginData = new LoginData();
         List<User> results = getUserByUsername(submittedUsername);
         if (results != null && !results.isEmpty()) {// user found
-
+            logger.debug("user is found with this user name " + submittedUsername);
             User userEntity = null;
             for (User user : results) {
                 userEntity = user;
@@ -67,9 +71,12 @@ public class SecurityServiceImpl extends AbstractService implements
             // not
             // exceeded
             String expectedHashedSum = DrmUtils.getHash(submittedPassword + submittedUsername);
+            logger.debug("expectedHashedSum " + expectedHashedSum);
             String expectedHashedValue = DrmUtils.getHash(userEntity.getUserPasswordID().getPassword() + checksumKey);
+            logger.debug("expectedHashedValue " + expectedHashedValue);
             if (expectedHashedValue.equals(submittedPassword)
                     && expectedHashedSum.equals(submittedHashSum)) {// submitted
+                logger.debug("password matched successfully");
                 // password
                 // matches
                 // the
@@ -91,12 +98,15 @@ public class SecurityServiceImpl extends AbstractService implements
                 // not expired
                 loginData.setUser(userEntity);
                 loginData.setLoginStatus(LOGIN_STATUS.SUCCESS_LOGIN);
-
+                logger.debug("LOGIN_STATUS "+LOGIN_STATUS.SUCCESS_LOGIN);
             } else {
+                logger.debug("password not matched successfully");
                 loginData.setLoginStatus(LOGIN_STATUS.LOGIN_FAILED);
+                logger.debug("LOGIN_STATUS "+LOGIN_STATUS.LOGIN_FAILED);
 
             }
         } else {
+            logger.debug("user not found with this user name " + submittedUsername);
             loginData.setLoginStatus(LOGIN_STATUS.USER_NOTFOUND);
         }
 
@@ -111,6 +121,8 @@ public class SecurityServiceImpl extends AbstractService implements
 
     @Override
     public List<User> getUserByUsername(String username) {
+        logger.debug("getUserByUsername " + username);
+
         List<User> results = getNamedQueryResult(
                 User.NAMED_QUERY_USER_FIND_USER_BY_USERNAME, username);
 
