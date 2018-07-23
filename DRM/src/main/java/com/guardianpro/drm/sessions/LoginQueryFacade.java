@@ -5,10 +5,13 @@
  */
 package com.guardianpro.drm.sessions;
 
+import com.guardianpro.drm.entities.ApplicationUser;
+import com.guardianpro.drm.entities.HostInfo;
 import com.guardianpro.drm.entities.LoginQuery;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +30,19 @@ public class LoginQueryFacade extends AbstractFacade<LoginQuery> {
 
     public LoginQueryFacade() {
         super(LoginQuery.class);
+    }
+       public LoginQuery  appuser_find(ApplicationUser Appuser){
+      Query hostip = em.createNamedQuery("LoginQuery.findByappuser");
+        hostip.setParameter("id", Appuser);
+        try {
+                LoginQuery  ips = (LoginQuery) hostip.getSingleResult();
+                return ips;        
+        } catch (Exception e) {
+            return null;
+        }
+    
+    
+    
     }
     
 }

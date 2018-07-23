@@ -349,18 +349,13 @@ public class PaymentController {
         response.setExpiretime("0");  
          return response;
                }else{
-               
-                    LoginHistory history=new LoginHistory();
-                history.setHIp(ip);
-                history.setHHost(host);
-                history.setHUser(userx);
-                history.setHPort(port);
-                history.setLoginsucess(date);
-                history.setFailedSucess(1);
-                  history.setLoginprevID(pre);
-                           history.setErrorCode(Error_codes.Sucess_login);
-                loginHistoryFacade.create(history);
-         
+                    String toke;
+                    TokeanGo tok = null;
+                 LoginQuery query=loginQueryFacade.appuser_find(appuser);
+                   if(query == null){
+             // first login          
+                       
+           
      info1.setHHost(host);
      info1.setHUser(userx);
      info1.setHPort(port);
@@ -369,8 +364,8 @@ public class PaymentController {
      
   hostInfoFacade.edit(info1);
   
-  String toke=nextToken();
-                TokeanGo tok=new TokeanGo();
+   toke=nextToken();
+              tok  =new TokeanGo();
                 tok.setCreateDate(date);
                 tok.setUpdateDate(date);
                 tok.setLoginprevID(pre);
@@ -382,7 +377,7 @@ public class PaymentController {
                 
                 
                 
-                   LoginQuery query=new LoginQuery();
+                    query=new LoginQuery();
                    query.setCreateDate(date);
                    query.setUpdateDate(date);
                    query.setLogin(1);
@@ -390,6 +385,127 @@ public class PaymentController {
                    query.setApplicationuserID(appuser);
                    query.setExpiretime(Expire_time);          
                    loginQueryFacade.create(query);
+                   
+                        LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginsucess(date);
+                history.setFailedSucess(1);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.Sucess_login);
+                loginHistoryFacade.create(history);
+         
+                   
+                   }else{
+                   //user login before 1-check login or not then check timeexpire
+                   
+                   Calendar previous = Calendar.getInstance();
+previous.setTime(query.getUpdateDate());
+Calendar now = Calendar.getInstance();
+long diff = now.getTimeInMillis() - previous.getTimeInMillis();
+if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
+{
+    //after  expire minutes difference
+    
+      toke=nextToken();
+          
+       query.setTokean(toke);
+       query.setLogin(1);
+       query.setUpdateDate(date);
+       loginQueryFacade.edit(query);
+       
+         tok=tokeanGoFacade.preterm_find(pre, terminal_id);
+          
+   
+        info1.setHHost(host);
+     info1.setHUser(userx);
+     info1.setHPort(port);
+     info1.setRequestcount(0);  
+     info1.setUpdateDate(date);
+     
+  hostInfoFacade.edit(info1);  
+  
+             LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginsucess(date);
+                history.setFailedSucess(1);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.Sucess_login);
+                loginHistoryFacade.create(history);
+}else{
+ //before  expire minutes difference
+
+   if(query.getLogin() == 1){      
+       
+       
+       tok=tokeanGoFacade.preterm_find(pre, terminal_id);
+                    
+     info1.setHHost(host);
+     info1.setHUser(userx);
+     info1.setHPort(port);
+     info1.setRequestcount(0);  
+     info1.setUpdateDate(date);
+     
+  hostInfoFacade.edit(info1);  
+  
+             LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginsucess(date);
+                history.setFailedSucess(1);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.Sucess_login);
+                loginHistoryFacade.create(history);
+  
+    }else{
+          toke=nextToken();
+          
+         query.setTokean(toke);
+       query.setLogin(1);
+       query.setUpdateDate(date);
+       loginQueryFacade.edit(query);
+       
+         tok=tokeanGoFacade.preterm_find(pre, terminal_id);
+          
+   
+        info1.setHHost(host);
+     info1.setHUser(userx);
+     info1.setHPort(port);
+     info1.setRequestcount(0);  
+     info1.setUpdateDate(date);
+     
+  hostInfoFacade.edit(info1);  
+  
+             LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginsucess(date);
+                history.setFailedSucess(1);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.Sucess_login);
+                loginHistoryFacade.create(history);
+   
+   
+   }
+
+
+}
+                   
+                
+                   
+                   
+                   }
+               
+          
   
      response.setTokean(tok.getTokean());
         response.setStatusCode(Error_codes.Sucess_login);

@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "TokeanGo.findAll", query = "SELECT t FROM TokeanGo t"),
     @NamedQuery(name = "TokeanGo.findById", query = "SELECT t FROM TokeanGo t WHERE t.id = :id"),
+    @NamedQuery(name = "TokeanGo.findBypretreminal", query = "SELECT t FROM TokeanGo t WHERE t.loginprevID = :id AND t.terminalID = :id1"),
     @NamedQuery(name = "TokeanGo.findByTokean", query = "SELECT t FROM TokeanGo t WHERE t.tokean = :tokean"),
     @NamedQuery(name = "TokeanGo.findByCreateDate", query = "SELECT t FROM TokeanGo t WHERE t.createDate = :createDate"),
     @NamedQuery(name = "TokeanGo.findByUpdateDate", query = "SELECT t FROM TokeanGo t WHERE t.updateDate = :updateDate")})

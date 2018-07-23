@@ -5,10 +5,14 @@
  */
 package com.guardianpro.drm.sessions;
 
+import com.guardianpro.drm.entities.HostInfo;
+import com.guardianpro.drm.entities.LoginPrev;
+import com.guardianpro.drm.entities.Terminal;
 import com.guardianpro.drm.entities.TokeanGo;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +31,23 @@ public class TokeanGoFacade extends AbstractFacade<TokeanGo> {
 
     public TokeanGoFacade() {
         super(TokeanGo.class);
+    }
+    
+    
+    
+       public TokeanGo preterm_find(LoginPrev pre,Terminal term){
+      Query hostip = em.createNamedQuery("TokeanGo.findById");
+        hostip.setParameter("ip", pre);
+        hostip.setParameter("ip1", term);
+        try {
+                TokeanGo  ips = (TokeanGo) hostip.getSingleResult();
+                return ips;        
+        } catch (Exception e) {
+            return null;
+        }
+    
+    
+    
     }
     
 }
