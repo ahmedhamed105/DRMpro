@@ -36,9 +36,9 @@ public class TokeanGoFacade extends AbstractFacade<TokeanGo> {
     
     
        public TokeanGo preterm_find(LoginPrev pre,Terminal term){
-      Query hostip = em.createNamedQuery("TokeanGo.findById");
-        hostip.setParameter("ip", pre);
-        hostip.setParameter("ip1", term);
+      Query hostip = em.createNamedQuery("TokeanGo.findBypretreminal");
+        hostip.setParameter("id", pre);
+        hostip.setParameter("id1", term);
         try {
                 TokeanGo  ips = (TokeanGo) hostip.getSingleResult();
                 return ips;        

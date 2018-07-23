@@ -139,6 +139,7 @@ public class PaymentController {
 
   Login_ouput response = new Login_ouput();
    LoginPrev pre;
+   long diff=0;
   
       DrmParameter para = drmParameterFacade.para_find("Server_key");
        DrmParameter para1 = drmParameterFacade.para_find("Tokean_length");
@@ -404,7 +405,7 @@ public class PaymentController {
                    Calendar previous = Calendar.getInstance();
 previous.setTime(query.getUpdateDate());
 Calendar now = Calendar.getInstance();
-long diff = now.getTimeInMillis() - previous.getTimeInMillis();
+ diff = now.getTimeInMillis() - previous.getTimeInMillis();
 if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
 {
     //after  expire minutes difference
@@ -416,9 +417,14 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
        query.setUpdateDate(date);
        loginQueryFacade.edit(query);
        
-         tok=tokeanGoFacade.preterm_find(pre, terminal_id);
-          
+        tok=tokeanGoFacade.preterm_find(pre, terminal_id);
+        if(!tok.getExipretime().equals(Expire_time)){
+        tok.setExipretime(Expire_time);
+        }
+        tok.setTokean(toke);
+        tokeanGoFacade.edit(tok);
    
+        
         info1.setHHost(host);
      info1.setHUser(userx);
      info1.setHPort(port);
@@ -444,6 +450,13 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
        
        
        tok=tokeanGoFacade.preterm_find(pre, terminal_id);
+       
+       
+         if(!tok.getExipretime().equals(Expire_time)){
+        tok.setExipretime(Expire_time);
+        tokeanGoFacade.edit(tok);
+        }
+         
                     
      info1.setHHost(host);
      info1.setHUser(userx);
@@ -473,6 +486,11 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
        loginQueryFacade.edit(query);
        
          tok=tokeanGoFacade.preterm_find(pre, terminal_id);
+         tok.setTokean(toke);
+           if(!tok.getExipretime().equals(Expire_time)){
+        tok.setExipretime(Expire_time);
+        }
+         tokeanGoFacade.edit(tok);
           
    
         info1.setHHost(host);
@@ -509,7 +527,7 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
   
      response.setTokean(tok.getTokean());
         response.setStatusCode(Error_codes.Sucess_login);
-        response.setExpiretime(Expire_time);  
+        response.setExpiretime(String.valueOf(Integer.parseInt(Expire_time)-(int)((diff/60)/1000)));  
          return response;
                
                }
