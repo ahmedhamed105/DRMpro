@@ -6,10 +6,15 @@
 package com.drm.utils;
 
 import com.drm.exceptions.GeneralException;
+import com.drm.facade.services.SecurityService;
+import com.drm.model.entities.Audit;
 import com.drm.model.entities.User;
 import java.security.MessageDigest;
 import java.util.Date;
 import java.util.UUID;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -156,6 +161,49 @@ public class DrmUtils {
         //
         // httpSession = currentRequest.getSession(true);
         return httpSession;
+    }
+
+    public static Audit getAuditEntity() {
+        Audit audit = new Audit();
+        Date auditDateTime = new Date();
+        audit.setAuditDatetime(auditDateTime);
+        return audit;
+    }
+
+    public static Audit saveAudit(Audit audit) {
+        return getSecurityService().insert(audit);
+    }
+
+    private static SecurityService getSecurityService() {
+        return (SecurityService) lookupEJB("SecurityServiceImpl");
+    }
+
+    public static Object lookupEJB(String beanName) {
+        String serviceJNDI = getServiceJNDI(beanName);
+        System.out.println("service JNDI " + serviceJNDI);
+        Object ejbObject = lookup(serviceJNDI);
+        return ejbObject;
+    }
+
+    public static String getServiceJNDI(String beanName) {
+        return Constants.JNDI_GLOBAL_BUSINESS_MODULE_NAME + beanName;
+    }
+
+    private static Object lookup(String jNDIName) {
+        Object ejbObject = null;
+        try {
+            Context context = getContext();
+            ejbObject = context.lookup(jNDIName);
+        } catch (NamingException ex) {
+            System.err.println(ex);
+        }
+        return ejbObject;
+    }
+
+    private static Context getContext() throws NamingException {
+        Context context;
+        context = new InitialContext();
+        return context;
     }
 
 }

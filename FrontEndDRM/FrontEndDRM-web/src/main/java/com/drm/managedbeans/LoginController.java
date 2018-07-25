@@ -6,6 +6,7 @@
 package com.drm.managedbeans;
 
 import com.drm.facade.services.SecurityService;
+import com.drm.model.entities.Audit;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import com.drm.model.entities.User;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.drm.utils.Constants.SYSTEM_PAGES;
 import com.drm.utils.Logger;
+import com.drm.utils.UserAction;
 import javax.faces.application.FacesMessage;
 
 /**
@@ -52,6 +54,8 @@ public class LoginController extends AbstractManagedBean {
                     signInUser(user);
                     logger.debug(user.getUsername() + " signed in session successfully");
                     logger.debug("send " + user.getUsername() + " to home " + SYSTEM_PAGES.HOME_PAGE_URL.getUrl());
+                    auditAction(UserAction.SUCCESS.name(), "Success login (" + loginData.getLoginStatus()
+                            + ")");
                     return SYSTEM_PAGES.HOME_PAGE_URL.getUrl();
                 case USER_NOTFOUND:
                 case LOGIN_FAILED:
@@ -63,6 +67,8 @@ public class LoginController extends AbstractManagedBean {
                     logger.debug("Login error! Incorrect username or password.");
                     break;
             }
+            auditAction(UserAction.FAIL.name(), "Fail login (" + loginData.getLoginStatus() + ")");
+            
         } else {
             FacesMessage msg = new FacesMessage(
                     "Couldn't contacting the server, please try again later",
@@ -85,18 +91,28 @@ public class LoginController extends AbstractManagedBean {
                         .getExternalContext().getRequest());
     }
 
-    private User getCurrentLoggedInUser() {
-        HttpServletRequest currentRequest = getCurrentRequest();
-        User currentUser = DrmUtils.getCurrentUser(currentRequest);
-        return currentUser;
+    @Override
+    public void auditAction(String actionResult, String actionValue) {
+        Audit audit = DrmUtils.getAuditEntity();
+        User currentUser = getCurrentUser();
+        audit.setUserId(currentUser);
+        audit.setActionValue(actionValue);
+        audit.setActionResult(actionResult);
+        audit.setAction(UserAction.LOGIN.name());
+        DrmUtils.saveAudit(audit);
     }
 
-    private HttpServletRequest getCurrentRequest() {
-        HttpServletRequest currentRequest = (HttpServletRequest) JSFUtils
-                .getExternalContext().getRequest();
-        return currentRequest;
-    }
-
+//    private User getCurrentLoggedInUser() {
+//        HttpServletRequest currentRequest = getCurrentRequest();
+//        User currentUser = DrmUtils.getCurrentUser(currentRequest);
+//        return currentUser;
+//    }
+//
+//    private HttpServletRequest getCurrentRequest() {
+//        HttpServletRequest currentRequest = (HttpServletRequest) JSFUtils
+//                .getExternalContext().getRequest();
+//        return currentRequest;
+//    }
     public boolean isUserLoggedIn() {
         Object result = JSFUtils
                 .getSessionValue(Constants.SESSION_KEYS_IS_USER_LOGGED_IN);

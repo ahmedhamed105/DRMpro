@@ -6,8 +6,10 @@
 package com.drm.model.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,6 +27,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,6 +46,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "User.findByCreateDate", query = "SELECT u FROM User u WHERE u.createDate = :createDate")
     , @NamedQuery(name = "User.findByUpdateDate", query = "SELECT u FROM User u WHERE u.updateDate = :updateDate")})
 public class User extends AbstractEntity {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Collection<Audit> auditCollection;
 
     public static final String NAMED_QUERY_USER_FIND_USER_BY_USERNAME = "User.findUserByUsername";
 
@@ -172,8 +179,6 @@ public class User extends AbstractEntity {
     public void setLoginTime(Date loginTime) {
         this.loginTime = loginTime;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -198,6 +203,15 @@ public class User extends AbstractEntity {
     @Override
     public String toString() {
         return "com.drm.model.entities.User[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Audit> getAuditCollection() {
+        return auditCollection;
+    }
+
+    public void setAuditCollection(Collection<Audit> auditCollection) {
+        this.auditCollection = auditCollection;
     }
 
 }

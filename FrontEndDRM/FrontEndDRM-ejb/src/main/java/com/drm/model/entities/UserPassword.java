@@ -144,5 +144,5 @@ public class UserPassword implements Serializable {
     public String toString() {
         return "com.drm.model.entities.UserPassword[ id=" + id + " ]";
     }
-    
+
 }

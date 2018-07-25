@@ -18,6 +18,11 @@ public interface Constants {
     public static final String SESSION_KEYS_LAST_LOGIN_TIME = "lastLoginTime";
     public static final String KEYS_LOGIN_COOKIE_NAME = "LID";
     public static final String SUFFIX_JSF_PAGE_EXTENSION = "jsf";
+    public static final String JNDI_GLOBAL_SEPARATOR = "/";
+    public static final String JNDI_GLOBAL_PREFIX = "java:global".concat(JNDI_GLOBAL_SEPARATOR); 	
+    public static final String JNDI_GLOBAL_APP_NAME = JNDI_GLOBAL_PREFIX.concat("FrontEndDRM-ear").concat(JNDI_GLOBAL_SEPARATOR);
+    public static final String JNDI_GLOBAL_BUSINESS_MODULE_NAME = JNDI_GLOBAL_APP_NAME
+            .concat("FrontEndDRM-ejb-1.0-SNAPSHOT").concat(JNDI_GLOBAL_SEPARATOR);
 
     public static enum SYSTEM_ERRORS {
         BACKEND_INVOKATION_ERROR("FD_LS_1000",
