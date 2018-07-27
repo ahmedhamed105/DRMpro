@@ -39,4 +39,26 @@ public class Error_codes {
     static int APP_notrelated_user_out=210;
     static int user_notlogin_out=211;
     
+    
+    
+        //Host Check
+    static int HOST_Sucess=301;
+    static int HOST_notfound_key=301;
+    static int Host_IP_notfound=302;
+    static int HOST_Lock_3times=303;
+    static int HOST_Lock_Admin=304;
+    static int HOST_NO_prelogin=305;
+    static int HOST_user_notfound=306;
+    static int HOST_Expired=307;
+    static int HOST_terminal_notfound=308;
+    static int HOST_APP_notfound=309;
+    static int HOST_APP_notrelated_user=310;
+    static int HOST_Query_notfound=311;
+    static int HOST_Tokean_Wrong=312;
+    static int HOST_Want_Login=313;
+    static int HOST_Wrong_key=314;
+    
+    
+    
+    
 }

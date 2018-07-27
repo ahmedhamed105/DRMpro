@@ -32,12 +32,9 @@ import com.guardianpro.drm.sessions.UserFacade;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.util.Calendar;
-import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -148,7 +145,7 @@ public class PaymentController {
     response.setTokean("");
     response.setStatusCode(Error_codes.notfound_key);
     response.setExpiretime("0");
-      
+      return response;
       }else{
           //check Server key
       Serverkey=para.getParameterValue();
@@ -166,6 +163,7 @@ public class PaymentController {
      String  host = req.getRemoteHost();
      String  userx = req.getRemoteUser();
      int  port = req.getRemotePort();
+     
      
      HostInfo info1=hostInfoFacade.ip_find(ip);
      if(info1==null){
@@ -1028,6 +1026,30 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
   
      // Return success response to the client.
   return response;
+ }
+  
+  
+    @POST
+ @Path("/Check/{key}") 
+ @Produces(MediaType.APPLICATION_JSON) 
+ @Consumes(MediaType.APPLICATION_JSON) 
+ public Login_ouput Check(@Context HttpServletRequest req,@PathParam("key") String key,Check_Tokean Ilogin) {
+     
+    String  ip = req.getRemoteAddr();
+    String  host = req.getRemoteHost();
+    String  userx = req.getRemoteUser();
+    int  port = req.getRemotePort();
+     
+     
+ String user= Ilogin.getUser().trim();
+ String tokean= Ilogin.getTokean().trim();
+ String tid= Ilogin.getAgentcode().trim();
+ String app= Ilogin.getApplication().trim();
+ 
+   respons_login res=  Login_check.Login_check(key, ip, host, userx, port, tokean, app, user, tid);
+   
+   return  res.getReponse();
+     
  }
 
  
