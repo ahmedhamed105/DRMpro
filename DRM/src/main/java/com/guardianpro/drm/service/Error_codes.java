@@ -23,6 +23,8 @@ public class Error_codes {
     static int terminal_notfound=108;
     static int APP_notfound=109;
     static int APP_notrelated_user=110;
+    static int Lock_query_3times=115;
+    static int Lock_query_Admin=116;
     
     
     //logout
@@ -57,8 +59,11 @@ public class Error_codes {
     static int HOST_Tokean_Wrong=312;
     static int HOST_Want_Login=313;
     static int HOST_Wrong_key=314;
+    static int HOST_Lock_query_3times=315;
+    static int HOST_Lock_query_Admin=316;
     
     
     
+                                  
     
 }

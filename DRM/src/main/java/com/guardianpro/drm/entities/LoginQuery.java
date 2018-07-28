@@ -72,6 +72,16 @@ public class LoginQuery implements Serializable {
     @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
+        @Basic(optional = false)
+    @NotNull
+    @Column(name = "User_lock", nullable = false)
+    private int userlock;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "User_admin", nullable = false)
+    private int useradmin;
+    @Column(name = "Error_count")
+    private Integer errorcount;
     @JoinColumn(name = "Application_user_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private ApplicationUser applicationuserID;
@@ -91,6 +101,32 @@ public class LoginQuery implements Serializable {
         this.createDate = createDate;
         this.updateDate = updateDate;
     }
+
+    public int getUserlock() {
+        return userlock;
+    }
+
+    public void setUserlock(int userlock) {
+        this.userlock = userlock;
+    }
+
+    public int getUseradmin() {
+        return useradmin;
+    }
+
+    public void setUseradmin(int useradmin) {
+        this.useradmin = useradmin;
+    }
+
+    public Integer getErrorcount() {
+        return errorcount;
+    }
+
+    public void setErrorcount(Integer errorcount) {
+        this.errorcount = errorcount;
+    }
+    
+    
 
     public Integer getId() {
         return id;

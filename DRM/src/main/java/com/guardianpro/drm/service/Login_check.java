@@ -13,7 +13,6 @@ import com.guardianpro.drm.entities.LoginHistory;
 import com.guardianpro.drm.entities.LoginPrev;
 import com.guardianpro.drm.entities.LoginQuery;
 import com.guardianpro.drm.entities.Terminal;
-import com.guardianpro.drm.entities.TokeanGo;
 import com.guardianpro.drm.entities.User;
 import com.guardianpro.drm.sessions.ApplicationUserFacade;
 import com.guardianpro.drm.sessions.ApplicationsFacade;
@@ -29,11 +28,16 @@ import java.security.SecureRandom;
 import java.sql.Date;
 import java.util.Calendar;
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author ahmedhamed
  */
+
+@Stateless
+@LocalBean
 public class Login_check {
     
       @EJB
@@ -266,36 +270,8 @@ public class Login_check {
                          }
                          
                          
-                       
-            //check terminal id
-               Terminal terminal_id = terminalFacade.Terminal_find(Terminal);
-               if(terminal_id == null){
-                 // terminal not found NULL
-                LoginHistory history=new LoginHistory();
-                history.setHIp(ip);
-                history.setHHost(host);
-                history.setHUser(userx);
-                history.setHPort(port);
-                history.setLoginfailed(date);
-                history.setFailedSucess(0);
-                history.setLoginprevID(pre);
-                history.setErrorCode(Error_codes.HOST_terminal_notfound);
-                loginHistoryFacade.create(history);
-                
-                info1.setRequestcount(info1.getRequestcount()+1);   
-                hostInfoFacade.edit(info1);
-                
-        response.setTokean("");
-        response.setStatusCode(Error_codes.HOST_terminal_notfound);
-        response.setExpiretime("0");  
-        resp.setError(1);
-        return resp;
-               }
-               
-               
-               //terminal correct
-               
-   
+                         
+                            
     LoginQuery query=loginQueryFacade.appuser_find(appuser);
     if(query == null){
             
@@ -320,7 +296,113 @@ public class Login_check {
         resp.setError(1);
         return resp;     
         
-                   }else{
+                   }
+                         
+                //qyery correct correct    
+                
+                          
+                 
+                 if(query.getErrorcount() > 3){
+                     
+                     
+                        // lock 3 times
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_Lock_query_3times);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Lock_query_3times);
+        response.setExpiretime("0");  
+        resp.setError(1);
+        return resp;  
+               
+                 }
+                 
+                if(query.getUserlock() > 3){
+                    
+                                
+                        // lock 3 times
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_Lock_query_Admin);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Lock_query_Admin);
+        response.setExpiretime("0");  
+        resp.setError(1);
+        return resp;  
+                 
+                 }
+
+            
+                
+                
+                       
+            //check terminal id
+               Terminal terminal_id = terminalFacade.Terminal_find(Terminal);
+               if(terminal_id == null){
+                 // terminal not found NULL
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_terminal_notfound);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+                 query.setErrorcount(query.getErrorcount()+1);
+                 
+                 if(query.getErrorcount() > 3){
+                 query.setUserlock(query.getUserlock()+1);
+                 query.setErrorcount(0);
+                 }
+                 
+                if(query.getUserlock() > 3){
+                  query.setUseradmin(query.getUseradmin()+1);
+                   query.setErrorcount(0);
+                 }
+
+                loginQueryFacade.edit(query);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_terminal_notfound);
+        response.setExpiretime("0");  
+        resp.setError(1);
+        return resp;
+               }
+               
+               
+               //terminal correct
+               
+
+    
+    
                    //user login before 1-check login or not then check timeexpire
    Expire_time=query.getExpiretime().trim();
                    Calendar previous = Calendar.getInstance();
@@ -438,7 +520,7 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
                 
                    
                    
-                   }
+                   
                
              
 

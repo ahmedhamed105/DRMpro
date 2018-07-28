@@ -19,6 +19,7 @@ import com.guardianpro.drm.entities.LoginQuery;
 import com.guardianpro.drm.entities.Terminal;
 import com.guardianpro.drm.entities.TokeanGo;
 import com.guardianpro.drm.entities.User;
+import static com.guardianpro.drm.service.Login_check.Serverkey;
 import com.guardianpro.drm.sessions.ApplicationUserFacade;
 import com.guardianpro.drm.sessions.ApplicationsFacade;
 import com.guardianpro.drm.sessions.DrmParameterFacade;
@@ -324,6 +325,11 @@ public class PaymentController {
          return response;
                          
                          }else{
+                             
+                             
+                String toke;
+                TokeanGo tok = null;
+                LoginQuery query=loginQueryFacade.appuser_find(appuser);
                        
             //check terminal id
                Terminal terminal_id = terminalFacade.Terminal_find(tid);
@@ -343,18 +349,34 @@ public class PaymentController {
                 info1.setRequestcount(info1.getRequestcount()+1);   
                 hostInfoFacade.edit(info1);
                 
+                if(query!=null){
+                  query.setErrorcount(query.getErrorcount()+1);
+                 
+                 if(query.getErrorcount() > 3){
+                 query.setUserlock(query.getUserlock()+1);
+                 query.setErrorcount(0);
+                 }
+                 
+                if(query.getUserlock() > 3){
+                  query.setUseradmin(query.getUseradmin()+1);
+                   query.setErrorcount(0);
+                 }
+
+                loginQueryFacade.edit(query);
+                }
+                
         response.setTokean("");
         response.setStatusCode(Error_codes.terminal_notfound);
         response.setExpiretime("0");  
          return response;
-               }else{
-                    String toke;
-                    TokeanGo tok = null;
-                 LoginQuery query=loginQueryFacade.appuser_find(appuser);
+               }
+               
+               
+               
+               
+             
                    if(query == null){
-             // first login          
-                       
-           
+             // first login               
      info1.setHHost(host);
      info1.setHUser(userx);
      info1.setHPort(port);
@@ -382,8 +404,13 @@ public class PaymentController {
                    query.setLogin(1);
                    query.setTokean(toke);
                    query.setApplicationuserID(appuser);
-                   query.setExpiretime(Expire_time);          
+                   query.setExpiretime(Expire_time);  
+                   query.setErrorcount(0);
+                   query.setUseradmin(0);
+                   query.setUserlock(0);
                    loginQueryFacade.create(query);
+                   
+                   
                    
                         LoginHistory history=new LoginHistory();
                 history.setHIp(ip);
@@ -397,7 +424,65 @@ public class PaymentController {
                 loginHistoryFacade.create(history);
          
                    
-                   }else{
+                   }
+                   
+                   
+                      if(query.getErrorcount() > 3){
+                     
+                     
+                        // lock 3 times
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.Lock_query_3times);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.Lock_query_3times);
+        response.setExpiretime("0");  
+        return response;  
+               
+                 }
+                 
+                if(query.getUserlock() > 3){
+                    
+                                
+                        // lock 3 times
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.Lock_query_Admin);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.Lock_query_Admin);
+        response.setExpiretime("0");  
+        return response;  
+                 
+                 }
+
+                   
+                   
+                   
+                   
+                   
+                   
                    //user login before 1-check login or not then check timeexpire
                    
                    Calendar previous = Calendar.getInstance();
@@ -519,7 +604,7 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
                 
                    
                    
-                   }
+                   
                
           
   
@@ -528,7 +613,7 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
         response.setExpiretime(String.valueOf(Integer.parseInt(Expire_time)-(int)((diff/60)/1000)));  
          return response;
                
-               }
+               
                
                    }
             
@@ -1046,7 +1131,11 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
  String tid= Ilogin.getAgentcode().trim();
  String app= Ilogin.getApplication().trim();
  
-   respons_login res=  Login_check.Login_check(key, ip, host, userx, port, tokean, app, user, tid);
+   respons_login res=  Login_check(key, ip, host, userx, port, tokean, app, user, tid);
+   
+        System.out.println("com.guardianpro.drm.service.PaymentController.Login_check() "+res.getReponse().getStatusCode());
+               
+        
    
    return  res.getReponse();
      
@@ -1058,6 +1147,483 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
         buf[idx] = symbols[random.nextInt(symbols.length)];
     return new String(buf);
 }
+ 
+ 
+     public  respons_login Login_check(String key,String  ip ,String  host,String  userx ,int  port ,String tokean,String application,String User,String Terminal) {
+        respons_login resp=new respons_login();
+        
+         Login_ouput response = new Login_ouput();
+   LoginPrev pre;
+   long diff=0;
+  
+      DrmParameter para = drmParameterFacade.para_find("Server_key");
+      if(para == null){
+    response.setTokean("");
+    response.setStatusCode(Error_codes.HOST_notfound_key);
+    response.setExpiretime("0");
+    
+    resp.setReponse(response);
+    resp.setError(1);
+    return resp;
+      
+      }
+      
+      
+         
+      
+          //check Server key
+      Serverkey=para.getParameterValue();
+  
+  if (Serverkey.equalsIgnoreCase(key)) {
+      
+      Date  date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+      
+  //get ip is allowed or not
+
+     HostInfo info1=hostInfoFacade.ip_find(ip);
+     if(info1==null){
+         HostInfo info=new HostInfo();       
+         info.setHIp(ip);
+     info.setHHost(host);
+     info.setHUser(userx);
+     info.setHPort(port);
+     info.setRequestcount(1);  
+     info.setCreateDate(date);
+     info.setUpdateDate(date);
+     
+  hostInfoFacade.create(info);
+  
+  //create a login_prev
+  
+         
+  info1=info;    
+  
+         
+     }
+     
+     
+    //check ip is allowed or not
+    
+          pre=loginPrevFacade.host_find(info1);        
+         if(pre == null){
+            pre=new LoginPrev();
+         pre.setAdminLock(0);
+         pre.setHostinfoID(info1);
+         pre.setCreateDate(date);
+         pre.setUpdateDate(date);
+         pre.setSerKey(key);
+         pre.setLockcount(0);
+        loginPrevFacade.create(pre);
+         }
+         
+             if(pre.getAdminLock() == 1){
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Lock_Admin);
+        response.setExpiretime("0");  
+          resp.setReponse(response);
+    resp.setError(1);
+    return resp;
+         }
+
+         
+        if(info1.getRequestcount() >= 3 && date.getTime() - info1.getUpdateDate().getTime() >= 1*60*1000 ){
+           info1.setRequestcount(0);
+           pre.setLockcount(pre.getLockcount()+1);
+         }
+        
+            if(pre.getLockcount() >= 3){
+              info1.setRequestcount(0);
+              pre.setLockcount(0);
+              pre.setAdminLock(1);
+             }
+        
+     
+      loginPrevFacade.edit(pre);
+      
+     
+        
+           if(pre.getAdminLock() == 1){
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Lock_Admin);
+        response.setExpiretime("0");  
+          resp.setReponse(response);
+    resp.setError(1);
+    return resp;
+         }
+         
+         
+        if(info1.getRequestcount() >= 3){
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Lock_3times);
+        response.setExpiretime("0");  
+          resp.setReponse(response);
+    resp.setError(1);
+    return resp;
+         }
+        
+    
+
+
+ 
+// user Check
+ 
+    User usr=userFacade.password_username(User);
+        if(usr == null){
+        
+         response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_user_notfound);
+        response.setExpiretime("0");  
+          resp.setReponse(response);
+    resp.setError(1);
+    return resp;
+        
+        }            
+           
+     
+            // user correct   
+            
+            // check application code is correct
+                Applications appl=applicationsFacade.APP_find(application);
+                   if(appl == null){
+                       
+                 // App not found NULL
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_APP_notfound);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_APP_notfound);
+        response.setExpiretime("0"); 
+        resp.setReponse(response);
+        resp.setError(1);
+        return resp;
+                   
+                   }
+                   
+                   
+             //check application user
+             
+                       ApplicationUser appuser=applicationUserFacade.App_user(appl, usr);
+                         if(appuser == null){
+                           // application not related to user
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_APP_notrelated_user);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_APP_notrelated_user);
+        response.setExpiretime("0");  
+        resp.setError(1);
+        return resp;
+                         
+                         }
+                         
+                         
+               
+     
+
+                            
+    LoginQuery query=loginQueryFacade.appuser_find(appuser);
+    if(query == null){
+            
+      // LOGIN QUERU not found NULL
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_Query_notfound);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Query_notfound);
+        response.setExpiretime("0");  
+        resp.setReponse(response);
+        resp.setError(1);
+        return resp;     
+        
+                   }
+    
+         
+          
+                //qyery correct correct    
+                
+                          
+                 
+                 if(query.getErrorcount() > 3){
+                     
+                     
+                        // lock 3 times
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_Lock_query_3times);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Lock_query_3times);
+        response.setExpiretime("0");  
+        resp.setReponse(response);
+        resp.setError(1);
+        return resp;  
+               
+                 }
+                 
+                if(query.getUserlock() > 3){
+                    
+                                
+                        // lock 3 times
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_Lock_query_Admin);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Lock_query_Admin);
+        response.setExpiretime("0"); 
+        resp.setReponse(response);
+        resp.setError(1);
+        return resp;  
+                 
+                 }
+
+            
+                
+                
+                       
+            //check terminal id
+               Terminal terminal_id = terminalFacade.Terminal_find(Terminal);
+               if(terminal_id == null){
+                 // terminal not found NULL
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_terminal_notfound);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+                 query.setErrorcount(query.getErrorcount()+1);
+                 
+                 if(query.getErrorcount() > 3){
+                 query.setUserlock(query.getUserlock()+1);
+                 query.setErrorcount(0);
+                 }
+                 
+                if(query.getUserlock() > 3){
+                  query.setUseradmin(query.getUseradmin()+1);
+                   query.setErrorcount(0);
+                 }
+
+                loginQueryFacade.edit(query);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_terminal_notfound);
+        response.setExpiretime("0");  
+        resp.setReponse(response);
+        resp.setError(1);
+        return resp;
+               }
+               
+               
+               //terminal correct
+               
+     
+                
+    
+    
+                   //user login before 1-check login or not then check timeexpire
+   Expire_time=query.getExpiretime().trim();
+                   Calendar previous = Calendar.getInstance();
+previous.setTime(query.getUpdateDate());
+Calendar now = Calendar.getInstance();
+ diff = now.getTimeInMillis() - previous.getTimeInMillis();
+if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
+{
+    //after  expire minutes difference
+    
+       // HOST_Expired 
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_Expired);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Expired);
+        response.setExpiretime("0");  
+        resp.setReponse(response);
+        resp.setError(1);
+        return resp;     
+        
+}else{
+ //before  expire minutes difference
+
+   if(query.getLogin() == 1){      
+       
+
+    if(query.getTokean().trim().equals(tokean.trim())){
+        
+             System.out.println("com.guardianpro.drm.service.PaymentController.Login_check() 34");
+               
+        
+        // Tokean not correct 
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_Sucess);
+                loginHistoryFacade.create(history);
+                
+        response.setTokean(tokean);
+        response.setStatusCode(Error_codes.HOST_Sucess);
+        response.setExpiretime(String.valueOf(Integer.parseInt(Expire_time)-(int)((diff/60)/1000)));  
+        resp.setReponse(response);
+        resp.setError(0);
+        return resp; 
+        
+    }else{
+        
+        
+             System.out.println("com.guardianpro.drm.service.PaymentController.Login_check() 24");
+               
+        
+           // Tokean not correct 
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_Tokean_Wrong);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Tokean_Wrong);
+        response.setExpiretime("0");  
+        resp.setReponse(response);
+        resp.setError(1);
+        return resp;  
+    
+    
+    }
+         
+                    
+    
+  
+    }else{
+           // Not login
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.HOST_Want_Login);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.HOST_Want_Login);
+        response.setExpiretime("0");  
+        resp.setReponse(response);
+        resp.setError(1);
+        return resp;  
+   
+   
+   }
+
+
+}
+                   
+                
+                   
+                   
+                   
+               
+             
+
+  } else {
+   response.setTokean("");
+   response.setStatusCode(Error_codes.HOST_Wrong_key);
+    response.setExpiretime("0");
+    resp.setReponse(response);
+            resp.setError(1);
+        return resp;  
+  }
+        
+    }
+   
 
    
 
