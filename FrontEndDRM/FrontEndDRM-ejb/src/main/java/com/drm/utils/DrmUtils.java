@@ -164,6 +164,7 @@ public class DrmUtils {
     }
 
     public static Audit getAuditEntity() {
+        logger.debug("getAuditEntity return new audit obj...");
         Audit audit = new Audit();
         Date auditDateTime = new Date();
         audit.setAuditDatetime(auditDateTime);
@@ -171,6 +172,7 @@ public class DrmUtils {
     }
 
     public static Audit saveAudit(Audit audit) {
+        logger.debug("saveAudit insert new audit obj...");
         return getSecurityService().insert(audit);
     }
 

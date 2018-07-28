@@ -93,13 +93,20 @@ public class LoginController extends AbstractManagedBean {
 
     @Override
     public void auditAction(String actionResult, String actionValue) {
+        logger.debug("auditAction start auditing...");
         Audit audit = DrmUtils.getAuditEntity();
-        User currentUser = getCurrentUser();
-        audit.setUserId(currentUser);
+        User currentUser = getCurrentLoggedInUser();
+        if(currentUser!=null){
+            logger.debug("auditAction current user exist...");
+            audit.setUserId(currentUser);
+        }else{
+            logger.debug("auditAction current user not exist...");
+        }
         audit.setActionValue(actionValue);
         audit.setActionResult(actionResult);
         audit.setAction(UserAction.LOGIN.name());
         DrmUtils.saveAudit(audit);
+        logger.debug("auditAction end auditing...");
     }
 
 //    private User getCurrentLoggedInUser() {
