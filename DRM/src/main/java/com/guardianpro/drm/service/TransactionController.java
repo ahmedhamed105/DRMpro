@@ -13,6 +13,8 @@ import com.guardianpro.drm.entities.LoginHistory;
 import com.guardianpro.drm.entities.LoginPrev;
 import com.guardianpro.drm.entities.LoginQuery;
 import com.guardianpro.drm.entities.Terminal;
+import com.guardianpro.drm.entities.TrxFields;
+import com.guardianpro.drm.entities.TrxType;
 import com.guardianpro.drm.entities.User;
 import com.guardianpro.drm.sessions.ApplicationUserFacade;
 import com.guardianpro.drm.sessions.ApplicationsFacade;
@@ -23,6 +25,8 @@ import com.guardianpro.drm.sessions.LoginPrevFacade;
 import com.guardianpro.drm.sessions.LoginQueryFacade;
 import com.guardianpro.drm.sessions.TerminalFacade;
 import com.guardianpro.drm.sessions.TokeanGoFacade;
+import com.guardianpro.drm.sessions.TrxFieldsFacade;
+import com.guardianpro.drm.sessions.TrxTypeFacade;
 import com.guardianpro.drm.sessions.UserFacade;
 import java.sql.Date;
 import java.util.Calendar;
@@ -47,6 +51,12 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @LocalBean
 public class TransactionController {
+
+    @EJB
+    private TrxFieldsFacade trxFieldsFacade;
+
+    @EJB
+    private TrxTypeFacade trxTypeFacade;
     
     
      @EJB
@@ -81,6 +91,12 @@ public class TransactionController {
     
     
     
+    
+    
+    
+    
+    
+    
     String Expire_time = "10";
     String Serverkey = "SHARED_KEY";
     
@@ -104,11 +120,52 @@ public class TransactionController {
  String tid= trx.getLogin().getAgentcode().trim();
  String app= trx.getLogin().getApplication().trim();
  
-   respons_login res=  Login_check(key, ip, host, userx, port, tokean, app, user, tid);
+  respons_login res=  Login_check(key, ip, host, userx, port, tokean, app, user, tid);
    
 if(res.getError() == 1){
  return  res.getReponse();
 }else{
+     Login_ouput response = new Login_ouput();
+     
+    TrxType ttype=trxTypeFacade.find(trx.getType());
+    if(ttype == null){
+     response.setTokean("");
+    response.setStatusCode(Error_codes.TRX_type_error);
+    response.setExpiretime("0");
+    return response;
+    }
+    
+    Terminal term=res.getTerm();
+    if(term == null){
+    response.setTokean("");
+    response.setStatusCode(Error_codes.Terminal_error);
+    response.setExpiretime("0");
+    return response;
+    }
+    
+    Field_value [] fields=trx.getFields();
+    
+    if(fields == null || fields.length == 0){
+    response.setTokean("");
+    response.setStatusCode(Error_codes.No_field);
+    response.setExpiretime("0");
+    return response;
+    }
+    
+    for(int i=0;i<fields.length;i++){
+        
+        TrxFields field =  trxFieldsFacade.trxtype_find(fields[i].getKey());
+        if(field == null){
+    response.setTokean("");
+    response.setStatusCode(Error_codes.field_not_found);
+    response.setExpiretime("0");
+    return response;
+    }
+    
+    
+    }
+    
+    
 
 
 }
@@ -509,6 +566,7 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
         response.setExpiretime(String.valueOf(Integer.parseInt(Expire_time)-(int)((diff/60)/1000)));  
         resp.setReponse(response);
         resp.setError(0);
+        resp.setTerm(terminal_id);
         return resp; 
         
     }else{

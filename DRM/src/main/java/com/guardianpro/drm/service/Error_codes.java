@@ -63,6 +63,15 @@ public class Error_codes {
     static int HOST_Lock_query_Admin=316;
     
     
+     //Host Check
+    static int TRX_Sucess=601;
+    static int TRX_type_error=602;
+    static int Terminal_error=603;
+    static int No_field=604;
+    static int field_not_found=605;
+    
+    
+    
     
                                   
     

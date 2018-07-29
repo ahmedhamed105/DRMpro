@@ -5,6 +5,8 @@
  */
 package com.guardianpro.drm.service;
 
+import com.guardianpro.drm.entities.Terminal;
+
 /**
  *
  * @author ahmedhamed
@@ -14,6 +16,7 @@ public class respons_login {
     
     Login_ouput reponse;
     int error;
+    Terminal term;
 
     public Login_ouput getReponse() {
         return reponse;
@@ -30,6 +33,16 @@ public class respons_login {
     public void setError(int error) {
         this.error = error;
     }
+
+    public Terminal getTerm() {
+        return term;
+    }
+
+    public void setTerm(Terminal term) {
+        this.term = term;
+    }
+    
+    
 
      
 }

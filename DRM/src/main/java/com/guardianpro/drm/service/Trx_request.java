@@ -11,7 +11,7 @@ package com.guardianpro.drm.service;
  */
 public class Trx_request {
 Check_Tokean login;
-String type;    
+int type;    
 Field_value [] fields;
 
     public Check_Tokean getLogin() {
@@ -22,13 +22,15 @@ Field_value [] fields;
         this.login = login;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
+
+   
 
     public Field_value[] getFields() {
         return fields;
