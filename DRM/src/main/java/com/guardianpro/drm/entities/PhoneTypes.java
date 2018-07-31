@@ -64,7 +64,7 @@ public class PhoneTypes implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phonetypesID")
     private Collection<PhoneData> phoneDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phonetypesID")
-    private Collection<PhoneDataCopy1> phoneDataCopy1Collection;
+    private Collection<PhoneDatacopy1> phoneDataCopy1Collection;
 
     public PhoneTypes() {
     }
@@ -123,11 +123,11 @@ public class PhoneTypes implements Serializable {
 
     @XmlTransient
     @JsonIgnore
-    public Collection<PhoneDataCopy1> getPhoneDataCopy1Collection() {
+    public Collection<PhoneDatacopy1> getPhoneDataCopy1Collection() {
         return phoneDataCopy1Collection;
     }
 
-    public void setPhoneDataCopy1Collection(Collection<PhoneDataCopy1> phoneDataCopy1Collection) {
+    public void setPhoneDataCopy1Collection(Collection<PhoneDatacopy1> phoneDataCopy1Collection) {
         this.phoneDataCopy1Collection = phoneDataCopy1Collection;
     }
 

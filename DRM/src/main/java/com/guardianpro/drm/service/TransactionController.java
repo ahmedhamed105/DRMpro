@@ -12,9 +12,12 @@ import com.guardianpro.drm.entities.HostInfo;
 import com.guardianpro.drm.entities.LoginHistory;
 import com.guardianpro.drm.entities.LoginPrev;
 import com.guardianpro.drm.entities.LoginQuery;
+import com.guardianpro.drm.entities.TRXType;
+import com.guardianpro.drm.entities.TRXtypemsg;
 import com.guardianpro.drm.entities.Terminal;
+import com.guardianpro.drm.entities.Trx;
 import com.guardianpro.drm.entities.TrxFields;
-import com.guardianpro.drm.entities.TrxType;
+import com.guardianpro.drm.entities.TrxValues;
 import com.guardianpro.drm.entities.User;
 import com.guardianpro.drm.sessions.ApplicationUserFacade;
 import com.guardianpro.drm.sessions.ApplicationsFacade;
@@ -23,10 +26,11 @@ import com.guardianpro.drm.sessions.HostInfoFacade;
 import com.guardianpro.drm.sessions.LoginHistoryFacade;
 import com.guardianpro.drm.sessions.LoginPrevFacade;
 import com.guardianpro.drm.sessions.LoginQueryFacade;
+import com.guardianpro.drm.sessions.TRXtypemsgFacade;
 import com.guardianpro.drm.sessions.TerminalFacade;
 import com.guardianpro.drm.sessions.TokeanGoFacade;
 import com.guardianpro.drm.sessions.TrxFieldsFacade;
-import com.guardianpro.drm.sessions.TrxTypeFacade;
+import com.guardianpro.drm.sessions.TrxValuesFacade;
 import com.guardianpro.drm.sessions.UserFacade;
 import java.sql.Date;
 import java.util.Calendar;
@@ -53,10 +57,15 @@ import javax.ws.rs.core.MediaType;
 public class TransactionController {
 
     @EJB
-    private TrxFieldsFacade trxFieldsFacade;
+    private TrxValuesFacade trxValuesFacade;
 
     @EJB
-    private TrxTypeFacade trxTypeFacade;
+    private TRXtypemsgFacade tRXtypemsgFacade;
+
+    @EJB
+    private TrxFieldsFacade trxFieldsFacade;
+
+    
     
     
      @EJB
@@ -107,7 +116,7 @@ public class TransactionController {
  @Path("/{key}") 
  @Produces(MediaType.APPLICATION_JSON) 
  @Consumes(MediaType.APPLICATION_JSON) 
- public Login_ouput Check(@Context HttpServletRequest req,@PathParam("key") String key,Trx_request trx) {
+ public Login_ouput Check(@Context HttpServletRequest req,@PathParam("key") String key,Trx_request trxx) {
      
     String  ip = req.getRemoteAddr();
     String  host = req.getRemoteHost();
@@ -115,10 +124,10 @@ public class TransactionController {
     int  port = req.getRemotePort();
      
      
- String user= trx.getLogin().getUser().trim();
- String tokean= trx.getLogin().getTokean().trim();
- String tid= trx.getLogin().getAgentcode().trim();
- String app= trx.getLogin().getApplication().trim();
+ String user= trxx.getLogin().getUser().trim();
+ String tokean= trxx.getLogin().getTokean().trim();
+ String tid= trxx.getLogin().getAgentcode().trim();
+ String app= trxx.getLogin().getApplication().trim();
  
   respons_login res=  Login_check(key, ip, host, userx, port, tokean, app, user, tid);
    
@@ -127,7 +136,7 @@ if(res.getError() == 1){
 }else{
      Login_ouput response = new Login_ouput();
      
-    TrxType ttype=trxTypeFacade.find(trx.getType());
+    TRXtypemsg ttype=tRXtypemsgFacade.find(trxx.getType());
     if(ttype == null){
      response.setTokean("");
     response.setStatusCode(Error_codes.TRX_type_error);
@@ -143,7 +152,7 @@ if(res.getError() == 1){
     return response;
     }
     
-    Field_value [] fields=trx.getFields();
+    Field_value [] fields=trxx.getFields();
     
     if(fields == null || fields.length == 0){
     response.setTokean("");
@@ -152,7 +161,24 @@ if(res.getError() == 1){
     return response;
     }
     
+     Date  date;
+     
+      date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    
+    Trx t1=new Trx();
+    t1.setCreateDate(date);
+    t1.setUpdateDate(date);
+    t1.setTRXnumber(user);
+    t1.setTRXtypeID(ttype);
+    t1.setTid(tid);
+    
+    
+    
+    
+   
     for(int i=0;i<fields.length;i++){
+        
+     date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         
         TrxFields field =  trxFieldsFacade.trxtype_find(fields[i].getKey());
         if(field == null){
@@ -161,7 +187,31 @@ if(res.getError() == 1){
     response.setExpiretime("0");
     return response;
     }
+       
+        TrxValues val;
+       System.out.println(fields[i].value.matches(field.getFieldtypeID().getFpaterren()));
+    if(fields[i].value == null || !fields[i].value.matches(field.getFieldtypeID().getFpaterren())){
+     response.setTokean("");
+    response.setStatusCode(Error_codes.value_not_correct);
+    response.setExpiretime("0");
+    return response;
+    }else{
+        
+     val=trxValuesFacade.value_find(fields[i].value);
+    if(val == null){
+      val=new TrxValues();
+    val.setFValue(fields[i].value);
+    val.setUpdateDate(date);
+    val.setCreateDate(date);
+    val.setFDescription(fields[i].key+" = "+fields[i].value);
+    trxValuesFacade.create(val);
+    }else{
+    val.setUpdateDate(date);
+    trxValuesFacade.edit(val);
+    }
     
+   
+    }    
     
     }
     

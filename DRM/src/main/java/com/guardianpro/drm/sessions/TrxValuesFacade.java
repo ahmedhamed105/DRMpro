@@ -5,10 +5,13 @@
  */
 package com.guardianpro.drm.sessions;
 
+import com.guardianpro.drm.entities.HostInfo;
+import com.guardianpro.drm.entities.LoginPrev;
 import com.guardianpro.drm.entities.TrxValues;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +30,21 @@ public class TrxValuesFacade extends AbstractFacade<TrxValues> {
 
     public TrxValuesFacade() {
         super(TrxValues.class);
+    }
+    
+    
+     public TrxValues value_find(String value){
+      Query parag = em.createNamedQuery("TrxValues.findByFValue");
+        parag.setParameter("fValue", value);
+        try {
+                TrxValues  para = (TrxValues) parag.getSingleResult();
+                return para;        
+        } catch (Exception e) {
+            return null;
+        }
+    
+    
+    
     }
     
 }

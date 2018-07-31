@@ -92,7 +92,7 @@ public class LogScreen implements Serializable {
     private Pages pageId;
     @JoinColumn(name = "TRX_Type_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private TrxType tRXTypeID;
+    private TRXType tRXTypeID;
     @JoinColumn(name = "User_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private User userID;
@@ -207,11 +207,11 @@ public class LogScreen implements Serializable {
         this.pageId = pageId;
     }
 
-    public TrxType getTRXTypeID() {
+    public TRXType getTRXTypeID() {
         return tRXTypeID;
     }
 
-    public void setTRXTypeID(TrxType tRXTypeID) {
+    public void setTRXTypeID(TRXType tRXTypeID) {
         this.tRXTypeID = tRXTypeID;
     }
 

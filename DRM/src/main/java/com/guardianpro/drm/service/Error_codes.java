@@ -69,6 +69,8 @@ public class Error_codes {
     static int Terminal_error=603;
     static int No_field=604;
     static int field_not_found=605;
+    static int value_not_correct=606;
+    
     
     
     
