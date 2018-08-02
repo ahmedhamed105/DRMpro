@@ -34,7 +34,9 @@ import com.guardianpro.drm.sessions.TrxFieldsFacade;
 import com.guardianpro.drm.sessions.TrxValuesFacade;
 import com.guardianpro.drm.sessions.UserFacade;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -166,19 +168,10 @@ if(res.getError() == 1){
     }
     
      Date  date;
-     
-      date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-    
-    Trx t1=new Trx();
-    t1.setCreateDate(date);
-    t1.setUpdateDate(date);
-    t1.setTRXnumber(user);
-    t1.setTRXtypemsgID(ttype);
-    t1.setTerminalID(term);
-    trxFacade.create(t1);
+
     
     
-    
+    List<TrxValues> values=new ArrayList<>();
    
     for(int i=0;i<fields.length;i++){
         
@@ -213,11 +206,26 @@ if(res.getError() == 1){
     val.setUpdateDate(date);
     trxValuesFacade.edit(val);
     }
-    
+    values.add(val);
    
     }    
     
     }
+    
+    
+         
+      date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    
+    Trx t1=new Trx();
+    t1.setCreateDate(date);
+    t1.setUpdateDate(date);
+    t1.setTRXnumber(user);
+    t1.setTRXtypemsgID(ttype);
+    t1.setTerminalID(term);
+    trxFacade.create(t1);
+    
+    
+    
     
     
 

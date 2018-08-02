@@ -39,6 +39,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @NamedQueries({
     @NamedQuery(name = "LoginPrev.findAll", query = "SELECT l FROM LoginPrev l")
     , @NamedQuery(name = "LoginPrev.findById", query = "SELECT l FROM LoginPrev l WHERE l.id = :id")
+    , @NamedQuery(name = "LoginPrev.findByhost", query = "SELECT l FROM LoginPrev l WHERE l.hostinfoID = :id")
     , @NamedQuery(name = "LoginPrev.findByAdminLock", query = "SELECT l FROM LoginPrev l WHERE l.adminLock = :adminLock")
     , @NamedQuery(name = "LoginPrev.findByLockcount", query = "SELECT l FROM LoginPrev l WHERE l.lockcount = :lockcount")
     , @NamedQuery(name = "LoginPrev.findBySerKey", query = "SELECT l FROM LoginPrev l WHERE l.serKey = :serKey")
