@@ -6,7 +6,7 @@
 package com.guardianpro.drm.sessions;
 
 import com.guardianpro.drm.entities.TrxFields;
-import com.guardianpro.drm.entities.TRXtypemsg;
+import com.guardianpro.drm.entities.TrxTypeMsg;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

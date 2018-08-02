@@ -5,7 +5,6 @@
  */
 package com.guardianpro.drm.sessions;
 
-import com.guardianpro.drm.entities.HostInfo;
 import com.guardianpro.drm.entities.LoginPrev;
 import com.guardianpro.drm.entities.Terminal;
 import com.guardianpro.drm.entities.TokeanGo;

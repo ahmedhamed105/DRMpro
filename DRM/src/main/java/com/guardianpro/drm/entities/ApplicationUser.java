@@ -38,6 +38,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @NamedQueries({
     @NamedQuery(name = "ApplicationUser.findAll", query = "SELECT a FROM ApplicationUser a")
     , @NamedQuery(name = "ApplicationUser.findById", query = "SELECT a FROM ApplicationUser a WHERE a.id = :id")
+    , @NamedQuery(name = "ApplicationUser.findByuserapp", query = "SELECT a FROM ApplicationUser a WHERE a.userID = :id AND a.applicationsID = :id1")
     , @NamedQuery(name = "ApplicationUser.findByCreateDate", query = "SELECT a FROM ApplicationUser a WHERE a.createDate = :createDate")
     , @NamedQuery(name = "ApplicationUser.findByUpdateDate", query = "SELECT a FROM ApplicationUser a WHERE a.updateDate = :updateDate")
     , @NamedQuery(name = "ApplicationUser.findByEnable", query = "SELECT a FROM ApplicationUser a WHERE a.enable = :enable")})

@@ -12,8 +12,8 @@ import com.guardianpro.drm.entities.HostInfo;
 import com.guardianpro.drm.entities.LoginHistory;
 import com.guardianpro.drm.entities.LoginPrev;
 import com.guardianpro.drm.entities.LoginQuery;
-import com.guardianpro.drm.entities.TRXType;
-import com.guardianpro.drm.entities.TRXtypemsg;
+import com.guardianpro.drm.entities.TrxType;
+import com.guardianpro.drm.entities.TrxTypeMsg;
 import com.guardianpro.drm.entities.Terminal;
 import com.guardianpro.drm.entities.Trx;
 import com.guardianpro.drm.entities.TrxFields;
@@ -29,6 +29,7 @@ import com.guardianpro.drm.sessions.LoginQueryFacade;
 import com.guardianpro.drm.sessions.TRXtypemsgFacade;
 import com.guardianpro.drm.sessions.TerminalFacade;
 import com.guardianpro.drm.sessions.TokeanGoFacade;
+import com.guardianpro.drm.sessions.TrxFacade;
 import com.guardianpro.drm.sessions.TrxFieldsFacade;
 import com.guardianpro.drm.sessions.TrxValuesFacade;
 import com.guardianpro.drm.sessions.UserFacade;
@@ -55,6 +56,9 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @LocalBean
 public class TransactionController {
+
+    @EJB
+    private TrxFacade trxFacade;
 
     @EJB
     private TrxValuesFacade trxValuesFacade;
@@ -136,7 +140,7 @@ if(res.getError() == 1){
 }else{
      Login_ouput response = new Login_ouput();
      
-    TRXtypemsg ttype=tRXtypemsgFacade.find(trxx.getType());
+    TrxTypeMsg ttype=tRXtypemsgFacade.find(trxx.getType());
     if(ttype == null){
      response.setTokean("");
     response.setStatusCode(Error_codes.TRX_type_error);
@@ -169,9 +173,9 @@ if(res.getError() == 1){
     t1.setCreateDate(date);
     t1.setUpdateDate(date);
     t1.setTRXnumber(user);
-    t1.setTRXtypeID(ttype);
-    t1.setTid(tid);
-    
+    t1.setTRXtypemsgID(ttype);
+    t1.setTerminalID(term);
+    trxFacade.create(t1);
     
     
     

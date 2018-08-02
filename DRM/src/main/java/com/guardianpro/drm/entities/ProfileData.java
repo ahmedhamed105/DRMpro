@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ProfileData.findAll", query = "SELECT p FROM ProfileData p")
     , @NamedQuery(name = "ProfileData.findById", query = "SELECT p FROM ProfileData p WHERE p.id = :id")
+    , @NamedQuery(name = "ProfileData.findByUserID", query = "SELECT p FROM ProfileData p WHERE p.userID = :userID")
     , @NamedQuery(name = "ProfileData.findByPicturepath", query = "SELECT p FROM ProfileData p WHERE p.picturepath = :picturepath")
     , @NamedQuery(name = "ProfileData.findByCoverimage", query = "SELECT p FROM ProfileData p WHERE p.coverimage = :coverimage")
     , @NamedQuery(name = "ProfileData.findByNickname", query = "SELECT p FROM ProfileData p WHERE p.nickname = :nickname")

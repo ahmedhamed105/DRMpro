@@ -99,7 +99,7 @@ public class UserFacade extends AbstractFacade<User> {
         try {
                 User user = (User) userProfile_username.getSingleResult();    
                 Query userProfiles = em.createNamedQuery("ProfileData.findByUserID");
-                userProfiles.setParameter("userID", user.getId());
+                userProfiles.setParameter("userID", user);
                 return userProfiles.getResultList();
         } catch (Exception e) {
             return null;

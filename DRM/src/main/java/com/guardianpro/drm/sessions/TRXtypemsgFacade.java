@@ -5,7 +5,7 @@
  */
 package com.guardianpro.drm.sessions;
 
-import com.guardianpro.drm.entities.TRXtypemsg;
+import com.guardianpro.drm.entities.TrxTypeMsg;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author ahmedhamed
  */
 @Stateless
-public class TRXtypemsgFacade extends AbstractFacade<TRXtypemsg> {
+public class TRXtypemsgFacade extends AbstractFacade<TrxTypeMsg> {
 
     @PersistenceContext(unitName = "com.guardianpro_DRM_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -26,7 +26,7 @@ public class TRXtypemsgFacade extends AbstractFacade<TRXtypemsg> {
     }
 
     public TRXtypemsgFacade() {
-        super(TRXtypemsg.class);
+        super(TrxTypeMsg.class);
     }
     
 }
