@@ -1,5 +1,6 @@
 package com.drm.facade.services;
 
+import static com.drm.facade.services.DataService.PU_NAME;
 import com.drm.model.entities.AbstractEntity;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,11 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
 //@SuppressWarnAbstractEntityings("serial")
 public abstract class AbstractService implements DataService {
+//    @PersistenceContext(unitName = PU_NAME)
+//    protected EntityManager entityManager;
 
     @Override
     public abstract EntityManager getEntityManager();
