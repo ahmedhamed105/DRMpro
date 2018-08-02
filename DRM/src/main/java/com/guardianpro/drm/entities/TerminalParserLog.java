@@ -23,19 +23,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "terminal_parser_log", catalog = "guardianpro", schema = "")
+@Table(name = "terminal_parser_log", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TerminalParserLog.findAll", query = "SELECT t FROM TerminalParserLog t"),
-    @NamedQuery(name = "TerminalParserLog.findById", query = "SELECT t FROM TerminalParserLog t WHERE t.id = :id"),
-    @NamedQuery(name = "TerminalParserLog.findByTid", query = "SELECT t FROM TerminalParserLog t WHERE t.tid = :tid"),
-    @NamedQuery(name = "TerminalParserLog.findByDt", query = "SELECT t FROM TerminalParserLog t WHERE t.dt = :dt"),
-    @NamedQuery(name = "TerminalParserLog.findByVer", query = "SELECT t FROM TerminalParserLog t WHERE t.ver = :ver"),
-    @NamedQuery(name = "TerminalParserLog.findByMode", query = "SELECT t FROM TerminalParserLog t WHERE t.mode = :mode"),
-    @NamedQuery(name = "TerminalParserLog.findByErr", query = "SELECT t FROM TerminalParserLog t WHERE t.err = :err")})
+    @NamedQuery(name = "TerminalParserLog.findAll", query = "SELECT t FROM TerminalParserLog t")
+    , @NamedQuery(name = "TerminalParserLog.findById", query = "SELECT t FROM TerminalParserLog t WHERE t.id = :id")
+    , @NamedQuery(name = "TerminalParserLog.findByTid", query = "SELECT t FROM TerminalParserLog t WHERE t.tid = :tid")
+    , @NamedQuery(name = "TerminalParserLog.findByDt", query = "SELECT t FROM TerminalParserLog t WHERE t.dt = :dt")
+    , @NamedQuery(name = "TerminalParserLog.findByVer", query = "SELECT t FROM TerminalParserLog t WHERE t.ver = :ver")
+    , @NamedQuery(name = "TerminalParserLog.findByMode", query = "SELECT t FROM TerminalParserLog t WHERE t.mode = :mode")
+    , @NamedQuery(name = "TerminalParserLog.findByErr", query = "SELECT t FROM TerminalParserLog t WHERE t.err = :err")})
 public class TerminalParserLog implements Serializable {
 
     private static final long serialVersionUID = 1L;

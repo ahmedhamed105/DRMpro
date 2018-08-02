@@ -27,17 +27,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "status", catalog = "guardianpro", schema = "")
+@Table(name = "status", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s"),
-    @NamedQuery(name = "Status.findById", query = "SELECT s FROM Status s WHERE s.id = :id"),
-    @NamedQuery(name = "Status.findByStatus", query = "SELECT s FROM Status s WHERE s.status = :status"),
-    @NamedQuery(name = "Status.findByCreateDate", query = "SELECT s FROM Status s WHERE s.createDate = :createDate"),
-    @NamedQuery(name = "Status.findByUpdateDate", query = "SELECT s FROM Status s WHERE s.updateDate = :updateDate")})
+    @NamedQuery(name = "Status.findAll", query = "SELECT s FROM Status s")
+    , @NamedQuery(name = "Status.findById", query = "SELECT s FROM Status s WHERE s.id = :id")
+    , @NamedQuery(name = "Status.findByStatus", query = "SELECT s FROM Status s WHERE s.status = :status")
+    , @NamedQuery(name = "Status.findByCreateDate", query = "SELECT s FROM Status s WHERE s.createDate = :createDate")
+    , @NamedQuery(name = "Status.findByUpdateDate", query = "SELECT s FROM Status s WHERE s.updateDate = :updateDate")})
 public class Status implements Serializable {
 
     private static final long serialVersionUID = 1L;

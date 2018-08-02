@@ -30,20 +30,25 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "application_user", catalog = "guardianpro", schema = "")
+@Table(name = "application_user", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ApplicationUser.findAll", query = "SELECT a FROM ApplicationUser a"),
-    @NamedQuery(name = "ApplicationUser.findByuserapp", query = "SELECT a FROM ApplicationUser a WHERE a.userID = :id and a.applicationsID = :id1"),
-    @NamedQuery(name = "ApplicationUser.findById", query = "SELECT a FROM ApplicationUser a WHERE a.id = :id")})
+    @NamedQuery(name = "ApplicationUser.findAll", query = "SELECT a FROM ApplicationUser a")
+    , @NamedQuery(name = "ApplicationUser.findById", query = "SELECT a FROM ApplicationUser a WHERE a.id = :id")
+    , @NamedQuery(name = "ApplicationUser.findByCreateDate", query = "SELECT a FROM ApplicationUser a WHERE a.createDate = :createDate")
+    , @NamedQuery(name = "ApplicationUser.findByUpdateDate", query = "SELECT a FROM ApplicationUser a WHERE a.updateDate = :updateDate")
+    , @NamedQuery(name = "ApplicationUser.findByEnable", query = "SELECT a FROM ApplicationUser a WHERE a.enable = :enable")})
 public class ApplicationUser implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationuserID")
-    private Collection<LoginQuery> loginQueryCollection;
-
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ID", nullable = false)
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "create_date", nullable = false)
@@ -54,13 +59,12 @@ public class ApplicationUser implements Serializable {
     @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
-    private Integer id;
+    @NotNull
+    @Column(name = "Enable", nullable = false)
+    private int enable;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationuserID")
+    private Collection<LoginQuery> loginQueryCollection;
     @JoinColumn(name = "Applications_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private Applications applicationsID;
@@ -75,12 +79,53 @@ public class ApplicationUser implements Serializable {
         this.id = id;
     }
 
+    public ApplicationUser(Integer id, Date createDate, Date updateDate, int enable) {
+        this.id = id;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.enable = enable;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public int getEnable() {
+        return enable;
+    }
+
+    public void setEnable(int enable) {
+        this.enable = enable;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<LoginQuery> getLoginQueryCollection() {
+        return loginQueryCollection;
+    }
+
+    public void setLoginQueryCollection(Collection<LoginQuery> loginQueryCollection) {
+        this.loginQueryCollection = loginQueryCollection;
     }
 
     public Applications getApplicationsID() {
@@ -122,32 +167,6 @@ public class ApplicationUser implements Serializable {
     @Override
     public String toString() {
         return "com.guardianpro.drm.entities.ApplicationUser[ id=" + id + " ]";
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public Collection<LoginQuery> getLoginQueryCollection() {
-        return loginQueryCollection;
-    }
-
-    public void setLoginQueryCollection(Collection<LoginQuery> loginQueryCollection) {
-        this.loginQueryCollection = loginQueryCollection;
     }
     
 }

@@ -31,22 +31,22 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "parameter", catalog = "guardianpro", schema = "")
+@Table(name = "parameter", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Parameter.findAll", query = "SELECT p FROM Parameter p"),
-    @NamedQuery(name = "Parameter.findById", query = "SELECT p FROM Parameter p WHERE p.id = :id"),
-    @NamedQuery(name = "Parameter.findByFieldName", query = "SELECT p FROM Parameter p WHERE p.fieldName = :fieldName"),
-    @NamedQuery(name = "Parameter.findByDisplayName", query = "SELECT p FROM Parameter p WHERE p.displayName = :displayName"),
-    @NamedQuery(name = "Parameter.findByInputLength", query = "SELECT p FROM Parameter p WHERE p.inputLength = :inputLength"),
-    @NamedQuery(name = "Parameter.findByNote", query = "SELECT p FROM Parameter p WHERE p.note = :note"),
-    @NamedQuery(name = "Parameter.findByAllowNull", query = "SELECT p FROM Parameter p WHERE p.allowNull = :allowNull"),
-    @NamedQuery(name = "Parameter.findByCreateDate", query = "SELECT p FROM Parameter p WHERE p.createDate = :createDate"),
-    @NamedQuery(name = "Parameter.findByUpdateDate", query = "SELECT p FROM Parameter p WHERE p.updateDate = :updateDate"),
-    @NamedQuery(name = "Parameter.findByDefaultvalue", query = "SELECT p FROM Parameter p WHERE p.defaultvalue = :defaultvalue")})
+    @NamedQuery(name = "Parameter.findAll", query = "SELECT p FROM Parameter p")
+    , @NamedQuery(name = "Parameter.findById", query = "SELECT p FROM Parameter p WHERE p.id = :id")
+    , @NamedQuery(name = "Parameter.findByFieldName", query = "SELECT p FROM Parameter p WHERE p.fieldName = :fieldName")
+    , @NamedQuery(name = "Parameter.findByDisplayName", query = "SELECT p FROM Parameter p WHERE p.displayName = :displayName")
+    , @NamedQuery(name = "Parameter.findByInputLength", query = "SELECT p FROM Parameter p WHERE p.inputLength = :inputLength")
+    , @NamedQuery(name = "Parameter.findByNote", query = "SELECT p FROM Parameter p WHERE p.note = :note")
+    , @NamedQuery(name = "Parameter.findByAllowNull", query = "SELECT p FROM Parameter p WHERE p.allowNull = :allowNull")
+    , @NamedQuery(name = "Parameter.findByCreateDate", query = "SELECT p FROM Parameter p WHERE p.createDate = :createDate")
+    , @NamedQuery(name = "Parameter.findByUpdateDate", query = "SELECT p FROM Parameter p WHERE p.updateDate = :updateDate")
+    , @NamedQuery(name = "Parameter.findByDefaultvalue", query = "SELECT p FROM Parameter p WHERE p.defaultvalue = :defaultvalue")})
 public class Parameter implements Serializable {
 
     private static final long serialVersionUID = 1L;

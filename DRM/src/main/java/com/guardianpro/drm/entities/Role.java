@@ -29,18 +29,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "role", catalog = "guardianpro", schema = "")
+@Table(name = "role", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
-    @NamedQuery(name = "Role.findById", query = "SELECT r FROM Role r WHERE r.id = :id"),
-    @NamedQuery(name = "Role.findByName", query = "SELECT r FROM Role r WHERE r.name = :name"),
-    @NamedQuery(name = "Role.findByDescription", query = "SELECT r FROM Role r WHERE r.description = :description"),
-    @NamedQuery(name = "Role.findByCreateDate", query = "SELECT r FROM Role r WHERE r.createDate = :createDate"),
-    @NamedQuery(name = "Role.findByUpdateDate", query = "SELECT r FROM Role r WHERE r.updateDate = :updateDate")})
+    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
+    , @NamedQuery(name = "Role.findById", query = "SELECT r FROM Role r WHERE r.id = :id")
+    , @NamedQuery(name = "Role.findByName", query = "SELECT r FROM Role r WHERE r.name = :name")
+    , @NamedQuery(name = "Role.findByDescription", query = "SELECT r FROM Role r WHERE r.description = :description")
+    , @NamedQuery(name = "Role.findByCreateDate", query = "SELECT r FROM Role r WHERE r.createDate = :createDate")
+    , @NamedQuery(name = "Role.findByUpdateDate", query = "SELECT r FROM Role r WHERE r.updateDate = :updateDate")})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;

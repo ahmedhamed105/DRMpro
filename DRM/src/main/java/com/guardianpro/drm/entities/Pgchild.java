@@ -21,16 +21,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "pgchild", catalog = "guardianpro", schema = "")
+@Table(name = "pgchild", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Pgchild.findAll", query = "SELECT p FROM Pgchild p"),
-    @NamedQuery(name = "Pgchild.findById", query = "SELECT p FROM Pgchild p WHERE p.id = :id"),
-    @NamedQuery(name = "Pgchild.findByRoot", query = "SELECT p FROM Pgchild p WHERE p.root = :root"),
-    @NamedQuery(name = "Pgchild.findByChild", query = "SELECT p FROM Pgchild p WHERE p.child = :child")})
+    @NamedQuery(name = "Pgchild.findAll", query = "SELECT p FROM Pgchild p")
+    , @NamedQuery(name = "Pgchild.findById", query = "SELECT p FROM Pgchild p WHERE p.id = :id")
+    , @NamedQuery(name = "Pgchild.findByRoot", query = "SELECT p FROM Pgchild p WHERE p.root = :root")
+    , @NamedQuery(name = "Pgchild.findByChild", query = "SELECT p FROM Pgchild p WHERE p.child = :child")})
 public class Pgchild implements Serializable {
 
     private static final long serialVersionUID = 1L;

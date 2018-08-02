@@ -31,19 +31,19 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "email_log", catalog = "guardianpro", schema = "")
+@Table(name = "email_log", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "EmailLog.findAll", query = "SELECT e FROM EmailLog e"),
-    @NamedQuery(name = "EmailLog.findById", query = "SELECT e FROM EmailLog e WHERE e.id = :id"),
-    @NamedQuery(name = "EmailLog.findByEsubject", query = "SELECT e FROM EmailLog e WHERE e.esubject = :esubject"),
-    @NamedQuery(name = "EmailLog.findByEtext", query = "SELECT e FROM EmailLog e WHERE e.etext = :etext"),
-    @NamedQuery(name = "EmailLog.findByCreateDate", query = "SELECT e FROM EmailLog e WHERE e.createDate = :createDate"),
-    @NamedQuery(name = "EmailLog.findByUpdateDate", query = "SELECT e FROM EmailLog e WHERE e.updateDate = :updateDate"),
-    @NamedQuery(name = "EmailLog.findByPending", query = "SELECT e FROM EmailLog e WHERE e.pending = :pending")})
+    @NamedQuery(name = "EmailLog.findAll", query = "SELECT e FROM EmailLog e")
+    , @NamedQuery(name = "EmailLog.findById", query = "SELECT e FROM EmailLog e WHERE e.id = :id")
+    , @NamedQuery(name = "EmailLog.findByEsubject", query = "SELECT e FROM EmailLog e WHERE e.esubject = :esubject")
+    , @NamedQuery(name = "EmailLog.findByEtext", query = "SELECT e FROM EmailLog e WHERE e.etext = :etext")
+    , @NamedQuery(name = "EmailLog.findByCreateDate", query = "SELECT e FROM EmailLog e WHERE e.createDate = :createDate")
+    , @NamedQuery(name = "EmailLog.findByUpdateDate", query = "SELECT e FROM EmailLog e WHERE e.updateDate = :updateDate")
+    , @NamedQuery(name = "EmailLog.findByPending", query = "SELECT e FROM EmailLog e WHERE e.pending = :pending")})
 public class EmailLog implements Serializable {
 
     private static final long serialVersionUID = 1L;

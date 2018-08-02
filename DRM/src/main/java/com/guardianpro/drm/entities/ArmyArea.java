@@ -29,17 +29,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "army_area", catalog = "guardianpro", schema = "")
+@Table(name = "army_area", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ArmyArea.findAll", query = "SELECT a FROM ArmyArea a"),
-    @NamedQuery(name = "ArmyArea.findById", query = "SELECT a FROM ArmyArea a WHERE a.id = :id"),
-    @NamedQuery(name = "ArmyArea.findByAreaname", query = "SELECT a FROM ArmyArea a WHERE a.areaname = :areaname"),
-    @NamedQuery(name = "ArmyArea.findByCreateDate", query = "SELECT a FROM ArmyArea a WHERE a.createDate = :createDate"),
-    @NamedQuery(name = "ArmyArea.findByUpdateDate", query = "SELECT a FROM ArmyArea a WHERE a.updateDate = :updateDate")})
+    @NamedQuery(name = "ArmyArea.findAll", query = "SELECT a FROM ArmyArea a")
+    , @NamedQuery(name = "ArmyArea.findById", query = "SELECT a FROM ArmyArea a WHERE a.id = :id")
+    , @NamedQuery(name = "ArmyArea.findByAreaname", query = "SELECT a FROM ArmyArea a WHERE a.areaname = :areaname")
+    , @NamedQuery(name = "ArmyArea.findByCreateDate", query = "SELECT a FROM ArmyArea a WHERE a.createDate = :createDate")
+    , @NamedQuery(name = "ArmyArea.findByUpdateDate", query = "SELECT a FROM ArmyArea a WHERE a.updateDate = :updateDate")})
 public class ArmyArea implements Serializable {
 
     private static final long serialVersionUID = 1L;

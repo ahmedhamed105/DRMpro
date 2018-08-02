@@ -31,17 +31,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "accessory_group", catalog = "guardianpro", schema = "")
+@Table(name = "accessory_group", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "AccessoryGroup.findAll", query = "SELECT a FROM AccessoryGroup a"),
-    @NamedQuery(name = "AccessoryGroup.findById", query = "SELECT a FROM AccessoryGroup a WHERE a.id = :id"),
-    @NamedQuery(name = "AccessoryGroup.findByGroupname", query = "SELECT a FROM AccessoryGroup a WHERE a.groupname = :groupname"),
-    @NamedQuery(name = "AccessoryGroup.findByCreateDate", query = "SELECT a FROM AccessoryGroup a WHERE a.createDate = :createDate"),
-    @NamedQuery(name = "AccessoryGroup.findByUpdateDate", query = "SELECT a FROM AccessoryGroup a WHERE a.updateDate = :updateDate")})
+    @NamedQuery(name = "AccessoryGroup.findAll", query = "SELECT a FROM AccessoryGroup a")
+    , @NamedQuery(name = "AccessoryGroup.findById", query = "SELECT a FROM AccessoryGroup a WHERE a.id = :id")
+    , @NamedQuery(name = "AccessoryGroup.findByGroupname", query = "SELECT a FROM AccessoryGroup a WHERE a.groupname = :groupname")
+    , @NamedQuery(name = "AccessoryGroup.findByCreateDate", query = "SELECT a FROM AccessoryGroup a WHERE a.createDate = :createDate")
+    , @NamedQuery(name = "AccessoryGroup.findByUpdateDate", query = "SELECT a FROM AccessoryGroup a WHERE a.updateDate = :updateDate")})
 public class AccessoryGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;

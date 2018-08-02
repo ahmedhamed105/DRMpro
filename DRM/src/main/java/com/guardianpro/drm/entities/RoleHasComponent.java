@@ -25,18 +25,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "role_has_component", catalog = "guardianpro", schema = "")
+@Table(name = "role_has_component", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "RoleHasComponent.findAll", query = "SELECT r FROM RoleHasComponent r"),
-    @NamedQuery(name = "RoleHasComponent.findById", query = "SELECT r FROM RoleHasComponent r WHERE r.id = :id"),
-    @NamedQuery(name = "RoleHasComponent.findByView", query = "SELECT r FROM RoleHasComponent r WHERE r.view = :view"),
-    @NamedQuery(name = "RoleHasComponent.findByEdit", query = "SELECT r FROM RoleHasComponent r WHERE r.edit = :edit"),
-    @NamedQuery(name = "RoleHasComponent.findByCreateDate", query = "SELECT r FROM RoleHasComponent r WHERE r.createDate = :createDate"),
-    @NamedQuery(name = "RoleHasComponent.findByUpdateDate", query = "SELECT r FROM RoleHasComponent r WHERE r.updateDate = :updateDate")})
+    @NamedQuery(name = "RoleHasComponent.findAll", query = "SELECT r FROM RoleHasComponent r")
+    , @NamedQuery(name = "RoleHasComponent.findById", query = "SELECT r FROM RoleHasComponent r WHERE r.id = :id")
+    , @NamedQuery(name = "RoleHasComponent.findByView", query = "SELECT r FROM RoleHasComponent r WHERE r.view = :view")
+    , @NamedQuery(name = "RoleHasComponent.findByEdit", query = "SELECT r FROM RoleHasComponent r WHERE r.edit = :edit")
+    , @NamedQuery(name = "RoleHasComponent.findByCreateDate", query = "SELECT r FROM RoleHasComponent r WHERE r.createDate = :createDate")
+    , @NamedQuery(name = "RoleHasComponent.findByUpdateDate", query = "SELECT r FROM RoleHasComponent r WHERE r.updateDate = :updateDate")})
 public class RoleHasComponent implements Serializable {
 
     private static final long serialVersionUID = 1L;

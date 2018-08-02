@@ -21,18 +21,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "parmeter_schema", catalog = "guardianpro", schema = "")
+@Table(name = "parmeter_schema", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ParmeterSchema.findAll", query = "SELECT p FROM ParmeterSchema p"),
-    @NamedQuery(name = "ParmeterSchema.findById", query = "SELECT p FROM ParmeterSchema p WHERE p.id = :id"),
-    @NamedQuery(name = "ParmeterSchema.findByTerminalID", query = "SELECT p FROM ParmeterSchema p WHERE p.terminalID = :terminalID"),
-    @NamedQuery(name = "ParmeterSchema.findByAcquirerID", query = "SELECT p FROM ParmeterSchema p WHERE p.acquirerID = :acquirerID"),
-    @NamedQuery(name = "ParmeterSchema.findByIssuerID", query = "SELECT p FROM ParmeterSchema p WHERE p.issuerID = :issuerID"),
-    @NamedQuery(name = "ParmeterSchema.findByCardRangeID", query = "SELECT p FROM ParmeterSchema p WHERE p.cardRangeID = :cardRangeID")})
+    @NamedQuery(name = "ParmeterSchema.findAll", query = "SELECT p FROM ParmeterSchema p")
+    , @NamedQuery(name = "ParmeterSchema.findById", query = "SELECT p FROM ParmeterSchema p WHERE p.id = :id")
+    , @NamedQuery(name = "ParmeterSchema.findByTerminalID", query = "SELECT p FROM ParmeterSchema p WHERE p.terminalID = :terminalID")
+    , @NamedQuery(name = "ParmeterSchema.findByAcquirerID", query = "SELECT p FROM ParmeterSchema p WHERE p.acquirerID = :acquirerID")
+    , @NamedQuery(name = "ParmeterSchema.findByIssuerID", query = "SELECT p FROM ParmeterSchema p WHERE p.issuerID = :issuerID")
+    , @NamedQuery(name = "ParmeterSchema.findByCardRangeID", query = "SELECT p FROM ParmeterSchema p WHERE p.cardRangeID = :cardRangeID")})
 public class ParmeterSchema implements Serializable {
 
     private static final long serialVersionUID = 1L;

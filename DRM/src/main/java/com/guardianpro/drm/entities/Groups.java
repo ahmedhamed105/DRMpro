@@ -29,19 +29,19 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "groups", catalog = "guardianpro", schema = "")
+@Table(name = "groups", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g"),
-    @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id"),
-    @NamedQuery(name = "Groups.findByName", query = "SELECT g FROM Groups g WHERE g.name = :name"),
-    @NamedQuery(name = "Groups.findByADname", query = "SELECT g FROM Groups g WHERE g.aDname = :aDname"),
-    @NamedQuery(name = "Groups.findByDescription", query = "SELECT g FROM Groups g WHERE g.description = :description"),
-    @NamedQuery(name = "Groups.findByCreateDate", query = "SELECT g FROM Groups g WHERE g.createDate = :createDate"),
-    @NamedQuery(name = "Groups.findByUpdateDate", query = "SELECT g FROM Groups g WHERE g.updateDate = :updateDate")})
+    @NamedQuery(name = "Groups.findAll", query = "SELECT g FROM Groups g")
+    , @NamedQuery(name = "Groups.findById", query = "SELECT g FROM Groups g WHERE g.id = :id")
+    , @NamedQuery(name = "Groups.findByName", query = "SELECT g FROM Groups g WHERE g.name = :name")
+    , @NamedQuery(name = "Groups.findByADname", query = "SELECT g FROM Groups g WHERE g.aDname = :aDname")
+    , @NamedQuery(name = "Groups.findByDescription", query = "SELECT g FROM Groups g WHERE g.description = :description")
+    , @NamedQuery(name = "Groups.findByCreateDate", query = "SELECT g FROM Groups g WHERE g.createDate = :createDate")
+    , @NamedQuery(name = "Groups.findByUpdateDate", query = "SELECT g FROM Groups g WHERE g.updateDate = :updateDate")})
 public class Groups implements Serializable {
 
     private static final long serialVersionUID = 1L;

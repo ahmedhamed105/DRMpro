@@ -29,17 +29,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "social_type", catalog = "guardianpro", schema = "")
+@Table(name = "social_type", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SocialType.findAll", query = "SELECT s FROM SocialType s"),
-    @NamedQuery(name = "SocialType.findById", query = "SELECT s FROM SocialType s WHERE s.id = :id"),
-    @NamedQuery(name = "SocialType.findBySoctype", query = "SELECT s FROM SocialType s WHERE s.soctype = :soctype"),
-    @NamedQuery(name = "SocialType.findByCreateDate", query = "SELECT s FROM SocialType s WHERE s.createDate = :createDate"),
-    @NamedQuery(name = "SocialType.findByUpdateDate", query = "SELECT s FROM SocialType s WHERE s.updateDate = :updateDate")})
+    @NamedQuery(name = "SocialType.findAll", query = "SELECT s FROM SocialType s")
+    , @NamedQuery(name = "SocialType.findById", query = "SELECT s FROM SocialType s WHERE s.id = :id")
+    , @NamedQuery(name = "SocialType.findBySoctype", query = "SELECT s FROM SocialType s WHERE s.soctype = :soctype")
+    , @NamedQuery(name = "SocialType.findByCreateDate", query = "SELECT s FROM SocialType s WHERE s.createDate = :createDate")
+    , @NamedQuery(name = "SocialType.findByUpdateDate", query = "SELECT s FROM SocialType s WHERE s.updateDate = :updateDate")})
 public class SocialType implements Serializable {
 
     private static final long serialVersionUID = 1L;

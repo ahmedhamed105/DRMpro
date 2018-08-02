@@ -25,16 +25,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "terminal_has_parts", catalog = "guardianpro", schema = "")
+@Table(name = "terminal_has_parts", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TerminalHasParts.findAll", query = "SELECT t FROM TerminalHasParts t"),
-    @NamedQuery(name = "TerminalHasParts.findById", query = "SELECT t FROM TerminalHasParts t WHERE t.id = :id"),
-    @NamedQuery(name = "TerminalHasParts.findByCreateDate", query = "SELECT t FROM TerminalHasParts t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TerminalHasParts.findByUpdateDate", query = "SELECT t FROM TerminalHasParts t WHERE t.updateDate = :updateDate")})
+    @NamedQuery(name = "TerminalHasParts.findAll", query = "SELECT t FROM TerminalHasParts t")
+    , @NamedQuery(name = "TerminalHasParts.findById", query = "SELECT t FROM TerminalHasParts t WHERE t.id = :id")
+    , @NamedQuery(name = "TerminalHasParts.findByCreateDate", query = "SELECT t FROM TerminalHasParts t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TerminalHasParts.findByUpdateDate", query = "SELECT t FROM TerminalHasParts t WHERE t.updateDate = :updateDate")})
 public class TerminalHasParts implements Serializable {
 
     private static final long serialVersionUID = 1L;

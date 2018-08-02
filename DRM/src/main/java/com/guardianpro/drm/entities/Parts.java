@@ -29,18 +29,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "parts", catalog = "guardianpro", schema = "")
+@Table(name = "parts", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Parts.findAll", query = "SELECT p FROM Parts p"),
-    @NamedQuery(name = "Parts.findById", query = "SELECT p FROM Parts p WHERE p.id = :id"),
-    @NamedQuery(name = "Parts.findByPName", query = "SELECT p FROM Parts p WHERE p.pName = :pName"),
-    @NamedQuery(name = "Parts.findByPdesc", query = "SELECT p FROM Parts p WHERE p.pdesc = :pdesc"),
-    @NamedQuery(name = "Parts.findByCreateDate", query = "SELECT p FROM Parts p WHERE p.createDate = :createDate"),
-    @NamedQuery(name = "Parts.findByUpdateDate", query = "SELECT p FROM Parts p WHERE p.updateDate = :updateDate")})
+    @NamedQuery(name = "Parts.findAll", query = "SELECT p FROM Parts p")
+    , @NamedQuery(name = "Parts.findById", query = "SELECT p FROM Parts p WHERE p.id = :id")
+    , @NamedQuery(name = "Parts.findByPName", query = "SELECT p FROM Parts p WHERE p.pName = :pName")
+    , @NamedQuery(name = "Parts.findByPdesc", query = "SELECT p FROM Parts p WHERE p.pdesc = :pdesc")
+    , @NamedQuery(name = "Parts.findByCreateDate", query = "SELECT p FROM Parts p WHERE p.createDate = :createDate")
+    , @NamedQuery(name = "Parts.findByUpdateDate", query = "SELECT p FROM Parts p WHERE p.updateDate = :updateDate")})
 public class Parts implements Serializable {
 
     private static final long serialVersionUID = 1L;

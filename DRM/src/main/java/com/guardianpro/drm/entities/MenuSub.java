@@ -23,16 +23,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "menu_sub", catalog = "guardianpro", schema = "")
+@Table(name = "menu_sub", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "MenuSub.findAll", query = "SELECT m FROM MenuSub m"),
-    @NamedQuery(name = "MenuSub.findById", query = "SELECT m FROM MenuSub m WHERE m.id = :id"),
-    @NamedQuery(name = "MenuSub.findByName", query = "SELECT m FROM MenuSub m WHERE m.name = :name"),
-    @NamedQuery(name = "MenuSub.findByLink", query = "SELECT m FROM MenuSub m WHERE m.link = :link")})
+    @NamedQuery(name = "MenuSub.findAll", query = "SELECT m FROM MenuSub m")
+    , @NamedQuery(name = "MenuSub.findById", query = "SELECT m FROM MenuSub m WHERE m.id = :id")
+    , @NamedQuery(name = "MenuSub.findByName", query = "SELECT m FROM MenuSub m WHERE m.name = :name")
+    , @NamedQuery(name = "MenuSub.findByLink", query = "SELECT m FROM MenuSub m WHERE m.link = :link")})
 public class MenuSub implements Serializable {
 
     private static final long serialVersionUID = 1L;

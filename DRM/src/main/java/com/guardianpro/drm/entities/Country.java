@@ -29,17 +29,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "country", catalog = "guardianpro", schema = "")
+@Table(name = "country", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Country.findAll", query = "SELECT c FROM Country c"),
-    @NamedQuery(name = "Country.findById", query = "SELECT c FROM Country c WHERE c.id = :id"),
-    @NamedQuery(name = "Country.findByCountryname", query = "SELECT c FROM Country c WHERE c.countryname = :countryname"),
-    @NamedQuery(name = "Country.findByCreateDate", query = "SELECT c FROM Country c WHERE c.createDate = :createDate"),
-    @NamedQuery(name = "Country.findByUpdateDate", query = "SELECT c FROM Country c WHERE c.updateDate = :updateDate")})
+    @NamedQuery(name = "Country.findAll", query = "SELECT c FROM Country c")
+    , @NamedQuery(name = "Country.findById", query = "SELECT c FROM Country c WHERE c.id = :id")
+    , @NamedQuery(name = "Country.findByCountryname", query = "SELECT c FROM Country c WHERE c.countryname = :countryname")
+    , @NamedQuery(name = "Country.findByCreateDate", query = "SELECT c FROM Country c WHERE c.createDate = :createDate")
+    , @NamedQuery(name = "Country.findByUpdateDate", query = "SELECT c FROM Country c WHERE c.updateDate = :updateDate")})
 public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;

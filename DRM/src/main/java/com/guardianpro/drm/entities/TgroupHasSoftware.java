@@ -26,19 +26,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "tgroup_has_software", catalog = "guardianpro", schema = "")
+@Table(name = "tgroup_has_software", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TgroupHasSoftware.findAll", query = "SELECT t FROM TgroupHasSoftware t"),
-    @NamedQuery(name = "TgroupHasSoftware.findById", query = "SELECT t FROM TgroupHasSoftware t WHERE t.id = :id"),
-    @NamedQuery(name = "TgroupHasSoftware.findBySDesc", query = "SELECT t FROM TgroupHasSoftware t WHERE t.sDesc = :sDesc"),
-    @NamedQuery(name = "TgroupHasSoftware.findByCreateDate", query = "SELECT t FROM TgroupHasSoftware t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TgroupHasSoftware.findByUpdateDate", query = "SELECT t FROM TgroupHasSoftware t WHERE t.updateDate = :updateDate"),
-    @NamedQuery(name = "TgroupHasSoftware.findByXMLupdate", query = "SELECT t FROM TgroupHasSoftware t WHERE t.xMLupdate = :xMLupdate"),
-    @NamedQuery(name = "TgroupHasSoftware.findByAPPname", query = "SELECT t FROM TgroupHasSoftware t WHERE t.aPPname = :aPPname")})
+    @NamedQuery(name = "TgroupHasSoftware.findAll", query = "SELECT t FROM TgroupHasSoftware t")
+    , @NamedQuery(name = "TgroupHasSoftware.findById", query = "SELECT t FROM TgroupHasSoftware t WHERE t.id = :id")
+    , @NamedQuery(name = "TgroupHasSoftware.findBySDesc", query = "SELECT t FROM TgroupHasSoftware t WHERE t.sDesc = :sDesc")
+    , @NamedQuery(name = "TgroupHasSoftware.findByCreateDate", query = "SELECT t FROM TgroupHasSoftware t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TgroupHasSoftware.findByUpdateDate", query = "SELECT t FROM TgroupHasSoftware t WHERE t.updateDate = :updateDate")
+    , @NamedQuery(name = "TgroupHasSoftware.findByXMLupdate", query = "SELECT t FROM TgroupHasSoftware t WHERE t.xMLupdate = :xMLupdate")
+    , @NamedQuery(name = "TgroupHasSoftware.findByAPPname", query = "SELECT t FROM TgroupHasSoftware t WHERE t.aPPname = :aPPname")})
 public class TgroupHasSoftware implements Serializable {
 
     private static final long serialVersionUID = 1L;

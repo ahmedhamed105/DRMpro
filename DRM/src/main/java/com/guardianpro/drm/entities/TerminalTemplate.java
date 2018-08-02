@@ -31,18 +31,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "terminal_template", catalog = "guardianpro", schema = "")
+@Table(name = "terminal_template", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TerminalTemplate.findAll", query = "SELECT t FROM TerminalTemplate t"),
-    @NamedQuery(name = "TerminalTemplate.findById", query = "SELECT t FROM TerminalTemplate t WHERE t.id = :id"),
-    @NamedQuery(name = "TerminalTemplate.findByTName", query = "SELECT t FROM TerminalTemplate t WHERE t.tName = :tName"),
-    @NamedQuery(name = "TerminalTemplate.findByTdesc", query = "SELECT t FROM TerminalTemplate t WHERE t.tdesc = :tdesc"),
-    @NamedQuery(name = "TerminalTemplate.findByCreateDate", query = "SELECT t FROM TerminalTemplate t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TerminalTemplate.findByUpdateDate", query = "SELECT t FROM TerminalTemplate t WHERE t.updateDate = :updateDate")})
+    @NamedQuery(name = "TerminalTemplate.findAll", query = "SELECT t FROM TerminalTemplate t")
+    , @NamedQuery(name = "TerminalTemplate.findById", query = "SELECT t FROM TerminalTemplate t WHERE t.id = :id")
+    , @NamedQuery(name = "TerminalTemplate.findByTName", query = "SELECT t FROM TerminalTemplate t WHERE t.tName = :tName")
+    , @NamedQuery(name = "TerminalTemplate.findByTdesc", query = "SELECT t FROM TerminalTemplate t WHERE t.tdesc = :tdesc")
+    , @NamedQuery(name = "TerminalTemplate.findByCreateDate", query = "SELECT t FROM TerminalTemplate t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TerminalTemplate.findByUpdateDate", query = "SELECT t FROM TerminalTemplate t WHERE t.updateDate = :updateDate")})
 public class TerminalTemplate implements Serializable {
 
     private static final long serialVersionUID = 1L;

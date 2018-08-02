@@ -26,27 +26,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "tokean_go", catalog = "guardianpro", schema = "")
+@Table(name = "tokean_go", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TokeanGo.findAll", query = "SELECT t FROM TokeanGo t"),
-    @NamedQuery(name = "TokeanGo.findById", query = "SELECT t FROM TokeanGo t WHERE t.id = :id"),
-    @NamedQuery(name = "TokeanGo.findBypretreminal", query = "SELECT t FROM TokeanGo t WHERE t.loginprevID = :id AND t.terminalID = :id1"),
-    @NamedQuery(name = "TokeanGo.findByTokean", query = "SELECT t FROM TokeanGo t WHERE t.tokean = :tokean"),
-    @NamedQuery(name = "TokeanGo.findByCreateDate", query = "SELECT t FROM TokeanGo t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TokeanGo.findByUpdateDate", query = "SELECT t FROM TokeanGo t WHERE t.updateDate = :updateDate")})
+    @NamedQuery(name = "TokeanGo.findAll", query = "SELECT t FROM TokeanGo t")
+    , @NamedQuery(name = "TokeanGo.findById", query = "SELECT t FROM TokeanGo t WHERE t.id = :id")
+    , @NamedQuery(name = "TokeanGo.findByTokean", query = "SELECT t FROM TokeanGo t WHERE t.tokean = :tokean")
+    , @NamedQuery(name = "TokeanGo.findByCreateDate", query = "SELECT t FROM TokeanGo t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TokeanGo.findByUpdateDate", query = "SELECT t FROM TokeanGo t WHERE t.updateDate = :updateDate")
+    , @NamedQuery(name = "TokeanGo.findByExipretime", query = "SELECT t FROM TokeanGo t WHERE t.exipretime = :exipretime")})
 public class TokeanGo implements Serializable {
-
-    @JoinColumn(name = "Terminal_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private Terminal terminalID;
-
-    @Size(max = 45)
-    @Column(name = "Exipre_time", length = 45)
-    private String exipretime;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -69,9 +61,15 @@ public class TokeanGo implements Serializable {
     @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
+    @Size(max = 45)
+    @Column(name = "Exipre_time", length = 45)
+    private String exipretime;
     @JoinColumn(name = "Login_prev_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private LoginPrev loginprevID;
+    @JoinColumn(name = "Terminal_ID", referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    private Terminal terminalID;
     @JoinColumn(name = "User_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private User userID;
@@ -122,12 +120,28 @@ public class TokeanGo implements Serializable {
         this.updateDate = updateDate;
     }
 
+    public String getExipretime() {
+        return exipretime;
+    }
+
+    public void setExipretime(String exipretime) {
+        this.exipretime = exipretime;
+    }
+
     public LoginPrev getLoginprevID() {
         return loginprevID;
     }
 
     public void setLoginprevID(LoginPrev loginprevID) {
         this.loginprevID = loginprevID;
+    }
+
+    public Terminal getTerminalID() {
+        return terminalID;
+    }
+
+    public void setTerminalID(Terminal terminalID) {
+        this.terminalID = terminalID;
     }
 
     public User getUserID() {
@@ -161,22 +175,6 @@ public class TokeanGo implements Serializable {
     @Override
     public String toString() {
         return "com.guardianpro.drm.entities.TokeanGo[ id=" + id + " ]";
-    }
-
-    public String getExipretime() {
-        return exipretime;
-    }
-
-    public void setExipretime(String exipretime) {
-        this.exipretime = exipretime;
-    }
-
-    public Terminal getTerminalID() {
-        return terminalID;
-    }
-
-    public void setTerminalID(Terminal terminalID) {
-        this.terminalID = terminalID;
     }
     
 }

@@ -25,26 +25,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "login_history", catalog = "guardianpro", schema = "")
+@Table(name = "login_history", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "LoginHistory.findAll", query = "SELECT l FROM LoginHistory l"),
-    @NamedQuery(name = "LoginHistory.findById", query = "SELECT l FROM LoginHistory l WHERE l.id = :id"),
-    @NamedQuery(name = "LoginHistory.findByLoginfailed", query = "SELECT l FROM LoginHistory l WHERE l.loginfailed = :loginfailed"),
-    @NamedQuery(name = "LoginHistory.findByLoginsucess", query = "SELECT l FROM LoginHistory l WHERE l.loginsucess = :loginsucess"),
-    @NamedQuery(name = "LoginHistory.findByHIp", query = "SELECT l FROM LoginHistory l WHERE l.hIp = :hIp"),
-    @NamedQuery(name = "LoginHistory.findByHHost", query = "SELECT l FROM LoginHistory l WHERE l.hHost = :hHost"),
-    @NamedQuery(name = "LoginHistory.findByHPort", query = "SELECT l FROM LoginHistory l WHERE l.hPort = :hPort"),
-    @NamedQuery(name = "LoginHistory.findByHUser", query = "SELECT l FROM LoginHistory l WHERE l.hUser = :hUser"),
-    @NamedQuery(name = "LoginHistory.findByFailedSucess", query = "SELECT l FROM LoginHistory l WHERE l.failedSucess = :failedSucess"),
-    @NamedQuery(name = "LoginHistory.findByLocknot", query = "SELECT l FROM LoginHistory l WHERE l.locknot = :locknot")})
+    @NamedQuery(name = "LoginHistory.findAll", query = "SELECT l FROM LoginHistory l")
+    , @NamedQuery(name = "LoginHistory.findById", query = "SELECT l FROM LoginHistory l WHERE l.id = :id")
+    , @NamedQuery(name = "LoginHistory.findByLoginfailed", query = "SELECT l FROM LoginHistory l WHERE l.loginfailed = :loginfailed")
+    , @NamedQuery(name = "LoginHistory.findByLoginsucess", query = "SELECT l FROM LoginHistory l WHERE l.loginsucess = :loginsucess")
+    , @NamedQuery(name = "LoginHistory.findByHIp", query = "SELECT l FROM LoginHistory l WHERE l.hIp = :hIp")
+    , @NamedQuery(name = "LoginHistory.findByHHost", query = "SELECT l FROM LoginHistory l WHERE l.hHost = :hHost")
+    , @NamedQuery(name = "LoginHistory.findByHPort", query = "SELECT l FROM LoginHistory l WHERE l.hPort = :hPort")
+    , @NamedQuery(name = "LoginHistory.findByHUser", query = "SELECT l FROM LoginHistory l WHERE l.hUser = :hUser")
+    , @NamedQuery(name = "LoginHistory.findByFailedSucess", query = "SELECT l FROM LoginHistory l WHERE l.failedSucess = :failedSucess")
+    , @NamedQuery(name = "LoginHistory.findByLocknot", query = "SELECT l FROM LoginHistory l WHERE l.locknot = :locknot")
+    , @NamedQuery(name = "LoginHistory.findByErrorCode", query = "SELECT l FROM LoginHistory l WHERE l.errorCode = :errorCode")})
 public class LoginHistory implements Serializable {
-
-    @Column(name = "error_code")
-    private Integer errorCode;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,6 +72,8 @@ public class LoginHistory implements Serializable {
     @Size(max = 45)
     @Column(name = "Lock_not", length = 45)
     private String locknot;
+    @Column(name = "error_code")
+    private Integer errorCode;
     @JoinColumn(name = "Login_prev_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private LoginPrev loginprevID;
@@ -157,6 +157,14 @@ public class LoginHistory implements Serializable {
         this.locknot = locknot;
     }
 
+    public Integer getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(Integer errorCode) {
+        this.errorCode = errorCode;
+    }
+
     public LoginPrev getLoginprevID() {
         return loginprevID;
     }
@@ -188,14 +196,6 @@ public class LoginHistory implements Serializable {
     @Override
     public String toString() {
         return "com.guardianpro.drm.entities.LoginHistory[ id=" + id + " ]";
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
     }
     
 }

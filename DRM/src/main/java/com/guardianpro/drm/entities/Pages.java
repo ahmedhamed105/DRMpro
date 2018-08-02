@@ -24,15 +24,15 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "pages", catalog = "guardianpro", schema = "")
+@Table(name = "pages", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Pages.findAll", query = "SELECT p FROM Pages p"),
-    @NamedQuery(name = "Pages.findByPageId", query = "SELECT p FROM Pages p WHERE p.pageId = :pageId"),
-    @NamedQuery(name = "Pages.findByPageName", query = "SELECT p FROM Pages p WHERE p.pageName = :pageName")})
+    @NamedQuery(name = "Pages.findAll", query = "SELECT p FROM Pages p")
+    , @NamedQuery(name = "Pages.findByPageId", query = "SELECT p FROM Pages p WHERE p.pageId = :pageId")
+    , @NamedQuery(name = "Pages.findByPageName", query = "SELECT p FROM Pages p WHERE p.pageName = :pageName")})
 public class Pages implements Serializable {
 
     private static final long serialVersionUID = 1L;

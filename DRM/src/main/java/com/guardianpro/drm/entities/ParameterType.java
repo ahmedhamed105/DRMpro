@@ -29,18 +29,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "parameter_type", catalog = "guardianpro", schema = "")
+@Table(name = "parameter_type", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ParameterType.findAll", query = "SELECT p FROM ParameterType p"),
-    @NamedQuery(name = "ParameterType.findById", query = "SELECT p FROM ParameterType p WHERE p.id = :id"),
-    @NamedQuery(name = "ParameterType.findByType", query = "SELECT p FROM ParameterType p WHERE p.type = :type"),
-    @NamedQuery(name = "ParameterType.findByCreateDate", query = "SELECT p FROM ParameterType p WHERE p.createDate = :createDate"),
-    @NamedQuery(name = "ParameterType.findByUpdateDate", query = "SELECT p FROM ParameterType p WHERE p.updateDate = :updateDate"),
-    @NamedQuery(name = "ParameterType.findByXMLheader", query = "SELECT p FROM ParameterType p WHERE p.xMLheader = :xMLheader")})
+    @NamedQuery(name = "ParameterType.findAll", query = "SELECT p FROM ParameterType p")
+    , @NamedQuery(name = "ParameterType.findById", query = "SELECT p FROM ParameterType p WHERE p.id = :id")
+    , @NamedQuery(name = "ParameterType.findByType", query = "SELECT p FROM ParameterType p WHERE p.type = :type")
+    , @NamedQuery(name = "ParameterType.findByCreateDate", query = "SELECT p FROM ParameterType p WHERE p.createDate = :createDate")
+    , @NamedQuery(name = "ParameterType.findByUpdateDate", query = "SELECT p FROM ParameterType p WHERE p.updateDate = :updateDate")
+    , @NamedQuery(name = "ParameterType.findByXMLheader", query = "SELECT p FROM ParameterType p WHERE p.xMLheader = :xMLheader")})
 public class ParameterType implements Serializable {
 
     private static final long serialVersionUID = 1L;

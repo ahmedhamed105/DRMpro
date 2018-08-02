@@ -29,21 +29,21 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "application", catalog = "guardianpro", schema = "")
+@Table(name = "application", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Application.findAll", query = "SELECT a FROM Application a"),
-    @NamedQuery(name = "Application.findById", query = "SELECT a FROM Application a WHERE a.id = :id"),
-    @NamedQuery(name = "Application.findByAppName", query = "SELECT a FROM Application a WHERE a.appName = :appName"),
-    @NamedQuery(name = "Application.findByAppDir", query = "SELECT a FROM Application a WHERE a.appDir = :appDir"),
-    @NamedQuery(name = "Application.findByCreateDate", query = "SELECT a FROM Application a WHERE a.createDate = :createDate"),
-    @NamedQuery(name = "Application.findByUpdateDate", query = "SELECT a FROM Application a WHERE a.updateDate = :updateDate"),
-    @NamedQuery(name = "Application.findByFilename", query = "SELECT a FROM Application a WHERE a.filename = :filename"),
-    @NamedQuery(name = "Application.findByAppSize", query = "SELECT a FROM Application a WHERE a.appSize = :appSize"),
-    @NamedQuery(name = "Application.findByAPPlength", query = "SELECT a FROM Application a WHERE a.aPPlength = :aPPlength")})
+    @NamedQuery(name = "Application.findAll", query = "SELECT a FROM Application a")
+    , @NamedQuery(name = "Application.findById", query = "SELECT a FROM Application a WHERE a.id = :id")
+    , @NamedQuery(name = "Application.findByAppName", query = "SELECT a FROM Application a WHERE a.appName = :appName")
+    , @NamedQuery(name = "Application.findByAppDir", query = "SELECT a FROM Application a WHERE a.appDir = :appDir")
+    , @NamedQuery(name = "Application.findByCreateDate", query = "SELECT a FROM Application a WHERE a.createDate = :createDate")
+    , @NamedQuery(name = "Application.findByUpdateDate", query = "SELECT a FROM Application a WHERE a.updateDate = :updateDate")
+    , @NamedQuery(name = "Application.findByFilename", query = "SELECT a FROM Application a WHERE a.filename = :filename")
+    , @NamedQuery(name = "Application.findByAppSize", query = "SELECT a FROM Application a WHERE a.appSize = :appSize")
+    , @NamedQuery(name = "Application.findByAPPlength", query = "SELECT a FROM Application a WHERE a.aPPlength = :aPPlength")})
 public class Application implements Serializable {
 
     private static final long serialVersionUID = 1L;

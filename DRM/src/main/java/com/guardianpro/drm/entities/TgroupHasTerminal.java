@@ -26,18 +26,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "tgroup_has_terminal", catalog = "guardianpro", schema = "")
+@Table(name = "tgroup_has_terminal", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TgroupHasTerminal.findAll", query = "SELECT t FROM TgroupHasTerminal t"),
-    @NamedQuery(name = "TgroupHasTerminal.findById", query = "SELECT t FROM TgroupHasTerminal t WHERE t.id = :id"),
-    @NamedQuery(name = "TgroupHasTerminal.findByCreateDate", query = "SELECT t FROM TgroupHasTerminal t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TgroupHasTerminal.findByUpdateDate", query = "SELECT t FROM TgroupHasTerminal t WHERE t.updateDate = :updateDate"),
-    @NamedQuery(name = "TgroupHasTerminal.findByXMLupdate", query = "SELECT t FROM TgroupHasTerminal t WHERE t.xMLupdate = :xMLupdate"),
-    @NamedQuery(name = "TgroupHasTerminal.findByDLLname", query = "SELECT t FROM TgroupHasTerminal t WHERE t.dLLname = :dLLname")})
+    @NamedQuery(name = "TgroupHasTerminal.findAll", query = "SELECT t FROM TgroupHasTerminal t")
+    , @NamedQuery(name = "TgroupHasTerminal.findById", query = "SELECT t FROM TgroupHasTerminal t WHERE t.id = :id")
+    , @NamedQuery(name = "TgroupHasTerminal.findByCreateDate", query = "SELECT t FROM TgroupHasTerminal t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TgroupHasTerminal.findByUpdateDate", query = "SELECT t FROM TgroupHasTerminal t WHERE t.updateDate = :updateDate")
+    , @NamedQuery(name = "TgroupHasTerminal.findByXMLupdate", query = "SELECT t FROM TgroupHasTerminal t WHERE t.xMLupdate = :xMLupdate")
+    , @NamedQuery(name = "TgroupHasTerminal.findByDLLname", query = "SELECT t FROM TgroupHasTerminal t WHERE t.dLLname = :dLLname")})
 public class TgroupHasTerminal implements Serializable {
 
     private static final long serialVersionUID = 1L;

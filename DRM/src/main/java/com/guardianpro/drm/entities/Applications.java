@@ -29,28 +29,19 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "applications", catalog = "guardianpro", schema = "")
+@Table(name = "applications", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Applications.findAll", query = "SELECT a FROM Applications a"),
-    @NamedQuery(name = "Applications.findById", query = "SELECT a FROM Applications a WHERE a.id = :id"),
-    @NamedQuery(name = "Applications.findByApplicationsCode", query = "SELECT a FROM Applications a WHERE a.applicationsCode = :applicationsCode"),
-    @NamedQuery(name = "Applications.findByApplicationDesc", query = "SELECT a FROM Applications a WHERE a.applicationDesc = :applicationDesc")})
+    @NamedQuery(name = "Applications.findAll", query = "SELECT a FROM Applications a")
+    , @NamedQuery(name = "Applications.findById", query = "SELECT a FROM Applications a WHERE a.id = :id")
+    , @NamedQuery(name = "Applications.findByApplicationsCode", query = "SELECT a FROM Applications a WHERE a.applicationsCode = :applicationsCode")
+    , @NamedQuery(name = "Applications.findByApplicationDesc", query = "SELECT a FROM Applications a WHERE a.applicationDesc = :applicationDesc")
+    , @NamedQuery(name = "Applications.findByCreateDate", query = "SELECT a FROM Applications a WHERE a.createDate = :createDate")
+    , @NamedQuery(name = "Applications.findByUpdateDate", query = "SELECT a FROM Applications a WHERE a.updateDate = :updateDate")})
 public class Applications implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "create_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "update_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,6 +57,16 @@ public class Applications implements Serializable {
     @Size(max = 45)
     @Column(name = "Application_Desc", length = 45)
     private String applicationDesc;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "create_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "update_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationsID")
     private Collection<ApplicationUser> applicationUserCollection;
 
@@ -76,9 +77,11 @@ public class Applications implements Serializable {
         this.id = id;
     }
 
-    public Applications(Integer id, String applicationsCode) {
+    public Applications(Integer id, String applicationsCode, Date createDate, Date updateDate) {
         this.id = id;
         this.applicationsCode = applicationsCode;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
     }
 
     public Integer getId() {
@@ -103,6 +106,22 @@ public class Applications implements Serializable {
 
     public void setApplicationDesc(String applicationDesc) {
         this.applicationDesc = applicationDesc;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     @XmlTransient
@@ -138,22 +157,6 @@ public class Applications implements Serializable {
     @Override
     public String toString() {
         return "com.guardianpro.drm.entities.Applications[ id=" + id + " ]";
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
     
 }

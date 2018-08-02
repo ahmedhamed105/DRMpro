@@ -21,14 +21,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "group_sechema", catalog = "guardianpro", schema = "")
+@Table(name = "group_sechema", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "GroupSechema.findAll", query = "SELECT g FROM GroupSechema g"),
-    @NamedQuery(name = "GroupSechema.findById", query = "SELECT g FROM GroupSechema g WHERE g.id = :id")})
+    @NamedQuery(name = "GroupSechema.findAll", query = "SELECT g FROM GroupSechema g")
+    , @NamedQuery(name = "GroupSechema.findById", query = "SELECT g FROM GroupSechema g WHERE g.id = :id")})
 public class GroupSechema implements Serializable {
 
     private static final long serialVersionUID = 1L;

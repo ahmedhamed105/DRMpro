@@ -29,17 +29,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "download_method", catalog = "guardianpro", schema = "")
+@Table(name = "download_method", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "DownloadMethod.findAll", query = "SELECT d FROM DownloadMethod d"),
-    @NamedQuery(name = "DownloadMethod.findById", query = "SELECT d FROM DownloadMethod d WHERE d.id = :id"),
-    @NamedQuery(name = "DownloadMethod.findByDName", query = "SELECT d FROM DownloadMethod d WHERE d.dName = :dName"),
-    @NamedQuery(name = "DownloadMethod.findByCreateDate", query = "SELECT d FROM DownloadMethod d WHERE d.createDate = :createDate"),
-    @NamedQuery(name = "DownloadMethod.findByUpdateDate", query = "SELECT d FROM DownloadMethod d WHERE d.updateDate = :updateDate")})
+    @NamedQuery(name = "DownloadMethod.findAll", query = "SELECT d FROM DownloadMethod d")
+    , @NamedQuery(name = "DownloadMethod.findById", query = "SELECT d FROM DownloadMethod d WHERE d.id = :id")
+    , @NamedQuery(name = "DownloadMethod.findByDName", query = "SELECT d FROM DownloadMethod d WHERE d.dName = :dName")
+    , @NamedQuery(name = "DownloadMethod.findByCreateDate", query = "SELECT d FROM DownloadMethod d WHERE d.createDate = :createDate")
+    , @NamedQuery(name = "DownloadMethod.findByUpdateDate", query = "SELECT d FROM DownloadMethod d WHERE d.updateDate = :updateDate")})
 public class DownloadMethod implements Serializable {
 
     private static final long serialVersionUID = 1L;

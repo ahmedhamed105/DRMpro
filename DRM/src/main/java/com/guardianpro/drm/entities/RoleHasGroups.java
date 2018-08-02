@@ -25,16 +25,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "role_has_groups", catalog = "guardianpro", schema = "")
+@Table(name = "role_has_groups", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "RoleHasGroups.findAll", query = "SELECT r FROM RoleHasGroups r"),
-    @NamedQuery(name = "RoleHasGroups.findById", query = "SELECT r FROM RoleHasGroups r WHERE r.id = :id"),
-    @NamedQuery(name = "RoleHasGroups.findByCreateDate", query = "SELECT r FROM RoleHasGroups r WHERE r.createDate = :createDate"),
-    @NamedQuery(name = "RoleHasGroups.findByUpdateDate", query = "SELECT r FROM RoleHasGroups r WHERE r.updateDate = :updateDate")})
+    @NamedQuery(name = "RoleHasGroups.findAll", query = "SELECT r FROM RoleHasGroups r")
+    , @NamedQuery(name = "RoleHasGroups.findById", query = "SELECT r FROM RoleHasGroups r WHERE r.id = :id")
+    , @NamedQuery(name = "RoleHasGroups.findByCreateDate", query = "SELECT r FROM RoleHasGroups r WHERE r.createDate = :createDate")
+    , @NamedQuery(name = "RoleHasGroups.findByUpdateDate", query = "SELECT r FROM RoleHasGroups r WHERE r.updateDate = :updateDate")})
 public class RoleHasGroups implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -29,19 +29,19 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "accessory", catalog = "guardianpro", schema = "")
+@Table(name = "accessory", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Accessory.findAll", query = "SELECT a FROM Accessory a"),
-    @NamedQuery(name = "Accessory.findById", query = "SELECT a FROM Accessory a WHERE a.id = :id"),
-    @NamedQuery(name = "Accessory.findByCreateDate", query = "SELECT a FROM Accessory a WHERE a.createDate = :createDate"),
-    @NamedQuery(name = "Accessory.findByUpdateDate", query = "SELECT a FROM Accessory a WHERE a.updateDate = :updateDate"),
-    @NamedQuery(name = "Accessory.findByAccName", query = "SELECT a FROM Accessory a WHERE a.accName = :accName"),
-    @NamedQuery(name = "Accessory.findByAccDescr", query = "SELECT a FROM Accessory a WHERE a.accDescr = :accDescr"),
-    @NamedQuery(name = "Accessory.findByAccCatalog", query = "SELECT a FROM Accessory a WHERE a.accCatalog = :accCatalog")})
+    @NamedQuery(name = "Accessory.findAll", query = "SELECT a FROM Accessory a")
+    , @NamedQuery(name = "Accessory.findById", query = "SELECT a FROM Accessory a WHERE a.id = :id")
+    , @NamedQuery(name = "Accessory.findByCreateDate", query = "SELECT a FROM Accessory a WHERE a.createDate = :createDate")
+    , @NamedQuery(name = "Accessory.findByUpdateDate", query = "SELECT a FROM Accessory a WHERE a.updateDate = :updateDate")
+    , @NamedQuery(name = "Accessory.findByAccName", query = "SELECT a FROM Accessory a WHERE a.accName = :accName")
+    , @NamedQuery(name = "Accessory.findByAccDescr", query = "SELECT a FROM Accessory a WHERE a.accDescr = :accDescr")
+    , @NamedQuery(name = "Accessory.findByAccCatalog", query = "SELECT a FROM Accessory a WHERE a.accCatalog = :accCatalog")})
 public class Accessory implements Serializable {
 
     private static final long serialVersionUID = 1L;

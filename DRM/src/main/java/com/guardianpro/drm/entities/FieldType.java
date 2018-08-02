@@ -7,6 +7,7 @@ package com.guardianpro.drm.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,16 +29,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "field_type", catalog = "guardianpro", schema = "")
+@Table(name = "field_type", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "FieldType.findAll", query = "SELECT f FROM FieldType f"),
-    @NamedQuery(name = "FieldType.findById", query = "SELECT f FROM FieldType f WHERE f.id = :id"),
-    @NamedQuery(name = "FieldType.findByFtype", query = "SELECT f FROM FieldType f WHERE f.ftype = :ftype"),
-    @NamedQuery(name = "FieldType.findByFpaterren", query = "SELECT f FROM FieldType f WHERE f.fpaterren = :fpaterren")})
+    @NamedQuery(name = "FieldType.findAll", query = "SELECT f FROM FieldType f")
+    , @NamedQuery(name = "FieldType.findById", query = "SELECT f FROM FieldType f WHERE f.id = :id")
+    , @NamedQuery(name = "FieldType.findByFtype", query = "SELECT f FROM FieldType f WHERE f.ftype = :ftype")
+    , @NamedQuery(name = "FieldType.findByFpaterren", query = "SELECT f FROM FieldType f WHERE f.fpaterren = :fpaterren")
+    , @NamedQuery(name = "FieldType.findByCreateDate", query = "SELECT f FROM FieldType f WHERE f.createDate = :createDate")
+    , @NamedQuery(name = "FieldType.findByUpdateDate", query = "SELECT f FROM FieldType f WHERE f.updateDate = :updateDate")})
 public class FieldType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +59,16 @@ public class FieldType implements Serializable {
     @Size(min = 1, max = 500)
     @Column(name = "F_paterren", nullable = false, length = 500)
     private String fpaterren;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "create_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "update_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fieldtypeID")
     private Collection<TrxFields> trxFieldsCollection;
 
@@ -64,10 +79,12 @@ public class FieldType implements Serializable {
         this.id = id;
     }
 
-    public FieldType(Integer id, String ftype, String fpaterren) {
+    public FieldType(Integer id, String ftype, String fpaterren, Date createDate, Date updateDate) {
         this.id = id;
         this.ftype = ftype;
         this.fpaterren = fpaterren;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
     }
 
     public Integer getId() {
@@ -92,6 +109,22 @@ public class FieldType implements Serializable {
 
     public void setFpaterren(String fpaterren) {
         this.fpaterren = fpaterren;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     @XmlTransient

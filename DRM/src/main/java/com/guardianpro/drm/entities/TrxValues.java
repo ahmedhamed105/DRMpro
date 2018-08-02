@@ -29,18 +29,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "trx_values", catalog = "guardianpro", schema = "")
+@Table(name = "trx_values", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TrxValues.findAll", query = "SELECT t FROM TrxValues t"),
-    @NamedQuery(name = "TrxValues.findById", query = "SELECT t FROM TrxValues t WHERE t.id = :id"),
-    @NamedQuery(name = "TrxValues.findByFValue", query = "SELECT t FROM TrxValues t WHERE t.fValue = :fValue"),
-    @NamedQuery(name = "TrxValues.findByFDescription", query = "SELECT t FROM TrxValues t WHERE t.fDescription = :fDescription"),
-    @NamedQuery(name = "TrxValues.findByCreateDate", query = "SELECT t FROM TrxValues t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TrxValues.findByUpdateDate", query = "SELECT t FROM TrxValues t WHERE t.updateDate = :updateDate")})
+    @NamedQuery(name = "TrxValues.findAll", query = "SELECT t FROM TrxValues t")
+    , @NamedQuery(name = "TrxValues.findById", query = "SELECT t FROM TrxValues t WHERE t.id = :id")
+    , @NamedQuery(name = "TrxValues.findByFValue", query = "SELECT t FROM TrxValues t WHERE t.fValue = :fValue")
+    , @NamedQuery(name = "TrxValues.findByFDescription", query = "SELECT t FROM TrxValues t WHERE t.fDescription = :fDescription")
+    , @NamedQuery(name = "TrxValues.findByCreateDate", query = "SELECT t FROM TrxValues t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TrxValues.findByUpdateDate", query = "SELECT t FROM TrxValues t WHERE t.updateDate = :updateDate")})
 public class TrxValues implements Serializable {
 
     private static final long serialVersionUID = 1L;

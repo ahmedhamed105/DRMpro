@@ -24,20 +24,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "component_name", catalog = "guardianpro", schema = "")
+@Table(name = "component_name", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ComponentName.findAll", query = "SELECT c FROM ComponentName c"),
-    @NamedQuery(name = "ComponentName.findById", query = "SELECT c FROM ComponentName c WHERE c.id = :id"),
-    @NamedQuery(name = "ComponentName.findByName", query = "SELECT c FROM ComponentName c WHERE c.name = :name"),
-    @NamedQuery(name = "ComponentName.findByValue", query = "SELECT c FROM ComponentName c WHERE c.value = :value"),
-    @NamedQuery(name = "ComponentName.findByDescription", query = "SELECT c FROM ComponentName c WHERE c.description = :description"),
-    @NamedQuery(name = "ComponentName.findByEdit", query = "SELECT c FROM ComponentName c WHERE c.edit = :edit"),
-    @NamedQuery(name = "ComponentName.findByCreateDate", query = "SELECT c FROM ComponentName c WHERE c.createDate = :createDate"),
-    @NamedQuery(name = "ComponentName.findByUpdateDate", query = "SELECT c FROM ComponentName c WHERE c.updateDate = :updateDate")})
+    @NamedQuery(name = "ComponentName.findAll", query = "SELECT c FROM ComponentName c")
+    , @NamedQuery(name = "ComponentName.findById", query = "SELECT c FROM ComponentName c WHERE c.id = :id")
+    , @NamedQuery(name = "ComponentName.findByName", query = "SELECT c FROM ComponentName c WHERE c.name = :name")
+    , @NamedQuery(name = "ComponentName.findByValue", query = "SELECT c FROM ComponentName c WHERE c.value = :value")
+    , @NamedQuery(name = "ComponentName.findByDescription", query = "SELECT c FROM ComponentName c WHERE c.description = :description")
+    , @NamedQuery(name = "ComponentName.findByEdit", query = "SELECT c FROM ComponentName c WHERE c.edit = :edit")
+    , @NamedQuery(name = "ComponentName.findByCreateDate", query = "SELECT c FROM ComponentName c WHERE c.createDate = :createDate")
+    , @NamedQuery(name = "ComponentName.findByUpdateDate", query = "SELECT c FROM ComponentName c WHERE c.updateDate = :updateDate")})
 public class ComponentName implements Serializable {
 
     private static final long serialVersionUID = 1L;

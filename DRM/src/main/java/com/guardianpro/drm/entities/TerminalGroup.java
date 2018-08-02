@@ -31,18 +31,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "terminal_group", catalog = "guardianpro", schema = "")
+@Table(name = "terminal_group", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TerminalGroup.findAll", query = "SELECT t FROM TerminalGroup t"),
-    @NamedQuery(name = "TerminalGroup.findById", query = "SELECT t FROM TerminalGroup t WHERE t.id = :id"),
-    @NamedQuery(name = "TerminalGroup.findByGroupname", query = "SELECT t FROM TerminalGroup t WHERE t.groupname = :groupname"),
-    @NamedQuery(name = "TerminalGroup.findByGroupdesc", query = "SELECT t FROM TerminalGroup t WHERE t.groupdesc = :groupdesc"),
-    @NamedQuery(name = "TerminalGroup.findByCreateDate", query = "SELECT t FROM TerminalGroup t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TerminalGroup.findByUpdateDate", query = "SELECT t FROM TerminalGroup t WHERE t.updateDate = :updateDate")})
+    @NamedQuery(name = "TerminalGroup.findAll", query = "SELECT t FROM TerminalGroup t")
+    , @NamedQuery(name = "TerminalGroup.findById", query = "SELECT t FROM TerminalGroup t WHERE t.id = :id")
+    , @NamedQuery(name = "TerminalGroup.findByGroupname", query = "SELECT t FROM TerminalGroup t WHERE t.groupname = :groupname")
+    , @NamedQuery(name = "TerminalGroup.findByGroupdesc", query = "SELECT t FROM TerminalGroup t WHERE t.groupdesc = :groupdesc")
+    , @NamedQuery(name = "TerminalGroup.findByCreateDate", query = "SELECT t FROM TerminalGroup t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TerminalGroup.findByUpdateDate", query = "SELECT t FROM TerminalGroup t WHERE t.updateDate = :updateDate")})
 public class TerminalGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;

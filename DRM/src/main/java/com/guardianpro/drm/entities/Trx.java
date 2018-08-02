@@ -6,8 +6,10 @@
 package com.guardianpro.drm.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,28 +19,30 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
  * @author ahmedhamed
  */
 @Entity
-@Table(name = "email_history", catalog = "GuardianPro", schema = "")
+@Table(name = "trx", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "EmailHistory.findAll", query = "SELECT e FROM EmailHistory e")
-    , @NamedQuery(name = "EmailHistory.findById", query = "SELECT e FROM EmailHistory e WHERE e.id = :id")
-    , @NamedQuery(name = "EmailHistory.findByEmail", query = "SELECT e FROM EmailHistory e WHERE e.email = :email")
-    , @NamedQuery(name = "EmailHistory.findByCreateDate", query = "SELECT e FROM EmailHistory e WHERE e.createDate = :createDate")
-    , @NamedQuery(name = "EmailHistory.findByUpdateDate", query = "SELECT e FROM EmailHistory e WHERE e.updateDate = :updateDate")
-    , @NamedQuery(name = "EmailHistory.findByEsendnot", query = "SELECT e FROM EmailHistory e WHERE e.esendnot = :esendnot")})
-public class EmailHistory implements Serializable {
+    @NamedQuery(name = "Trx.findAll", query = "SELECT t FROM Trx t")
+    , @NamedQuery(name = "Trx.findById", query = "SELECT t FROM Trx t WHERE t.id = :id")
+    , @NamedQuery(name = "Trx.findByTRXnumber", query = "SELECT t FROM Trx t WHERE t.tRXnumber = :tRXnumber")
+    , @NamedQuery(name = "Trx.findByCreateDate", query = "SELECT t FROM Trx t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "Trx.findByUpdateDate", query = "SELECT t FROM Trx t WHERE t.updateDate = :updateDate")})
+public class Trx implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,10 +50,11 @@ public class EmailHistory implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
     private Integer id;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 45)
-    @Column(name = "Email", length = 45)
-    private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
+    @Column(name = "TRX_number", nullable = false, length = 150)
+    private String tRXnumber;
     @Basic(optional = false)
     @NotNull
     @Column(name = "create_date", nullable = false)
@@ -60,29 +65,27 @@ public class EmailHistory implements Serializable {
     @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "E_send_not", nullable = false)
-    private int esendnot;
-    @JoinColumn(name = "Config_email_ID", referencedColumnName = "ID", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trxId")
+    private Collection<TrxFieldsValues> trxFieldsValuesCollection;
+    @JoinColumn(name = "TRX_type_msg_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private ConfigEmail configemailID;
-    @JoinColumn(name = "Email_log_ID", referencedColumnName = "ID", nullable = false)
+    private TrxTypeMsg tRXtypemsgID;
+    @JoinColumn(name = "Terminal_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
-    private EmailLog emaillogID;
+    private Terminal terminalID;
 
-    public EmailHistory() {
+    public Trx() {
     }
 
-    public EmailHistory(Integer id) {
+    public Trx(Integer id) {
         this.id = id;
     }
 
-    public EmailHistory(Integer id, Date createDate, Date updateDate, int esendnot) {
+    public Trx(Integer id, String tRXnumber, Date createDate, Date updateDate) {
         this.id = id;
+        this.tRXnumber = tRXnumber;
         this.createDate = createDate;
         this.updateDate = updateDate;
-        this.esendnot = esendnot;
     }
 
     public Integer getId() {
@@ -93,12 +96,12 @@ public class EmailHistory implements Serializable {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getTRXnumber() {
+        return tRXnumber;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTRXnumber(String tRXnumber) {
+        this.tRXnumber = tRXnumber;
     }
 
     public Date getCreateDate() {
@@ -117,28 +120,30 @@ public class EmailHistory implements Serializable {
         this.updateDate = updateDate;
     }
 
-    public int getEsendnot() {
-        return esendnot;
+    @XmlTransient
+    @JsonIgnore
+    public Collection<TrxFieldsValues> getTrxFieldsValuesCollection() {
+        return trxFieldsValuesCollection;
     }
 
-    public void setEsendnot(int esendnot) {
-        this.esendnot = esendnot;
+    public void setTrxFieldsValuesCollection(Collection<TrxFieldsValues> trxFieldsValuesCollection) {
+        this.trxFieldsValuesCollection = trxFieldsValuesCollection;
     }
 
-    public ConfigEmail getConfigemailID() {
-        return configemailID;
+    public TrxTypeMsg getTRXtypemsgID() {
+        return tRXtypemsgID;
     }
 
-    public void setConfigemailID(ConfigEmail configemailID) {
-        this.configemailID = configemailID;
+    public void setTRXtypemsgID(TrxTypeMsg tRXtypemsgID) {
+        this.tRXtypemsgID = tRXtypemsgID;
     }
 
-    public EmailLog getEmaillogID() {
-        return emaillogID;
+    public Terminal getTerminalID() {
+        return terminalID;
     }
 
-    public void setEmaillogID(EmailLog emaillogID) {
-        this.emaillogID = emaillogID;
+    public void setTerminalID(Terminal terminalID) {
+        this.terminalID = terminalID;
     }
 
     @Override
@@ -151,10 +156,10 @@ public class EmailHistory implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EmailHistory)) {
+        if (!(object instanceof Trx)) {
             return false;
         }
-        EmailHistory other = (EmailHistory) object;
+        Trx other = (Trx) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -163,7 +168,7 @@ public class EmailHistory implements Serializable {
 
     @Override
     public String toString() {
-        return "com.guardianpro.drm.entities.EmailHistory[ id=" + id + " ]";
+        return "com.guardianpro.drm.entities.Trx[ id=" + id + " ]";
     }
     
 }

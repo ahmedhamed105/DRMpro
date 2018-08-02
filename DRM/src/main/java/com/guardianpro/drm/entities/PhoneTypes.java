@@ -29,17 +29,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "phone_types", catalog = "guardianpro", schema = "")
+@Table(name = "phone_types", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PhoneTypes.findAll", query = "SELECT p FROM PhoneTypes p"),
-    @NamedQuery(name = "PhoneTypes.findById", query = "SELECT p FROM PhoneTypes p WHERE p.id = :id"),
-    @NamedQuery(name = "PhoneTypes.findByTeleType", query = "SELECT p FROM PhoneTypes p WHERE p.teleType = :teleType"),
-    @NamedQuery(name = "PhoneTypes.findByCreateDate", query = "SELECT p FROM PhoneTypes p WHERE p.createDate = :createDate"),
-    @NamedQuery(name = "PhoneTypes.findByUpdateDate", query = "SELECT p FROM PhoneTypes p WHERE p.updateDate = :updateDate")})
+    @NamedQuery(name = "PhoneTypes.findAll", query = "SELECT p FROM PhoneTypes p")
+    , @NamedQuery(name = "PhoneTypes.findById", query = "SELECT p FROM PhoneTypes p WHERE p.id = :id")
+    , @NamedQuery(name = "PhoneTypes.findByTeleType", query = "SELECT p FROM PhoneTypes p WHERE p.teleType = :teleType")
+    , @NamedQuery(name = "PhoneTypes.findByCreateDate", query = "SELECT p FROM PhoneTypes p WHERE p.createDate = :createDate")
+    , @NamedQuery(name = "PhoneTypes.findByUpdateDate", query = "SELECT p FROM PhoneTypes p WHERE p.updateDate = :updateDate")})
 public class PhoneTypes implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,7 +64,7 @@ public class PhoneTypes implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phonetypesID")
     private Collection<PhoneData> phoneDataCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phonetypesID")
-    private Collection<PhoneDatacopy1> phoneDataCopy1Collection;
+    private Collection<PhoneDataCopy1> phoneDataCopy1Collection;
 
     public PhoneTypes() {
     }
@@ -123,11 +123,11 @@ public class PhoneTypes implements Serializable {
 
     @XmlTransient
     @JsonIgnore
-    public Collection<PhoneDatacopy1> getPhoneDataCopy1Collection() {
+    public Collection<PhoneDataCopy1> getPhoneDataCopy1Collection() {
         return phoneDataCopy1Collection;
     }
 
-    public void setPhoneDataCopy1Collection(Collection<PhoneDatacopy1> phoneDataCopy1Collection) {
+    public void setPhoneDataCopy1Collection(Collection<PhoneDataCopy1> phoneDataCopy1Collection) {
         this.phoneDataCopy1Collection = phoneDataCopy1Collection;
     }
 

@@ -29,17 +29,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "input_type", catalog = "guardianpro", schema = "")
+@Table(name = "input_type", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "InputType.findAll", query = "SELECT i FROM InputType i"),
-    @NamedQuery(name = "InputType.findById", query = "SELECT i FROM InputType i WHERE i.id = :id"),
-    @NamedQuery(name = "InputType.findByType", query = "SELECT i FROM InputType i WHERE i.type = :type"),
-    @NamedQuery(name = "InputType.findByCreateDate", query = "SELECT i FROM InputType i WHERE i.createDate = :createDate"),
-    @NamedQuery(name = "InputType.findByUpdateDate", query = "SELECT i FROM InputType i WHERE i.updateDate = :updateDate")})
+    @NamedQuery(name = "InputType.findAll", query = "SELECT i FROM InputType i")
+    , @NamedQuery(name = "InputType.findById", query = "SELECT i FROM InputType i WHERE i.id = :id")
+    , @NamedQuery(name = "InputType.findByType", query = "SELECT i FROM InputType i WHERE i.type = :type")
+    , @NamedQuery(name = "InputType.findByCreateDate", query = "SELECT i FROM InputType i WHERE i.createDate = :createDate")
+    , @NamedQuery(name = "InputType.findByUpdateDate", query = "SELECT i FROM InputType i WHERE i.updateDate = :updateDate")})
 public class InputType implements Serializable {
 
     private static final long serialVersionUID = 1L;

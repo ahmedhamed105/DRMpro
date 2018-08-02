@@ -31,17 +31,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "parameter_group", catalog = "guardianpro", schema = "")
+@Table(name = "parameter_group", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ParameterGroup.findAll", query = "SELECT p FROM ParameterGroup p"),
-    @NamedQuery(name = "ParameterGroup.findById", query = "SELECT p FROM ParameterGroup p WHERE p.id = :id"),
-    @NamedQuery(name = "ParameterGroup.findByGroupname", query = "SELECT p FROM ParameterGroup p WHERE p.groupname = :groupname"),
-    @NamedQuery(name = "ParameterGroup.findByCreateDate", query = "SELECT p FROM ParameterGroup p WHERE p.createDate = :createDate"),
-    @NamedQuery(name = "ParameterGroup.findByUpdateDate", query = "SELECT p FROM ParameterGroup p WHERE p.updateDate = :updateDate")})
+    @NamedQuery(name = "ParameterGroup.findAll", query = "SELECT p FROM ParameterGroup p")
+    , @NamedQuery(name = "ParameterGroup.findById", query = "SELECT p FROM ParameterGroup p WHERE p.id = :id")
+    , @NamedQuery(name = "ParameterGroup.findByGroupname", query = "SELECT p FROM ParameterGroup p WHERE p.groupname = :groupname")
+    , @NamedQuery(name = "ParameterGroup.findByCreateDate", query = "SELECT p FROM ParameterGroup p WHERE p.createDate = :createDate")
+    , @NamedQuery(name = "ParameterGroup.findByUpdateDate", query = "SELECT p FROM ParameterGroup p WHERE p.updateDate = :updateDate")})
 public class ParameterGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;

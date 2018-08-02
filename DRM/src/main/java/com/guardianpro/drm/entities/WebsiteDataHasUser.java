@@ -25,16 +25,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "website_data_has_user", catalog = "guardianpro", schema = "")
+@Table(name = "website_data_has_user", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "WebsiteDataHasUser.findAll", query = "SELECT w FROM WebsiteDataHasUser w"),
-    @NamedQuery(name = "WebsiteDataHasUser.findById", query = "SELECT w FROM WebsiteDataHasUser w WHERE w.id = :id"),
-    @NamedQuery(name = "WebsiteDataHasUser.findByCreateDate", query = "SELECT w FROM WebsiteDataHasUser w WHERE w.createDate = :createDate"),
-    @NamedQuery(name = "WebsiteDataHasUser.findByUpdateDate", query = "SELECT w FROM WebsiteDataHasUser w WHERE w.updateDate = :updateDate")})
+    @NamedQuery(name = "WebsiteDataHasUser.findAll", query = "SELECT w FROM WebsiteDataHasUser w")
+    , @NamedQuery(name = "WebsiteDataHasUser.findById", query = "SELECT w FROM WebsiteDataHasUser w WHERE w.id = :id")
+    , @NamedQuery(name = "WebsiteDataHasUser.findByCreateDate", query = "SELECT w FROM WebsiteDataHasUser w WHERE w.createDate = :createDate")
+    , @NamedQuery(name = "WebsiteDataHasUser.findByUpdateDate", query = "SELECT w FROM WebsiteDataHasUser w WHERE w.updateDate = :updateDate")})
 public class WebsiteDataHasUser implements Serializable {
 
     private static final long serialVersionUID = 1L;

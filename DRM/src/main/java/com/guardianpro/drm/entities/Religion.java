@@ -29,17 +29,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "religion", catalog = "guardianpro", schema = "")
+@Table(name = "religion", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Religion.findAll", query = "SELECT r FROM Religion r"),
-    @NamedQuery(name = "Religion.findById", query = "SELECT r FROM Religion r WHERE r.id = :id"),
-    @NamedQuery(name = "Religion.findByReligionName", query = "SELECT r FROM Religion r WHERE r.religionName = :religionName"),
-    @NamedQuery(name = "Religion.findByCreateDate", query = "SELECT r FROM Religion r WHERE r.createDate = :createDate"),
-    @NamedQuery(name = "Religion.findByUpdateDate", query = "SELECT r FROM Religion r WHERE r.updateDate = :updateDate")})
+    @NamedQuery(name = "Religion.findAll", query = "SELECT r FROM Religion r")
+    , @NamedQuery(name = "Religion.findById", query = "SELECT r FROM Religion r WHERE r.id = :id")
+    , @NamedQuery(name = "Religion.findByReligionName", query = "SELECT r FROM Religion r WHERE r.religionName = :religionName")
+    , @NamedQuery(name = "Religion.findByCreateDate", query = "SELECT r FROM Religion r WHERE r.createDate = :createDate")
+    , @NamedQuery(name = "Religion.findByUpdateDate", query = "SELECT r FROM Religion r WHERE r.updateDate = :updateDate")})
 public class Religion implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -25,16 +25,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "group_has_parameter", catalog = "guardianpro", schema = "")
+@Table(name = "group_has_parameter", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "GroupHasParameter.findAll", query = "SELECT g FROM GroupHasParameter g"),
-    @NamedQuery(name = "GroupHasParameter.findById", query = "SELECT g FROM GroupHasParameter g WHERE g.id = :id"),
-    @NamedQuery(name = "GroupHasParameter.findByCreateDate", query = "SELECT g FROM GroupHasParameter g WHERE g.createDate = :createDate"),
-    @NamedQuery(name = "GroupHasParameter.findByUpdateDate", query = "SELECT g FROM GroupHasParameter g WHERE g.updateDate = :updateDate")})
+    @NamedQuery(name = "GroupHasParameter.findAll", query = "SELECT g FROM GroupHasParameter g")
+    , @NamedQuery(name = "GroupHasParameter.findById", query = "SELECT g FROM GroupHasParameter g WHERE g.id = :id")
+    , @NamedQuery(name = "GroupHasParameter.findByCreateDate", query = "SELECT g FROM GroupHasParameter g WHERE g.createDate = :createDate")
+    , @NamedQuery(name = "GroupHasParameter.findByUpdateDate", query = "SELECT g FROM GroupHasParameter g WHERE g.updateDate = :updateDate")})
 public class GroupHasParameter implements Serializable {
 
     private static final long serialVersionUID = 1L;

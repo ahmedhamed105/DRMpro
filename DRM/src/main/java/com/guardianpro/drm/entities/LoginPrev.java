@@ -31,32 +31,22 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "login_prev", catalog = "guardianpro", schema = "")
+@Table(name = "login_prev", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "LoginPrev.findAll", query = "SELECT l FROM LoginPrev l"),
-    @NamedQuery(name = "LoginPrev.findByhost", query = "SELECT l FROM LoginPrev l WHERE l.hostinfoID = :id"),
-    @NamedQuery(name = "LoginPrev.findById", query = "SELECT l FROM LoginPrev l WHERE l.id = :id"),
-    @NamedQuery(name = "LoginPrev.findByAdminLock", query = "SELECT l FROM LoginPrev l WHERE l.adminLock = :adminLock"),
-    @NamedQuery(name = "LoginPrev.findByLockcount", query = "SELECT l FROM LoginPrev l WHERE l.lockcount = :lockcount"),
-    @NamedQuery(name = "LoginPrev.findBySerKey", query = "SELECT l FROM LoginPrev l WHERE l.serKey = :serKey"),
-    @NamedQuery(name = "LoginPrev.findByCreateDate", query = "SELECT l FROM LoginPrev l WHERE l.createDate = :createDate"),
-    @NamedQuery(name = "LoginPrev.findByUpdateDate", query = "SELECT l FROM LoginPrev l WHERE l.updateDate = :updateDate")})
+    @NamedQuery(name = "LoginPrev.findAll", query = "SELECT l FROM LoginPrev l")
+    , @NamedQuery(name = "LoginPrev.findById", query = "SELECT l FROM LoginPrev l WHERE l.id = :id")
+    , @NamedQuery(name = "LoginPrev.findByAdminLock", query = "SELECT l FROM LoginPrev l WHERE l.adminLock = :adminLock")
+    , @NamedQuery(name = "LoginPrev.findByLockcount", query = "SELECT l FROM LoginPrev l WHERE l.lockcount = :lockcount")
+    , @NamedQuery(name = "LoginPrev.findBySerKey", query = "SELECT l FROM LoginPrev l WHERE l.serKey = :serKey")
+    , @NamedQuery(name = "LoginPrev.findByCreateDate", query = "SELECT l FROM LoginPrev l WHERE l.createDate = :createDate")
+    , @NamedQuery(name = "LoginPrev.findByUpdateDate", query = "SELECT l FROM LoginPrev l WHERE l.updateDate = :updateDate")
+    , @NamedQuery(name = "LoginPrev.findByLoginfailed", query = "SELECT l FROM LoginPrev l WHERE l.loginfailed = :loginfailed")
+    , @NamedQuery(name = "LoginPrev.findByLoginsucess", query = "SELECT l FROM LoginPrev l WHERE l.loginsucess = :loginsucess")})
 public class LoginPrev implements Serializable {
-
-    @Column(name = "Login_failed")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date loginfailed;
-    @Column(name = "Login_sucess")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date loginsucess;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loginprevID")
-    private Collection<TokeanGo> tokeanGoCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loginprevID")
-    private Collection<LoginHistory> loginHistoryCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -87,6 +77,16 @@ public class LoginPrev implements Serializable {
     @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
+    @Column(name = "Login_failed")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date loginfailed;
+    @Column(name = "Login_sucess")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date loginsucess;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loginprevID")
+    private Collection<TokeanGo> tokeanGoCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "loginprevID")
+    private Collection<LoginHistory> loginHistoryCollection;
     @JoinColumn(name = "Host_info_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private HostInfo hostinfoID;
@@ -155,39 +155,6 @@ public class LoginPrev implements Serializable {
         this.updateDate = updateDate;
     }
 
-    public HostInfo getHostinfoID() {
-        return hostinfoID;
-    }
-
-    public void setHostinfoID(HostInfo hostinfoID) {
-        this.hostinfoID = hostinfoID;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LoginPrev)) {
-            return false;
-        }
-        LoginPrev other = (LoginPrev) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.guardianpro.drm.entities.LoginPrev[ id=" + id + " ]";
-    }
-
     public Date getLoginfailed() {
         return loginfailed;
     }
@@ -222,6 +189,39 @@ public class LoginPrev implements Serializable {
 
     public void setLoginHistoryCollection(Collection<LoginHistory> loginHistoryCollection) {
         this.loginHistoryCollection = loginHistoryCollection;
+    }
+
+    public HostInfo getHostinfoID() {
+        return hostinfoID;
+    }
+
+    public void setHostinfoID(HostInfo hostinfoID) {
+        this.hostinfoID = hostinfoID;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof LoginPrev)) {
+            return false;
+        }
+        LoginPrev other = (LoginPrev) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.guardianpro.drm.entities.LoginPrev[ id=" + id + " ]";
     }
     
 }

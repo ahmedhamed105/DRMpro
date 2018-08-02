@@ -31,17 +31,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "distinct", catalog = "guardianpro", schema = "")
+@Table(name = "distinct", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Distinct1.findAll", query = "SELECT d FROM Distinct1 d"),
-    @NamedQuery(name = "Distinct1.findById", query = "SELECT d FROM Distinct1 d WHERE d.id = :id"),
-    @NamedQuery(name = "Distinct1.findByDistinctname", query = "SELECT d FROM Distinct1 d WHERE d.distinctname = :distinctname"),
-    @NamedQuery(name = "Distinct1.findByCreateDate", query = "SELECT d FROM Distinct1 d WHERE d.createDate = :createDate"),
-    @NamedQuery(name = "Distinct1.findByUpdateDate", query = "SELECT d FROM Distinct1 d WHERE d.updateDate = :updateDate")})
+    @NamedQuery(name = "Distinct1.findAll", query = "SELECT d FROM Distinct1 d")
+    , @NamedQuery(name = "Distinct1.findById", query = "SELECT d FROM Distinct1 d WHERE d.id = :id")
+    , @NamedQuery(name = "Distinct1.findByDistinctname", query = "SELECT d FROM Distinct1 d WHERE d.distinctname = :distinctname")
+    , @NamedQuery(name = "Distinct1.findByCreateDate", query = "SELECT d FROM Distinct1 d WHERE d.createDate = :createDate")
+    , @NamedQuery(name = "Distinct1.findByUpdateDate", query = "SELECT d FROM Distinct1 d WHERE d.updateDate = :updateDate")})
 public class Distinct1 implements Serializable {
 
     private static final long serialVersionUID = 1L;

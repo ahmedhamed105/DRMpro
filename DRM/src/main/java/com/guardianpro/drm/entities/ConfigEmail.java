@@ -31,17 +31,17 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "config_email", catalog = "guardianpro", schema = "")
+@Table(name = "config_email", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ConfigEmail.findAll", query = "SELECT c FROM ConfigEmail c"),
-    @NamedQuery(name = "ConfigEmail.findById", query = "SELECT c FROM ConfigEmail c WHERE c.id = :id"),
-    @NamedQuery(name = "ConfigEmail.findByEmail", query = "SELECT c FROM ConfigEmail c WHERE c.email = :email"),
-    @NamedQuery(name = "ConfigEmail.findByCreateDate", query = "SELECT c FROM ConfigEmail c WHERE c.createDate = :createDate"),
-    @NamedQuery(name = "ConfigEmail.findByUpdateDate", query = "SELECT c FROM ConfigEmail c WHERE c.updateDate = :updateDate")})
+    @NamedQuery(name = "ConfigEmail.findAll", query = "SELECT c FROM ConfigEmail c")
+    , @NamedQuery(name = "ConfigEmail.findById", query = "SELECT c FROM ConfigEmail c WHERE c.id = :id")
+    , @NamedQuery(name = "ConfigEmail.findByEmail", query = "SELECT c FROM ConfigEmail c WHERE c.email = :email")
+    , @NamedQuery(name = "ConfigEmail.findByCreateDate", query = "SELECT c FROM ConfigEmail c WHERE c.createDate = :createDate")
+    , @NamedQuery(name = "ConfigEmail.findByUpdateDate", query = "SELECT c FROM ConfigEmail c WHERE c.updateDate = :updateDate")})
 public class ConfigEmail implements Serializable {
 
     private static final long serialVersionUID = 1L;

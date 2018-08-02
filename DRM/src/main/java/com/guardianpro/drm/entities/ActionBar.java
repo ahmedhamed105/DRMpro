@@ -23,16 +23,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "action_bar", catalog = "guardianpro", schema = "")
+@Table(name = "action_bar", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ActionBar.findAll", query = "SELECT a FROM ActionBar a"),
-    @NamedQuery(name = "ActionBar.findById", query = "SELECT a FROM ActionBar a WHERE a.id = :id"),
-    @NamedQuery(name = "ActionBar.findByName", query = "SELECT a FROM ActionBar a WHERE a.name = :name"),
-    @NamedQuery(name = "ActionBar.findByLink", query = "SELECT a FROM ActionBar a WHERE a.link = :link")})
+    @NamedQuery(name = "ActionBar.findAll", query = "SELECT a FROM ActionBar a")
+    , @NamedQuery(name = "ActionBar.findById", query = "SELECT a FROM ActionBar a WHERE a.id = :id")
+    , @NamedQuery(name = "ActionBar.findByName", query = "SELECT a FROM ActionBar a WHERE a.name = :name")
+    , @NamedQuery(name = "ActionBar.findByLink", query = "SELECT a FROM ActionBar a WHERE a.link = :link")})
 public class ActionBar implements Serializable {
 
     private static final long serialVersionUID = 1L;

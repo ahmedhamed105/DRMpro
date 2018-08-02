@@ -31,21 +31,21 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "national_id", catalog = "guardianpro", schema = "")
+@Table(name = "national_id", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "NationalId.findAll", query = "SELECT n FROM NationalId n"),
-    @NamedQuery(name = "NationalId.findById", query = "SELECT n FROM NationalId n WHERE n.id = :id"),
-    @NamedQuery(name = "NationalId.findByNamtionalID", query = "SELECT n FROM NationalId n WHERE n.namtionalID = :namtionalID"),
-    @NamedQuery(name = "NationalId.findByFrontimage", query = "SELECT n FROM NationalId n WHERE n.frontimage = :frontimage"),
-    @NamedQuery(name = "NationalId.findByBackImage", query = "SELECT n FROM NationalId n WHERE n.backImage = :backImage"),
-    @NamedQuery(name = "NationalId.findByDateIssue", query = "SELECT n FROM NationalId n WHERE n.dateIssue = :dateIssue"),
-    @NamedQuery(name = "NationalId.findByPlaceIssue", query = "SELECT n FROM NationalId n WHERE n.placeIssue = :placeIssue"),
-    @NamedQuery(name = "NationalId.findByCreateDate", query = "SELECT n FROM NationalId n WHERE n.createDate = :createDate"),
-    @NamedQuery(name = "NationalId.findByUpdateDate", query = "SELECT n FROM NationalId n WHERE n.updateDate = :updateDate")})
+    @NamedQuery(name = "NationalId.findAll", query = "SELECT n FROM NationalId n")
+    , @NamedQuery(name = "NationalId.findById", query = "SELECT n FROM NationalId n WHERE n.id = :id")
+    , @NamedQuery(name = "NationalId.findByNamtionalID", query = "SELECT n FROM NationalId n WHERE n.namtionalID = :namtionalID")
+    , @NamedQuery(name = "NationalId.findByFrontimage", query = "SELECT n FROM NationalId n WHERE n.frontimage = :frontimage")
+    , @NamedQuery(name = "NationalId.findByBackImage", query = "SELECT n FROM NationalId n WHERE n.backImage = :backImage")
+    , @NamedQuery(name = "NationalId.findByDateIssue", query = "SELECT n FROM NationalId n WHERE n.dateIssue = :dateIssue")
+    , @NamedQuery(name = "NationalId.findByPlaceIssue", query = "SELECT n FROM NationalId n WHERE n.placeIssue = :placeIssue")
+    , @NamedQuery(name = "NationalId.findByCreateDate", query = "SELECT n FROM NationalId n WHERE n.createDate = :createDate")
+    , @NamedQuery(name = "NationalId.findByUpdateDate", query = "SELECT n FROM NationalId n WHERE n.updateDate = :updateDate")})
 public class NationalId implements Serializable {
 
     private static final long serialVersionUID = 1L;

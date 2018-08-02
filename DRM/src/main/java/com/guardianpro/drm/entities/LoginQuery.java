@@ -26,20 +26,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "login_query", catalog = "guardianpro", schema = "")
+@Table(name = "login_query", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "LoginQuery.findAll", query = "SELECT l FROM LoginQuery l"),
-      @NamedQuery(name = "LoginQuery.findByappuser", query = "SELECT l FROM LoginQuery l WHERE l.applicationuserID = :id"),
-    @NamedQuery(name = "LoginQuery.findById", query = "SELECT l FROM LoginQuery l WHERE l.id = :id"),
-    @NamedQuery(name = "LoginQuery.findByLogin", query = "SELECT l FROM LoginQuery l WHERE l.login = :login"),
-    @NamedQuery(name = "LoginQuery.findByTokean", query = "SELECT l FROM LoginQuery l WHERE l.tokean = :tokean"),
-    @NamedQuery(name = "LoginQuery.findByExpiretime", query = "SELECT l FROM LoginQuery l WHERE l.expiretime = :expiretime"),
-    @NamedQuery(name = "LoginQuery.findByCreateDate", query = "SELECT l FROM LoginQuery l WHERE l.createDate = :createDate"),
-    @NamedQuery(name = "LoginQuery.findByUpdateDate", query = "SELECT l FROM LoginQuery l WHERE l.updateDate = :updateDate")})
+    @NamedQuery(name = "LoginQuery.findAll", query = "SELECT l FROM LoginQuery l")
+    , @NamedQuery(name = "LoginQuery.findById", query = "SELECT l FROM LoginQuery l WHERE l.id = :id")
+    , @NamedQuery(name = "LoginQuery.findByLogin", query = "SELECT l FROM LoginQuery l WHERE l.login = :login")
+    , @NamedQuery(name = "LoginQuery.findByTokean", query = "SELECT l FROM LoginQuery l WHERE l.tokean = :tokean")
+    , @NamedQuery(name = "LoginQuery.findByExpiretime", query = "SELECT l FROM LoginQuery l WHERE l.expiretime = :expiretime")
+    , @NamedQuery(name = "LoginQuery.findByCreateDate", query = "SELECT l FROM LoginQuery l WHERE l.createDate = :createDate")
+    , @NamedQuery(name = "LoginQuery.findByUpdateDate", query = "SELECT l FROM LoginQuery l WHERE l.updateDate = :updateDate")
+    , @NamedQuery(name = "LoginQuery.findByUserlock", query = "SELECT l FROM LoginQuery l WHERE l.userlock = :userlock")
+    , @NamedQuery(name = "LoginQuery.findByUseradmin", query = "SELECT l FROM LoginQuery l WHERE l.useradmin = :useradmin")
+    , @NamedQuery(name = "LoginQuery.findByErrorcount", query = "SELECT l FROM LoginQuery l WHERE l.errorcount = :errorcount")})
 public class LoginQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,7 +74,7 @@ public class LoginQuery implements Serializable {
     @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-        @Basic(optional = false)
+    @Basic(optional = false)
     @NotNull
     @Column(name = "User_lock", nullable = false)
     private int userlock;
@@ -93,40 +95,16 @@ public class LoginQuery implements Serializable {
         this.id = id;
     }
 
-    public LoginQuery(Integer id, int login, String tokean, String expiretime, Date createDate, Date updateDate) {
+    public LoginQuery(Integer id, int login, String tokean, String expiretime, Date createDate, Date updateDate, int userlock, int useradmin) {
         this.id = id;
         this.login = login;
         this.tokean = tokean;
         this.expiretime = expiretime;
         this.createDate = createDate;
         this.updateDate = updateDate;
-    }
-
-    public int getUserlock() {
-        return userlock;
-    }
-
-    public void setUserlock(int userlock) {
         this.userlock = userlock;
-    }
-
-    public int getUseradmin() {
-        return useradmin;
-    }
-
-    public void setUseradmin(int useradmin) {
         this.useradmin = useradmin;
     }
-
-    public Integer getErrorcount() {
-        return errorcount;
-    }
-
-    public void setErrorcount(Integer errorcount) {
-        this.errorcount = errorcount;
-    }
-    
-    
 
     public Integer getId() {
         return id;
@@ -174,6 +152,30 @@ public class LoginQuery implements Serializable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public int getUserlock() {
+        return userlock;
+    }
+
+    public void setUserlock(int userlock) {
+        this.userlock = userlock;
+    }
+
+    public int getUseradmin() {
+        return useradmin;
+    }
+
+    public void setUseradmin(int useradmin) {
+        this.useradmin = useradmin;
+    }
+
+    public Integer getErrorcount() {
+        return errorcount;
+    }
+
+    public void setErrorcount(Integer errorcount) {
+        this.errorcount = errorcount;
     }
 
     public ApplicationUser getApplicationuserID() {

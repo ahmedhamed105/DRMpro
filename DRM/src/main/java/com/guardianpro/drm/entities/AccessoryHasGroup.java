@@ -25,16 +25,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "accessory_has_group", catalog = "guardianpro", schema = "")
+@Table(name = "accessory_has_group", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "AccessoryHasGroup.findAll", query = "SELECT a FROM AccessoryHasGroup a"),
-    @NamedQuery(name = "AccessoryHasGroup.findById", query = "SELECT a FROM AccessoryHasGroup a WHERE a.id = :id"),
-    @NamedQuery(name = "AccessoryHasGroup.findByCreateDate", query = "SELECT a FROM AccessoryHasGroup a WHERE a.createDate = :createDate"),
-    @NamedQuery(name = "AccessoryHasGroup.findByUpdateDate", query = "SELECT a FROM AccessoryHasGroup a WHERE a.updateDate = :updateDate")})
+    @NamedQuery(name = "AccessoryHasGroup.findAll", query = "SELECT a FROM AccessoryHasGroup a")
+    , @NamedQuery(name = "AccessoryHasGroup.findById", query = "SELECT a FROM AccessoryHasGroup a WHERE a.id = :id")
+    , @NamedQuery(name = "AccessoryHasGroup.findByCreateDate", query = "SELECT a FROM AccessoryHasGroup a WHERE a.createDate = :createDate")
+    , @NamedQuery(name = "AccessoryHasGroup.findByUpdateDate", query = "SELECT a FROM AccessoryHasGroup a WHERE a.updateDate = :updateDate")})
 public class AccessoryHasGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;

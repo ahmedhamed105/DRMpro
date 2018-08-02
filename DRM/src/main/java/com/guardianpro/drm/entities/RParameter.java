@@ -26,18 +26,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "r_parameter", catalog = "guardianpro", schema = "")
+@Table(name = "r_parameter", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "RParameter.findAll", query = "SELECT r FROM RParameter r"),
-    @NamedQuery(name = "RParameter.findById", query = "SELECT r FROM RParameter r WHERE r.id = :id"),
-    @NamedQuery(name = "RParameter.findByRpara", query = "SELECT r FROM RParameter r WHERE r.rpara = :rpara"),
-    @NamedQuery(name = "RParameter.findByParavalue", query = "SELECT r FROM RParameter r WHERE r.paravalue = :paravalue"),
-    @NamedQuery(name = "RParameter.findByCreateDate", query = "SELECT r FROM RParameter r WHERE r.createDate = :createDate"),
-    @NamedQuery(name = "RParameter.findByUpdateDate", query = "SELECT r FROM RParameter r WHERE r.updateDate = :updateDate")})
+    @NamedQuery(name = "RParameter.findAll", query = "SELECT r FROM RParameter r")
+    , @NamedQuery(name = "RParameter.findById", query = "SELECT r FROM RParameter r WHERE r.id = :id")
+    , @NamedQuery(name = "RParameter.findByRpara", query = "SELECT r FROM RParameter r WHERE r.rpara = :rpara")
+    , @NamedQuery(name = "RParameter.findByParavalue", query = "SELECT r FROM RParameter r WHERE r.paravalue = :paravalue")
+    , @NamedQuery(name = "RParameter.findByCreateDate", query = "SELECT r FROM RParameter r WHERE r.createDate = :createDate")
+    , @NamedQuery(name = "RParameter.findByUpdateDate", query = "SELECT r FROM RParameter r WHERE r.updateDate = :updateDate")})
 public class RParameter implements Serializable {
 
     private static final long serialVersionUID = 1L;

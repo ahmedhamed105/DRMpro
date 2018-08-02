@@ -31,19 +31,19 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "reports", catalog = "guardianpro", schema = "")
+@Table(name = "reports", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Reports.findAll", query = "SELECT r FROM Reports r"),
-    @NamedQuery(name = "Reports.findById", query = "SELECT r FROM Reports r WHERE r.id = :id"),
-    @NamedQuery(name = "Reports.findByReportDIR", query = "SELECT r FROM Reports r WHERE r.reportDIR = :reportDIR"),
-    @NamedQuery(name = "Reports.findByReportname", query = "SELECT r FROM Reports r WHERE r.reportname = :reportname"),
-    @NamedQuery(name = "Reports.findByReportSQL", query = "SELECT r FROM Reports r WHERE r.reportSQL = :reportSQL"),
-    @NamedQuery(name = "Reports.findByCreateDate", query = "SELECT r FROM Reports r WHERE r.createDate = :createDate"),
-    @NamedQuery(name = "Reports.findByUpdateDate", query = "SELECT r FROM Reports r WHERE r.updateDate = :updateDate")})
+    @NamedQuery(name = "Reports.findAll", query = "SELECT r FROM Reports r")
+    , @NamedQuery(name = "Reports.findById", query = "SELECT r FROM Reports r WHERE r.id = :id")
+    , @NamedQuery(name = "Reports.findByReportDIR", query = "SELECT r FROM Reports r WHERE r.reportDIR = :reportDIR")
+    , @NamedQuery(name = "Reports.findByReportname", query = "SELECT r FROM Reports r WHERE r.reportname = :reportname")
+    , @NamedQuery(name = "Reports.findByReportSQL", query = "SELECT r FROM Reports r WHERE r.reportSQL = :reportSQL")
+    , @NamedQuery(name = "Reports.findByCreateDate", query = "SELECT r FROM Reports r WHERE r.createDate = :createDate")
+    , @NamedQuery(name = "Reports.findByUpdateDate", query = "SELECT r FROM Reports r WHERE r.updateDate = :updateDate")})
 public class Reports implements Serializable {
 
     private static final long serialVersionUID = 1L;

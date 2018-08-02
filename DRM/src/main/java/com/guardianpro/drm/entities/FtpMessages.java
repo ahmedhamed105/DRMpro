@@ -26,17 +26,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "ftp_messages", catalog = "guardianpro", schema = "")
+@Table(name = "ftp_messages", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "FtpMessages.findAll", query = "SELECT f FROM FtpMessages f"),
-    @NamedQuery(name = "FtpMessages.findById", query = "SELECT f FROM FtpMessages f WHERE f.id = :id"),
-    @NamedQuery(name = "FtpMessages.findByFmessages", query = "SELECT f FROM FtpMessages f WHERE f.fmessages = :fmessages"),
-    @NamedQuery(name = "FtpMessages.findByCreateDate", query = "SELECT f FROM FtpMessages f WHERE f.createDate = :createDate"),
-    @NamedQuery(name = "FtpMessages.findByFTPLogID", query = "SELECT f FROM FtpMessages f WHERE f.fTPLogID = :fTPLogID")})
+    @NamedQuery(name = "FtpMessages.findAll", query = "SELECT f FROM FtpMessages f")
+    , @NamedQuery(name = "FtpMessages.findById", query = "SELECT f FROM FtpMessages f WHERE f.id = :id")
+    , @NamedQuery(name = "FtpMessages.findByFmessages", query = "SELECT f FROM FtpMessages f WHERE f.fmessages = :fmessages")
+    , @NamedQuery(name = "FtpMessages.findByCreateDate", query = "SELECT f FROM FtpMessages f WHERE f.createDate = :createDate")
+    , @NamedQuery(name = "FtpMessages.findByFTPLogID", query = "SELECT f FROM FtpMessages f WHERE f.fTPLogID = :fTPLogID")})
 public class FtpMessages implements Serializable {
 
     private static final long serialVersionUID = 1L;

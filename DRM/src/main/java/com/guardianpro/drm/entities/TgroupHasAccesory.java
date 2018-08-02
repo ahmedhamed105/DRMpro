@@ -26,18 +26,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "tgroup_has_accesory", catalog = "guardianpro", schema = "")
+@Table(name = "tgroup_has_accesory", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TgroupHasAccesory.findAll", query = "SELECT t FROM TgroupHasAccesory t"),
-    @NamedQuery(name = "TgroupHasAccesory.findById", query = "SELECT t FROM TgroupHasAccesory t WHERE t.id = :id"),
-    @NamedQuery(name = "TgroupHasAccesory.findByAaccessory", query = "SELECT t FROM TgroupHasAccesory t WHERE t.aaccessory = :aaccessory"),
-    @NamedQuery(name = "TgroupHasAccesory.findByCreateDate", query = "SELECT t FROM TgroupHasAccesory t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TgroupHasAccesory.findByUpdateDate", query = "SELECT t FROM TgroupHasAccesory t WHERE t.updateDate = :updateDate"),
-    @NamedQuery(name = "TgroupHasAccesory.findByXMLupdate", query = "SELECT t FROM TgroupHasAccesory t WHERE t.xMLupdate = :xMLupdate")})
+    @NamedQuery(name = "TgroupHasAccesory.findAll", query = "SELECT t FROM TgroupHasAccesory t")
+    , @NamedQuery(name = "TgroupHasAccesory.findById", query = "SELECT t FROM TgroupHasAccesory t WHERE t.id = :id")
+    , @NamedQuery(name = "TgroupHasAccesory.findByAaccessory", query = "SELECT t FROM TgroupHasAccesory t WHERE t.aaccessory = :aaccessory")
+    , @NamedQuery(name = "TgroupHasAccesory.findByCreateDate", query = "SELECT t FROM TgroupHasAccesory t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TgroupHasAccesory.findByUpdateDate", query = "SELECT t FROM TgroupHasAccesory t WHERE t.updateDate = :updateDate")
+    , @NamedQuery(name = "TgroupHasAccesory.findByXMLupdate", query = "SELECT t FROM TgroupHasAccesory t WHERE t.xMLupdate = :xMLupdate")})
 public class TgroupHasAccesory implements Serializable {
 
     private static final long serialVersionUID = 1L;

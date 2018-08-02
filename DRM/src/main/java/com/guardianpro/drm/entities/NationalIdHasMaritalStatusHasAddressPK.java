@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Embeddable
 public class NationalIdHasMaritalStatusHasAddressPK implements Serializable {

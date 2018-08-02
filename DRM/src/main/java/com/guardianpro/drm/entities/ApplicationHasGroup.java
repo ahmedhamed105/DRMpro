@@ -25,16 +25,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "application_has_group", catalog = "guardianpro", schema = "")
+@Table(name = "application_has_group", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ApplicationHasGroup.findAll", query = "SELECT a FROM ApplicationHasGroup a"),
-    @NamedQuery(name = "ApplicationHasGroup.findById", query = "SELECT a FROM ApplicationHasGroup a WHERE a.id = :id"),
-    @NamedQuery(name = "ApplicationHasGroup.findByCreateDate", query = "SELECT a FROM ApplicationHasGroup a WHERE a.createDate = :createDate"),
-    @NamedQuery(name = "ApplicationHasGroup.findByUpdateDate", query = "SELECT a FROM ApplicationHasGroup a WHERE a.updateDate = :updateDate")})
+    @NamedQuery(name = "ApplicationHasGroup.findAll", query = "SELECT a FROM ApplicationHasGroup a")
+    , @NamedQuery(name = "ApplicationHasGroup.findById", query = "SELECT a FROM ApplicationHasGroup a WHERE a.id = :id")
+    , @NamedQuery(name = "ApplicationHasGroup.findByCreateDate", query = "SELECT a FROM ApplicationHasGroup a WHERE a.createDate = :createDate")
+    , @NamedQuery(name = "ApplicationHasGroup.findByUpdateDate", query = "SELECT a FROM ApplicationHasGroup a WHERE a.updateDate = :updateDate")})
 public class ApplicationHasGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;

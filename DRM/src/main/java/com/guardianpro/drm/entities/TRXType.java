@@ -6,34 +6,39 @@
 package com.guardianpro.drm.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
  * @author ahmedhamed
  */
 @Entity
-@Table(name = "TRX_Type", catalog = "GuardianPro", schema = "")
+@Table(name = "trx_type", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TRXType.findAll", query = "SELECT t FROM TRXType t")
-    , @NamedQuery(name = "TRXType.findById", query = "SELECT t FROM TRXType t WHERE t.id = :id")
-    , @NamedQuery(name = "TRXType.findByTType", query = "SELECT t FROM TRXType t WHERE t.tType = :tType")
-    , @NamedQuery(name = "TRXType.findByCreateDate", query = "SELECT t FROM TRXType t WHERE t.createDate = :createDate")
-    , @NamedQuery(name = "TRXType.findByUpdateDate", query = "SELECT t FROM TRXType t WHERE t.updateDate = :updateDate")})
-public class TRXType implements Serializable {
+    @NamedQuery(name = "TrxType.findAll", query = "SELECT t FROM TrxType t")
+    , @NamedQuery(name = "TrxType.findById", query = "SELECT t FROM TrxType t WHERE t.id = :id")
+    , @NamedQuery(name = "TrxType.findByTType", query = "SELECT t FROM TrxType t WHERE t.tType = :tType")
+    , @NamedQuery(name = "TrxType.findByCreateDate", query = "SELECT t FROM TrxType t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TrxType.findByUpdateDate", query = "SELECT t FROM TrxType t WHERE t.updateDate = :updateDate")})
+public class TrxType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,15 +61,17 @@ public class TRXType implements Serializable {
     @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tRXTypeID")
+    private Collection<LogScreen> logScreenCollection;
 
-    public TRXType() {
+    public TrxType() {
     }
 
-    public TRXType(Integer id) {
+    public TrxType(Integer id) {
         this.id = id;
     }
 
-    public TRXType(Integer id, String tType, Date createDate, Date updateDate) {
+    public TrxType(Integer id, String tType, Date createDate, Date updateDate) {
         this.id = id;
         this.tType = tType;
         this.createDate = createDate;
@@ -103,6 +110,16 @@ public class TRXType implements Serializable {
         this.updateDate = updateDate;
     }
 
+    @XmlTransient
+    @JsonIgnore
+    public Collection<LogScreen> getLogScreenCollection() {
+        return logScreenCollection;
+    }
+
+    public void setLogScreenCollection(Collection<LogScreen> logScreenCollection) {
+        this.logScreenCollection = logScreenCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -113,10 +130,10 @@ public class TRXType implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TRXType)) {
+        if (!(object instanceof TrxType)) {
             return false;
         }
-        TRXType other = (TRXType) object;
+        TrxType other = (TrxType) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -125,7 +142,7 @@ public class TRXType implements Serializable {
 
     @Override
     public String toString() {
-        return "com.guardianpro.drm.entities.TRXType[ id=" + id + " ]";
+        return "com.guardianpro.drm.entities.TrxType[ id=" + id + " ]";
     }
     
 }

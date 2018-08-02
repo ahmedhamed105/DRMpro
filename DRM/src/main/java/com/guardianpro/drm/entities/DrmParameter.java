@@ -26,18 +26,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "drm_parameter", catalog = "guardianpro", schema = "")
+@Table(name = "drm_parameter", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "DrmParameter.findAll", query = "SELECT d FROM DrmParameter d"),
-    @NamedQuery(name = "DrmParameter.findById", query = "SELECT d FROM DrmParameter d WHERE d.id = :id"),
-    @NamedQuery(name = "DrmParameter.findByParametername", query = "SELECT d FROM DrmParameter d WHERE d.parametername = :parametername"),
-    @NamedQuery(name = "DrmParameter.findByParameterValue", query = "SELECT d FROM DrmParameter d WHERE d.parameterValue = :parameterValue"),
-    @NamedQuery(name = "DrmParameter.findByCreateDate", query = "SELECT d FROM DrmParameter d WHERE d.createDate = :createDate"),
-    @NamedQuery(name = "DrmParameter.findByUpdateDate", query = "SELECT d FROM DrmParameter d WHERE d.updateDate = :updateDate")})
+    @NamedQuery(name = "DrmParameter.findAll", query = "SELECT d FROM DrmParameter d")
+    , @NamedQuery(name = "DrmParameter.findById", query = "SELECT d FROM DrmParameter d WHERE d.id = :id")
+    , @NamedQuery(name = "DrmParameter.findByParametername", query = "SELECT d FROM DrmParameter d WHERE d.parametername = :parametername")
+    , @NamedQuery(name = "DrmParameter.findByParameterValue", query = "SELECT d FROM DrmParameter d WHERE d.parameterValue = :parameterValue")
+    , @NamedQuery(name = "DrmParameter.findByCreateDate", query = "SELECT d FROM DrmParameter d WHERE d.createDate = :createDate")
+    , @NamedQuery(name = "DrmParameter.findByUpdateDate", query = "SELECT d FROM DrmParameter d WHERE d.updateDate = :updateDate")})
 public class DrmParameter implements Serializable {
 
     private static final long serialVersionUID = 1L;

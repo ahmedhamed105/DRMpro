@@ -24,18 +24,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "national_id_has_marital_status", catalog = "guardianpro", schema = "")
+@Table(name = "national_id_has_marital_status", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "NationalIdHasMaritalStatus.findAll", query = "SELECT n FROM NationalIdHasMaritalStatus n"),
-    @NamedQuery(name = "NationalIdHasMaritalStatus.findById", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.id = :id"),
-    @NamedQuery(name = "NationalIdHasMaritalStatus.findByCreateDate", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.createDate = :createDate"),
-    @NamedQuery(name = "NationalIdHasMaritalStatus.findByUpdateDate", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.updateDate = :updateDate"),
-    @NamedQuery(name = "NationalIdHasMaritalStatus.findByNoChildern", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.noChildern = :noChildern"),
-    @NamedQuery(name = "NationalIdHasMaritalStatus.findByWifename", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.wifename = :wifename")})
+    @NamedQuery(name = "NationalIdHasMaritalStatus.findAll", query = "SELECT n FROM NationalIdHasMaritalStatus n")
+    , @NamedQuery(name = "NationalIdHasMaritalStatus.findById", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.id = :id")
+    , @NamedQuery(name = "NationalIdHasMaritalStatus.findByCreateDate", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.createDate = :createDate")
+    , @NamedQuery(name = "NationalIdHasMaritalStatus.findByUpdateDate", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.updateDate = :updateDate")
+    , @NamedQuery(name = "NationalIdHasMaritalStatus.findByNoChildern", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.noChildern = :noChildern")
+    , @NamedQuery(name = "NationalIdHasMaritalStatus.findByWifename", query = "SELECT n FROM NationalIdHasMaritalStatus n WHERE n.wifename = :wifename")})
 public class NationalIdHasMaritalStatus implements Serializable {
 
     private static final long serialVersionUID = 1L;

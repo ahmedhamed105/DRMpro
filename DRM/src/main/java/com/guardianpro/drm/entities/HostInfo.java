@@ -29,34 +29,22 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "host_info", catalog = "guardianpro", schema = "")
+@Table(name = "host_info", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "HostInfo.findAll", query = "SELECT h FROM HostInfo h"),
-    @NamedQuery(name = "HostInfo.findById", query = "SELECT h FROM HostInfo h WHERE h.id = :id"),
-    @NamedQuery(name = "HostInfo.findByHIp", query = "SELECT h FROM HostInfo h WHERE h.hIp = :hIp"),
-    @NamedQuery(name = "HostInfo.findByHHost", query = "SELECT h FROM HostInfo h WHERE h.hHost = :hHost"),
-    @NamedQuery(name = "HostInfo.findByHPort", query = "SELECT h FROM HostInfo h WHERE h.hPort = :hPort"),
-    @NamedQuery(name = "HostInfo.findByHUser", query = "SELECT h FROM HostInfo h WHERE h.hUser = :hUser")})
+    @NamedQuery(name = "HostInfo.findAll", query = "SELECT h FROM HostInfo h")
+    , @NamedQuery(name = "HostInfo.findById", query = "SELECT h FROM HostInfo h WHERE h.id = :id")
+    , @NamedQuery(name = "HostInfo.findByHIp", query = "SELECT h FROM HostInfo h WHERE h.hIp = :hIp")
+    , @NamedQuery(name = "HostInfo.findByHHost", query = "SELECT h FROM HostInfo h WHERE h.hHost = :hHost")
+    , @NamedQuery(name = "HostInfo.findByHPort", query = "SELECT h FROM HostInfo h WHERE h.hPort = :hPort")
+    , @NamedQuery(name = "HostInfo.findByHUser", query = "SELECT h FROM HostInfo h WHERE h.hUser = :hUser")
+    , @NamedQuery(name = "HostInfo.findByCreateDate", query = "SELECT h FROM HostInfo h WHERE h.createDate = :createDate")
+    , @NamedQuery(name = "HostInfo.findByUpdateDate", query = "SELECT h FROM HostInfo h WHERE h.updateDate = :updateDate")
+    , @NamedQuery(name = "HostInfo.findByRequestcount", query = "SELECT h FROM HostInfo h WHERE h.requestcount = :requestcount")})
 public class HostInfo implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "create_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "update_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Request_count", nullable = false)
-    private int requestcount;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -79,6 +67,20 @@ public class HostInfo implements Serializable {
     @Size(max = 45)
     @Column(name = "h_user", length = 45)
     private String hUser;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "create_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "update_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Request_count", nullable = false)
+    private int requestcount;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hostinfoID")
     private Collection<LoginPrev> loginPrevCollection;
 
@@ -89,10 +91,13 @@ public class HostInfo implements Serializable {
         this.id = id;
     }
 
-    public HostInfo(Integer id, String hIp, int hPort) {
+    public HostInfo(Integer id, String hIp, int hPort, Date createDate, Date updateDate, int requestcount) {
         this.id = id;
         this.hIp = hIp;
         this.hPort = hPort;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.requestcount = requestcount;
     }
 
     public Integer getId() {
@@ -135,6 +140,30 @@ public class HostInfo implements Serializable {
         this.hUser = hUser;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public int getRequestcount() {
+        return requestcount;
+    }
+
+    public void setRequestcount(int requestcount) {
+        this.requestcount = requestcount;
+    }
+
     @XmlTransient
     @JsonIgnore
     public Collection<LoginPrev> getLoginPrevCollection() {
@@ -168,30 +197,6 @@ public class HostInfo implements Serializable {
     @Override
     public String toString() {
         return "com.guardianpro.drm.entities.HostInfo[ id=" + id + " ]";
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public int getRequestcount() {
-        return requestcount;
-    }
-
-    public void setRequestcount(int requestcount) {
-        this.requestcount = requestcount;
     }
     
 }

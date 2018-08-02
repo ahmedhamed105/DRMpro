@@ -29,18 +29,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "near_places", catalog = "guardianpro", schema = "")
+@Table(name = "near_places", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "NearPlaces.findAll", query = "SELECT n FROM NearPlaces n"),
-    @NamedQuery(name = "NearPlaces.findById", query = "SELECT n FROM NearPlaces n WHERE n.id = :id"),
-    @NamedQuery(name = "NearPlaces.findByPlaces", query = "SELECT n FROM NearPlaces n WHERE n.places = :places"),
-    @NamedQuery(name = "NearPlaces.findByDescription", query = "SELECT n FROM NearPlaces n WHERE n.description = :description"),
-    @NamedQuery(name = "NearPlaces.findByCreateDate", query = "SELECT n FROM NearPlaces n WHERE n.createDate = :createDate"),
-    @NamedQuery(name = "NearPlaces.findByUpdateDate", query = "SELECT n FROM NearPlaces n WHERE n.updateDate = :updateDate")})
+    @NamedQuery(name = "NearPlaces.findAll", query = "SELECT n FROM NearPlaces n")
+    , @NamedQuery(name = "NearPlaces.findById", query = "SELECT n FROM NearPlaces n WHERE n.id = :id")
+    , @NamedQuery(name = "NearPlaces.findByPlaces", query = "SELECT n FROM NearPlaces n WHERE n.places = :places")
+    , @NamedQuery(name = "NearPlaces.findByDescription", query = "SELECT n FROM NearPlaces n WHERE n.description = :description")
+    , @NamedQuery(name = "NearPlaces.findByCreateDate", query = "SELECT n FROM NearPlaces n WHERE n.createDate = :createDate")
+    , @NamedQuery(name = "NearPlaces.findByUpdateDate", query = "SELECT n FROM NearPlaces n WHERE n.updateDate = :updateDate")})
 public class NearPlaces implements Serializable {
 
     private static final long serialVersionUID = 1L;

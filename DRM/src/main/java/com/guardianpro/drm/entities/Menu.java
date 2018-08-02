@@ -28,16 +28,19 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "menu", catalog = "guardianpro", schema = "")
+@Table(name = "menu", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Menu.findAll", query = "SELECT m FROM Menu m"),
-    @NamedQuery(name = "Menu.findById", query = "SELECT m FROM Menu m WHERE m.id = :id"),
-    @NamedQuery(name = "Menu.findByName", query = "SELECT m FROM Menu m WHERE m.name = :name"),
-    @NamedQuery(name = "Menu.findByLink", query = "SELECT m FROM Menu m WHERE m.link = :link")})
+    @NamedQuery(name = "Menu.findAll", query = "SELECT m FROM Menu m")
+    , @NamedQuery(name = "Menu.findById", query = "SELECT m FROM Menu m WHERE m.id = :id")
+    , @NamedQuery(name = "Menu.findByName", query = "SELECT m FROM Menu m WHERE m.name = :name")
+    , @NamedQuery(name = "Menu.findByLink", query = "SELECT m FROM Menu m WHERE m.link = :link")
+    , @NamedQuery(name = "Menu.findByModelType", query = "SELECT m FROM Menu m WHERE m.modelType = :modelType")
+    , @NamedQuery(name = "Menu.findByParentID", query = "SELECT m FROM Menu m WHERE m.parentID = :parentID")
+    , @NamedQuery(name = "Menu.findByMenuOrder", query = "SELECT m FROM Menu m WHERE m.menuOrder = :menuOrder")})
 public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,6 +59,13 @@ public class Menu implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "Link", nullable = false, length = 45)
     private String link;
+    @Size(max = 45)
+    @Column(name = "Model_Type", length = 45)
+    private String modelType;
+    @Column(name = "Parent_ID")
+    private Integer parentID;
+    @Column(name = "Menu_Order")
+    private Integer menuOrder;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuID")
     private Collection<MenuSub> menuSubCollection;
     @JoinColumn(name = "User_ID", referencedColumnName = "ID", nullable = false)
@@ -97,6 +107,30 @@ public class Menu implements Serializable {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getModelType() {
+        return modelType;
+    }
+
+    public void setModelType(String modelType) {
+        this.modelType = modelType;
+    }
+
+    public Integer getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(Integer parentID) {
+        this.parentID = parentID;
+    }
+
+    public Integer getMenuOrder() {
+        return menuOrder;
+    }
+
+    public void setMenuOrder(Integer menuOrder) {
+        this.menuOrder = menuOrder;
     }
 
     @XmlTransient

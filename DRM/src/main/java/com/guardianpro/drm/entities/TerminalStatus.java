@@ -29,18 +29,18 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "terminal_status", catalog = "guardianpro", schema = "")
+@Table(name = "terminal_status", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TerminalStatus.findAll", query = "SELECT t FROM TerminalStatus t"),
-    @NamedQuery(name = "TerminalStatus.findById", query = "SELECT t FROM TerminalStatus t WHERE t.id = :id"),
-    @NamedQuery(name = "TerminalStatus.findByTstatus", query = "SELECT t FROM TerminalStatus t WHERE t.tstatus = :tstatus"),
-    @NamedQuery(name = "TerminalStatus.findByTdescrip", query = "SELECT t FROM TerminalStatus t WHERE t.tdescrip = :tdescrip"),
-    @NamedQuery(name = "TerminalStatus.findByCreateDate", query = "SELECT t FROM TerminalStatus t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TerminalStatus.findByUpdateDate", query = "SELECT t FROM TerminalStatus t WHERE t.updateDate = :updateDate")})
+    @NamedQuery(name = "TerminalStatus.findAll", query = "SELECT t FROM TerminalStatus t")
+    , @NamedQuery(name = "TerminalStatus.findById", query = "SELECT t FROM TerminalStatus t WHERE t.id = :id")
+    , @NamedQuery(name = "TerminalStatus.findByTstatus", query = "SELECT t FROM TerminalStatus t WHERE t.tstatus = :tstatus")
+    , @NamedQuery(name = "TerminalStatus.findByTdescrip", query = "SELECT t FROM TerminalStatus t WHERE t.tdescrip = :tdescrip")
+    , @NamedQuery(name = "TerminalStatus.findByCreateDate", query = "SELECT t FROM TerminalStatus t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TerminalStatus.findByUpdateDate", query = "SELECT t FROM TerminalStatus t WHERE t.updateDate = :updateDate")})
 public class TerminalStatus implements Serializable {
 
     private static final long serialVersionUID = 1L;

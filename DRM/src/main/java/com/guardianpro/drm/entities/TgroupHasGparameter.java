@@ -31,23 +31,23 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "tgroup_has_gparameter", catalog = "guardianpro", schema = "")
+@Table(name = "tgroup_has_gparameter", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TgroupHasGparameter.findAll", query = "SELECT t FROM TgroupHasGparameter t"),
-    @NamedQuery(name = "TgroupHasGparameter.findById", query = "SELECT t FROM TgroupHasGparameter t WHERE t.id = :id"),
-    @NamedQuery(name = "TgroupHasGparameter.findByCreateDate", query = "SELECT t FROM TgroupHasGparameter t WHERE t.createDate = :createDate"),
-    @NamedQuery(name = "TgroupHasGparameter.findByUpdateDate", query = "SELECT t FROM TgroupHasGparameter t WHERE t.updateDate = :updateDate"),
-    @NamedQuery(name = "TgroupHasGparameter.findByTerminalId", query = "SELECT t FROM TgroupHasGparameter t WHERE t.terminalId = :terminalId"),
-    @NamedQuery(name = "TgroupHasGparameter.findByACCid", query = "SELECT t FROM TgroupHasGparameter t WHERE t.aCCid = :aCCid"),
-    @NamedQuery(name = "TgroupHasGparameter.findByISSid", query = "SELECT t FROM TgroupHasGparameter t WHERE t.iSSid = :iSSid"),
-    @NamedQuery(name = "TgroupHasGparameter.findByCardid", query = "SELECT t FROM TgroupHasGparameter t WHERE t.cardid = :cardid"),
-    @NamedQuery(name = "TgroupHasGparameter.findByXMLupdate", query = "SELECT t FROM TgroupHasGparameter t WHERE t.xMLupdate = :xMLupdate"),
-    @NamedQuery(name = "TgroupHasGparameter.findByFilename", query = "SELECT t FROM TgroupHasGparameter t WHERE t.filename = :filename"),
-    @NamedQuery(name = "TgroupHasGparameter.findByFileLength", query = "SELECT t FROM TgroupHasGparameter t WHERE t.fileLength = :fileLength")})
+    @NamedQuery(name = "TgroupHasGparameter.findAll", query = "SELECT t FROM TgroupHasGparameter t")
+    , @NamedQuery(name = "TgroupHasGparameter.findById", query = "SELECT t FROM TgroupHasGparameter t WHERE t.id = :id")
+    , @NamedQuery(name = "TgroupHasGparameter.findByCreateDate", query = "SELECT t FROM TgroupHasGparameter t WHERE t.createDate = :createDate")
+    , @NamedQuery(name = "TgroupHasGparameter.findByUpdateDate", query = "SELECT t FROM TgroupHasGparameter t WHERE t.updateDate = :updateDate")
+    , @NamedQuery(name = "TgroupHasGparameter.findByTerminalId", query = "SELECT t FROM TgroupHasGparameter t WHERE t.terminalId = :terminalId")
+    , @NamedQuery(name = "TgroupHasGparameter.findByACCid", query = "SELECT t FROM TgroupHasGparameter t WHERE t.aCCid = :aCCid")
+    , @NamedQuery(name = "TgroupHasGparameter.findByISSid", query = "SELECT t FROM TgroupHasGparameter t WHERE t.iSSid = :iSSid")
+    , @NamedQuery(name = "TgroupHasGparameter.findByCardid", query = "SELECT t FROM TgroupHasGparameter t WHERE t.cardid = :cardid")
+    , @NamedQuery(name = "TgroupHasGparameter.findByXMLupdate", query = "SELECT t FROM TgroupHasGparameter t WHERE t.xMLupdate = :xMLupdate")
+    , @NamedQuery(name = "TgroupHasGparameter.findByFilename", query = "SELECT t FROM TgroupHasGparameter t WHERE t.filename = :filename")
+    , @NamedQuery(name = "TgroupHasGparameter.findByFileLength", query = "SELECT t FROM TgroupHasGparameter t WHERE t.fileLength = :fileLength")})
 public class TgroupHasGparameter implements Serializable {
 
     private static final long serialVersionUID = 1L;

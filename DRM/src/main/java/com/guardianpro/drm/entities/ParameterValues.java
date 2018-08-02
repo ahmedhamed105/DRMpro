@@ -22,15 +22,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "parameter_values", catalog = "guardianpro", schema = "")
+@Table(name = "parameter_values", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ParameterValues.findAll", query = "SELECT p FROM ParameterValues p"),
-    @NamedQuery(name = "ParameterValues.findById", query = "SELECT p FROM ParameterValues p WHERE p.id = :id"),
-    @NamedQuery(name = "ParameterValues.findByValue", query = "SELECT p FROM ParameterValues p WHERE p.value = :value")})
+    @NamedQuery(name = "ParameterValues.findAll", query = "SELECT p FROM ParameterValues p")
+    , @NamedQuery(name = "ParameterValues.findById", query = "SELECT p FROM ParameterValues p WHERE p.id = :id")
+    , @NamedQuery(name = "ParameterValues.findByValue", query = "SELECT p FROM ParameterValues p WHERE p.value = :value")})
 public class ParameterValues implements Serializable {
 
     private static final long serialVersionUID = 1L;

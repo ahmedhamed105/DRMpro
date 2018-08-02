@@ -26,19 +26,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "birth_data", catalog = "guardianpro", schema = "")
+@Table(name = "birth_data", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "BirthData.findAll", query = "SELECT b FROM BirthData b"),
-    @NamedQuery(name = "BirthData.findById", query = "SELECT b FROM BirthData b WHERE b.id = :id"),
-    @NamedQuery(name = "BirthData.findByBirthDate", query = "SELECT b FROM BirthData b WHERE b.birthDate = :birthDate"),
-    @NamedQuery(name = "BirthData.findByBirthCert", query = "SELECT b FROM BirthData b WHERE b.birthCert = :birthCert"),
-    @NamedQuery(name = "BirthData.findByBirthplace", query = "SELECT b FROM BirthData b WHERE b.birthplace = :birthplace"),
-    @NamedQuery(name = "BirthData.findByCreateDate", query = "SELECT b FROM BirthData b WHERE b.createDate = :createDate"),
-    @NamedQuery(name = "BirthData.findByUpdateDate", query = "SELECT b FROM BirthData b WHERE b.updateDate = :updateDate")})
+    @NamedQuery(name = "BirthData.findAll", query = "SELECT b FROM BirthData b")
+    , @NamedQuery(name = "BirthData.findById", query = "SELECT b FROM BirthData b WHERE b.id = :id")
+    , @NamedQuery(name = "BirthData.findByBirthDate", query = "SELECT b FROM BirthData b WHERE b.birthDate = :birthDate")
+    , @NamedQuery(name = "BirthData.findByBirthCert", query = "SELECT b FROM BirthData b WHERE b.birthCert = :birthCert")
+    , @NamedQuery(name = "BirthData.findByBirthplace", query = "SELECT b FROM BirthData b WHERE b.birthplace = :birthplace")
+    , @NamedQuery(name = "BirthData.findByCreateDate", query = "SELECT b FROM BirthData b WHERE b.createDate = :createDate")
+    , @NamedQuery(name = "BirthData.findByUpdateDate", query = "SELECT b FROM BirthData b WHERE b.updateDate = :updateDate")})
 public class BirthData implements Serializable {
 
     private static final long serialVersionUID = 1L;

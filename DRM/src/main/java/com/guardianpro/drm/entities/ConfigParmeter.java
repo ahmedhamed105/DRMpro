@@ -26,19 +26,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ahmed.elemam
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "config_parmeter", catalog = "guardianpro", schema = "")
+@Table(name = "config_parmeter", catalog = "GuardianPro", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ConfigParmeter.findAll", query = "SELECT c FROM ConfigParmeter c"),
-    @NamedQuery(name = "ConfigParmeter.findById", query = "SELECT c FROM ConfigParmeter c WHERE c.id = :id"),
-    @NamedQuery(name = "ConfigParmeter.findByParameter", query = "SELECT c FROM ConfigParmeter c WHERE c.parameter = :parameter"),
-    @NamedQuery(name = "ConfigParmeter.findByPValue", query = "SELECT c FROM ConfigParmeter c WHERE c.pValue = :pValue"),
-    @NamedQuery(name = "ConfigParmeter.findByCreateDate", query = "SELECT c FROM ConfigParmeter c WHERE c.createDate = :createDate"),
-    @NamedQuery(name = "ConfigParmeter.findByUpdateDate", query = "SELECT c FROM ConfigParmeter c WHERE c.updateDate = :updateDate"),
-    @NamedQuery(name = "ConfigParmeter.findByEncryption", query = "SELECT c FROM ConfigParmeter c WHERE c.encryption = :encryption")})
+    @NamedQuery(name = "ConfigParmeter.findAll", query = "SELECT c FROM ConfigParmeter c")
+    , @NamedQuery(name = "ConfigParmeter.findById", query = "SELECT c FROM ConfigParmeter c WHERE c.id = :id")
+    , @NamedQuery(name = "ConfigParmeter.findByParameter", query = "SELECT c FROM ConfigParmeter c WHERE c.parameter = :parameter")
+    , @NamedQuery(name = "ConfigParmeter.findByPValue", query = "SELECT c FROM ConfigParmeter c WHERE c.pValue = :pValue")
+    , @NamedQuery(name = "ConfigParmeter.findByCreateDate", query = "SELECT c FROM ConfigParmeter c WHERE c.createDate = :createDate")
+    , @NamedQuery(name = "ConfigParmeter.findByUpdateDate", query = "SELECT c FROM ConfigParmeter c WHERE c.updateDate = :updateDate")
+    , @NamedQuery(name = "ConfigParmeter.findByEncryption", query = "SELECT c FROM ConfigParmeter c WHERE c.encryption = :encryption")})
 public class ConfigParmeter implements Serializable {
 
     private static final long serialVersionUID = 1L;
