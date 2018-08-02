@@ -17,6 +17,7 @@ import com.guardianpro.drm.entities.TrxTypeMsg;
 import com.guardianpro.drm.entities.Terminal;
 import com.guardianpro.drm.entities.Trx;
 import com.guardianpro.drm.entities.TrxFields;
+import com.guardianpro.drm.entities.TrxFieldsValues;
 import com.guardianpro.drm.entities.TrxValues;
 import com.guardianpro.drm.entities.User;
 import com.guardianpro.drm.sessions.ApplicationUserFacade;
@@ -31,12 +32,15 @@ import com.guardianpro.drm.sessions.TerminalFacade;
 import com.guardianpro.drm.sessions.TokeanGoFacade;
 import com.guardianpro.drm.sessions.TrxFacade;
 import com.guardianpro.drm.sessions.TrxFieldsFacade;
+import com.guardianpro.drm.sessions.TrxFieldsValuesFacade;
 import com.guardianpro.drm.sessions.TrxValuesFacade;
 import com.guardianpro.drm.sessions.UserFacade;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -58,6 +62,9 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @LocalBean
 public class TransactionController {
+
+    @EJB
+    private TrxFieldsValuesFacade trxFieldsValuesFacade;
 
     @EJB
     private TrxFacade trxFacade;
@@ -169,9 +176,9 @@ if(res.getError() == 1){
     
      Date  date;
 
+    HashMap<TrxFields,TrxValues> values=new HashMap<TrxFields,TrxValues>();  
     
-    
-    List<TrxValues> values=new ArrayList<>();
+
    
     for(int i=0;i<fields.length;i++){
         
@@ -206,7 +213,7 @@ if(res.getError() == 1){
     val.setUpdateDate(date);
     trxValuesFacade.edit(val);
     }
-    values.add(val);
+    values.put(field,val);
    
     }    
     
@@ -224,6 +231,28 @@ if(res.getError() == 1){
     t1.setTerminalID(term);
     trxFacade.create(t1);
     
+    User usr=res.getUser();
+    if(usr == null){
+    response.setTokean("");
+    response.setStatusCode(Error_codes.USR_error);
+    response.setExpiretime("0");
+    return response;
+    }
+    
+    for(Map.Entry m:values.entrySet()){  
+        
+        TrxFieldsValues trxval=new TrxFieldsValues();  
+        trxval.setTRXValuesID((TrxValues) m.getValue());
+        trxval.setTRXfieldsID((TrxFields) m.getKey());
+        trxval.setTrxId(t1);
+        trxval.setUserID(usr);
+        trxFieldsValuesFacade.create(trxval);
+  }  
+    
+
+    
+    
+  
     
     
     
@@ -629,6 +658,7 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
         resp.setReponse(response);
         resp.setError(0);
         resp.setTerm(terminal_id);
+        resp.setUser(usr);
         return resp; 
         
     }else{

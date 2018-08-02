@@ -6,6 +6,7 @@
 package com.guardianpro.drm.service;
 
 import com.guardianpro.drm.entities.Terminal;
+import com.guardianpro.drm.entities.User;
 
 /**
  *
@@ -17,6 +18,17 @@ public class respons_login {
     Login_ouput reponse;
     int error;
     Terminal term;
+    User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    
 
     public Login_ouput getReponse() {
         return reponse;
