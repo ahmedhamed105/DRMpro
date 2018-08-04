@@ -35,7 +35,10 @@ import com.guardianpro.drm.sessions.TrxFieldsFacade;
 import com.guardianpro.drm.sessions.TrxFieldsValuesFacade;
 import com.guardianpro.drm.sessions.TrxValuesFacade;
 import com.guardianpro.drm.sessions.UserFacade;
+import java.security.SecureRandom;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -121,7 +124,20 @@ public class TransactionController {
     
     String Expire_time = "10";
     String Serverkey = "SHARED_KEY";
-    
+    int ip_lock=3;
+    int ip_Admin=3;
+       int USER_lock=3;
+   int USER_Admin=3;
+   
+   
+     String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+   
+     int SECURE_TOKEN_LENGTH = 256;
+
+  SecureRandom random = new SecureRandom();
+   char[] symbols = CHARACTERS.toCharArray();
+   char[] buf = null;
+
     
     
     
@@ -135,6 +151,9 @@ public class TransactionController {
     String  host = req.getRemoteHost();
     String  userx = req.getRemoteUser();
     int  port = req.getRemotePort();
+    
+    
+  
      
      
  String user= trxx.getLogin().getUser().trim();
@@ -142,12 +161,41 @@ public class TransactionController {
  String tid= trxx.getLogin().getAgentcode().trim();
  String app= trxx.getLogin().getApplication().trim();
  
+ 
+
+ 
+ 
   respons_login res=  Login_check(key, ip, host, userx, port, tokean, app, user, tid);
    
 if(res.getError() == 1){
  return  res.getReponse();
 }else{
      Login_ouput response = new Login_ouput();
+     
+     
+     
+       
+    
+    
+      
+       
+    DrmParameter TRX_NUM_COUNT = drmParameterFacade.para_find("TRX_NUM_COUNT");  
+        DrmParameter TRX_HAVE_SAME_FIELD = drmParameterFacade.para_find("TRX_HAVE_SAME_FIELD");  
+        DrmParameter TRX_VALUE_Wrong = drmParameterFacade.para_find("TRX_VALUE_Wrong");
+     
+      
+     if( TRX_NUM_COUNT == null || TRX_HAVE_SAME_FIELD == null || TRX_VALUE_Wrong == null){
+    response.setTokean("");
+    response.setStatusCode(Error_codes.TRX_ERROR_PARA);
+    response.setExpiretime("0");
+    return response;
+      
+      }
+
+        
+        SECURE_TOKEN_LENGTH=Integer.parseInt(TRX_NUM_COUNT.getParameterValue().trim().trim());
+       buf = new char[SECURE_TOKEN_LENGTH];
+     
      
     TrxTypeMsg ttype=tRXtypemsgFacade.find(trxx.getType());
     if(ttype == null){
@@ -222,11 +270,19 @@ if(res.getError() == 1){
     
          
       date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+      
+      
+          DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+ 
+        //to convert Date to String, use format method of SimpleDateFormat class.
+        String strDate = dateFormat.format(date);
+      
+      String TRX_number=strDate+TRXnext();
     
     Trx t1=new Trx();
     t1.setCreateDate(date);
     t1.setUpdateDate(date);
-    t1.setTRXnumber(user);
+    t1.setTRXnumber(TRX_number);
     t1.setTRXtypemsgID(ttype);
     t1.setTerminalID(term);
     trxFacade.create(t1);
@@ -272,8 +328,18 @@ if(res.getError() == 1){
    LoginPrev pre;
    long diff=0;
   
-      DrmParameter para = drmParameterFacade.para_find("Server_key");
-      if(para == null){
+        DrmParameter Server_key = drmParameterFacade.para_find("Server_key");
+        DrmParameter IP_lock_count = drmParameterFacade.para_find("IP_lock_count");
+        DrmParameter IP_lock_Admin = drmParameterFacade.para_find("IP_lock_Admin");
+        DrmParameter USER_lock_count = drmParameterFacade.para_find("USER_lock_count");
+        DrmParameter USER_lock_Admin = drmParameterFacade.para_find("USER_lock_Admin");
+        
+        
+        DrmParameter TRX_NUM_COUNT = drmParameterFacade.para_find("TRX_NUM_COUNT");  
+        DrmParameter TRX_HAVE_SAME_FIELD = drmParameterFacade.para_find("TRX_HAVE_SAME_FIELD");  
+        DrmParameter TRX_VALUE_Wrong = drmParameterFacade.para_find("TRX_VALUE_Wrong");
+      
+     if(Server_key == null || IP_lock_count == null || IP_lock_Admin == null || USER_lock_count == null || USER_lock_Admin == null || TRX_NUM_COUNT == null || TRX_HAVE_SAME_FIELD == null || TRX_VALUE_Wrong == null){
     response.setTokean("");
     response.setStatusCode(Error_codes.HOST_notfound_key);
     response.setExpiretime("0");
@@ -288,7 +354,12 @@ if(res.getError() == 1){
          
       
           //check Server key
-      Serverkey=para.getParameterValue();
+      Serverkey=Server_key.getParameterValue();
+       ip_lock=Integer.parseInt(IP_lock_count.getParameterValue().trim());
+        ip_Admin=Integer.parseInt(IP_lock_Admin.getParameterValue().trim());
+        
+           USER_lock=Integer.parseInt(USER_lock_count.getParameterValue().trim());
+        USER_Admin=Integer.parseInt(USER_lock_Admin.getParameterValue().trim());
   
   if (Serverkey.equalsIgnoreCase(key)) {
       
@@ -342,12 +413,12 @@ if(res.getError() == 1){
          }
 
          
-        if(info1.getRequestcount() >= 3 && date.getTime() - info1.getUpdateDate().getTime() >= 1*60*1000 ){
+        if(info1.getRequestcount() >= ip_lock && date.getTime() - info1.getUpdateDate().getTime() >= 1*60*1000 ){
            info1.setRequestcount(0);
            pre.setLockcount(pre.getLockcount()+1);
          }
         
-            if(pre.getLockcount() >= 3){
+            if(pre.getLockcount() >= ip_Admin){
               info1.setRequestcount(0);
               pre.setLockcount(0);
               pre.setAdminLock(1);
@@ -368,7 +439,7 @@ if(res.getError() == 1){
          }
          
          
-        if(info1.getRequestcount() >= 3){
+        if(info1.getRequestcount() >= ip_lock){
         response.setTokean("");
         response.setStatusCode(Error_codes.HOST_Lock_3times);
         response.setExpiretime("0");  
@@ -492,7 +563,7 @@ if(res.getError() == 1){
                 
                           
                  
-                 if(query.getErrorcount() > 3){
+                 if(query.getErrorcount() >= USER_lock){
                      
                      
                         // lock 3 times
@@ -510,6 +581,9 @@ if(res.getError() == 1){
                 info1.setRequestcount(info1.getRequestcount()+1);   
                 hostInfoFacade.edit(info1);
                 
+                     query.setUserlock(query.getUserlock()+1);
+                loginQueryFacade.edit(query);
+                
         response.setTokean("");
         response.setStatusCode(Error_codes.HOST_Lock_query_3times);
         response.setExpiretime("0");  
@@ -519,7 +593,7 @@ if(res.getError() == 1){
                
                  }
                  
-                if(query.getUserlock() > 3){
+                if(query.getUserlock() >= USER_Admin){
                     
                                 
                         // lock 3 times
@@ -536,6 +610,9 @@ if(res.getError() == 1){
                 
                 info1.setRequestcount(info1.getRequestcount()+1);   
                 hostInfoFacade.edit(info1);
+                
+                       query.setUseradmin(1);
+                loginQueryFacade.edit(query);
                 
         response.setTokean("");
         response.setStatusCode(Error_codes.HOST_Lock_query_Admin);
@@ -570,12 +647,12 @@ if(res.getError() == 1){
                 
                  query.setErrorcount(query.getErrorcount()+1);
                  
-                 if(query.getErrorcount() > 3){
+                 if(query.getErrorcount() >= USER_lock){
                  query.setUserlock(query.getUserlock()+1);
                  query.setErrorcount(0);
                  }
                  
-                if(query.getUserlock() > 3){
+                if(query.getUserlock() >= USER_Admin){
                   query.setUseradmin(query.getUseradmin()+1);
                    query.setErrorcount(0);
                  }
@@ -741,6 +818,15 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
   }
         
     }
+   
+   
+   
+    
+ public  String TRXnext() {
+    for (int idx = 0; idx < buf.length; ++idx)
+        buf[idx] = symbols[random.nextInt(symbols.length)];
+    return new String(buf);
+}
    
 
     

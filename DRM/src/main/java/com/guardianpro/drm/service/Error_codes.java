@@ -64,6 +64,7 @@ public class Error_codes {
     
     
      //Host Check
+    static int TRX_ERROR_PARA=600;
     static int TRX_Sucess=601;
     static int TRX_type_error=602;
     static int Terminal_error=603;

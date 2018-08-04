@@ -116,6 +116,13 @@ public class PaymentController {
 
 
    char[] buf = null;
+   
+   
+   int ip_lock=3;
+   int ip_Admin=3;
+   int USER_lock=3;
+   int USER_Admin=3;
+
 
 
 
@@ -139,21 +146,35 @@ public class PaymentController {
    LoginPrev pre;
    long diff=0;
   
-      DrmParameter para = drmParameterFacade.para_find("Server_key");
-       DrmParameter para1 = drmParameterFacade.para_find("Tokean_length");
-        DrmParameter para2 = drmParameterFacade.para_find("Tokean_expire");
-      if(para == null || para1 == null || para2 == null){
+      DrmParameter Server_key = drmParameterFacade.para_find("Server_key");
+       DrmParameter Tokean_length = drmParameterFacade.para_find("Tokean_length");
+        DrmParameter Tokean_expire = drmParameterFacade.para_find("Tokean_expire");
+        
+            DrmParameter IP_lock_count = drmParameterFacade.para_find("IP_lock_count");
+       DrmParameter IP_lock_Admin = drmParameterFacade.para_find("IP_lock_Admin");
+       
+       
+                   DrmParameter USER_lock_count = drmParameterFacade.para_find("USER_lock_count");
+       DrmParameter USER_lock_Admin = drmParameterFacade.para_find("USER_lock_Admin");
+            
+            
+            
+      if(Server_key == null || Tokean_length == null || Tokean_expire == null || IP_lock_count == null || IP_lock_Admin == null || USER_lock_count == null || USER_lock_Admin == null ){
     response.setTokean("");
     response.setStatusCode(Error_codes.notfound_key);
     response.setExpiretime("0");
       return response;
       }else{
           //check Server key
-      Serverkey=para.getParameterValue();
-      SECURE_TOKEN_LENGTH=Integer.parseInt(para1.getParameterValue());
+      Serverkey=Server_key.getParameterValue();
+      SECURE_TOKEN_LENGTH=Integer.parseInt(Tokean_length.getParameterValue().trim().trim());
        buf = new char[SECURE_TOKEN_LENGTH];
-       Expire_time=para2.getParameterValue();
+       Expire_time=Tokean_expire.getParameterValue().trim();
+       ip_lock=Integer.parseInt(IP_lock_count.getParameterValue().trim());
+        ip_Admin=Integer.parseInt(IP_lock_Admin.getParameterValue().trim());
   
+          USER_lock=Integer.parseInt(USER_lock_count.getParameterValue().trim());
+        USER_Admin=Integer.parseInt(USER_lock_Admin.getParameterValue().trim());
   if (Serverkey.equalsIgnoreCase(key)) {
       
       Date  date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -214,12 +235,12 @@ public class PaymentController {
          }
 
          
-        if(info1.getRequestcount() >= 3 && date.getTime() - info1.getUpdateDate().getTime() >= 1*60*1000 ){
+        if(info1.getRequestcount() >= ip_lock && date.getTime() - info1.getUpdateDate().getTime() >= 1*60*1000 ){
            info1.setRequestcount(0);
            pre.setLockcount(pre.getLockcount()+1);
          }
         
-            if(pre.getLockcount() >= 3){
+            if(pre.getLockcount() >= ip_Admin){
               info1.setRequestcount(0);
               pre.setLockcount(0);
               pre.setAdminLock(1);
@@ -238,7 +259,7 @@ public class PaymentController {
          }
          
          
-        if(info1.getRequestcount() >= 3){
+        if(info1.getRequestcount() >= ip_lock){
         response.setTokean("");
         response.setStatusCode(Error_codes.Lock_3times);
         response.setExpiretime("0");  
@@ -352,12 +373,12 @@ public class PaymentController {
                 if(query!=null){
                   query.setErrorcount(query.getErrorcount()+1);
                  
-                 if(query.getErrorcount() > 3){
+                 if(query.getErrorcount() > USER_lock){
                  query.setUserlock(query.getUserlock()+1);
                  query.setErrorcount(0);
                  }
                  
-                if(query.getUserlock() > 3){
+                if(query.getUserlock() > USER_Admin){
                   query.setUseradmin(query.getUseradmin()+1);
                    query.setErrorcount(0);
                  }
@@ -427,7 +448,34 @@ public class PaymentController {
                    }
                    
                    
-                      if(query.getErrorcount() > 3){
+                   if(query.getUseradmin() == 1){
+                                           // Admin lock 
+                LoginHistory history=new LoginHistory();
+                history.setHIp(ip);
+                history.setHHost(host);
+                history.setHUser(userx);
+                history.setHPort(port);
+                history.setLoginfailed(date);
+                history.setFailedSucess(0);
+                history.setLoginprevID(pre);
+                history.setErrorCode(Error_codes.Lock_query_Admin);
+                loginHistoryFacade.create(history);
+                
+                info1.setRequestcount(info1.getRequestcount()+1);   
+                hostInfoFacade.edit(info1);
+                
+                query.setUseradmin(1);
+                loginQueryFacade.edit(query);
+                
+        response.setTokean("");
+        response.setStatusCode(Error_codes.Lock_query_Admin);
+        response.setExpiretime("0");  
+        return response;  
+                   
+                   }
+                   
+                   
+                      if(query.getErrorcount() > USER_lock){
                      
                      
                         // lock 3 times
@@ -444,6 +492,8 @@ public class PaymentController {
                 
                 info1.setRequestcount(info1.getRequestcount()+1);   
                 hostInfoFacade.edit(info1);
+                   query.setUserlock(query.getUserlock()+1);
+                loginQueryFacade.edit(query);
                 
         response.setTokean("");
         response.setStatusCode(Error_codes.Lock_query_3times);
@@ -452,7 +502,7 @@ public class PaymentController {
                
                  }
                  
-                if(query.getUserlock() > 3){
+                if(query.getUserlock() > USER_Admin){
                     
                                 
                         // lock 3 times
@@ -469,6 +519,9 @@ public class PaymentController {
                 
                 info1.setRequestcount(info1.getRequestcount()+1);   
                 hostInfoFacade.edit(info1);
+                
+                query.setUseradmin(1);
+                loginQueryFacade.edit(query);
                 
         response.setTokean("");
         response.setStatusCode(Error_codes.Lock_query_Admin);
@@ -526,6 +579,13 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
                 history.setLoginprevID(pre);
                 history.setErrorCode(Error_codes.Sucess_login);
                 loginHistoryFacade.create(history);
+                
+                
+                   response.setTokean(tok.getTokean());
+        response.setStatusCode(Error_codes.Sucess_login);
+        response.setExpiretime(String.valueOf(Expire_time));  
+         return response;
+                
 }else{
  //before  expire minutes difference
 
@@ -559,6 +619,12 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
                 history.setLoginprevID(pre);
                 history.setErrorCode(Error_codes.Sucess_login);
                 loginHistoryFacade.create(history);
+                
+                
+                   response.setTokean(tok.getTokean());
+        response.setStatusCode(Error_codes.Sucess_login);
+        response.setExpiretime(String.valueOf(Integer.parseInt(Expire_time)-(int)((diff/60)/1000)));  
+         return response;
   
     }else{
           toke=nextToken();
@@ -594,6 +660,11 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
                 history.setLoginprevID(pre);
                 history.setErrorCode(Error_codes.Sucess_login);
                 loginHistoryFacade.create(history);
+                
+                   response.setTokean(tok.getTokean());
+        response.setStatusCode(Error_codes.Sucess_login);
+        response.setExpiretime(String.valueOf(Expire_time));  
+         return response;
    
    
    }
@@ -608,10 +679,7 @@ if(diff >= Integer.parseInt(Expire_time) * 60 * 1000)
                
           
   
-     response.setTokean(tok.getTokean());
-        response.setStatusCode(Error_codes.Sucess_login);
-        response.setExpiretime(String.valueOf(Integer.parseInt(Expire_time)-(int)((diff/60)/1000)));  
-         return response;
+  
                
                
                
