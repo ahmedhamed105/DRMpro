@@ -123,14 +123,10 @@ public class DynamnicSearchController extends AbstractManagedBean {
             if (fromFieldValue != null) {
 
                 sql += " and cast(t.tRXValuesID.fValue as unsigned) >=" + fromFieldValue;
-//                parmeters.add(from);
-//                index++;
             }
 
             if (toFieldValue != null) {
                 sql += " and  cast(t.tRXValuesID.fValue as unsigned) <=" + toFieldValue;
-//                parmeters.add(to);
-//                index++;
 
             }
             logger.debug("sql " + sql);
