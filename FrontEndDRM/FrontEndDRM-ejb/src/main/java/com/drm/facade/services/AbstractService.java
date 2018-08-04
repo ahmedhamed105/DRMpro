@@ -135,6 +135,19 @@ public abstract class AbstractService implements DataService {
     }
 
     @Override
+    public List<String> getNamedQueryColumnResult(
+            String namedQueryName, Object... params) {
+        Query namedQuery = getEntityManager().createNamedQuery(namedQueryName);
+        if (params != null) {
+            for (int i = 0; i < params.length; i++) {
+                namedQuery.setParameter(i + 1, params[i]);
+            }
+        }
+        List<String> resultList = namedQuery.getResultList();
+        return resultList;
+    }
+
+    @Override
     public <T extends AbstractEntity> List<T> findByExample(T example) {
 
         if (true) {

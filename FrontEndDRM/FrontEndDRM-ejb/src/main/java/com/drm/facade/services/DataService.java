@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
  * @author mohammed.ayad
  */
 public interface DataService {
+
     public static String PU_NAME = "com.drm_FrontEndDRM-ejb_ejb_1.0-SNAPSHOTPU";
 
     public EntityManager getEntityManager();
@@ -48,6 +49,8 @@ public interface DataService {
 
     public <T extends AbstractEntity> List<T> getNamedQueryResult(
             String namedQuery, Object... params);
+
+    public List<String> getNamedQueryColumnResult(String namedQuery, Object... params);
 
     <T extends AbstractEntity> T refresh(T entity);
 

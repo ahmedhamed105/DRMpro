@@ -48,6 +48,11 @@ import javax.xml.bind.annotation.XmlTransient;
 public class User extends AbstractEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<TerminalTemplate> terminalTemplateCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<TrxFieldsValues> trxFieldsValuesCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
     private Collection<Menu> menuCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -224,6 +229,24 @@ public class User extends AbstractEntity {
 
     public void setMenuCollection(Collection<Menu> menuCollection) {
         this.menuCollection = menuCollection;
+    }
+
+    @XmlTransient
+    public Collection<TerminalTemplate> getTerminalTemplateCollection() {
+        return terminalTemplateCollection;
+    }
+
+    public void setTerminalTemplateCollection(Collection<TerminalTemplate> terminalTemplateCollection) {
+        this.terminalTemplateCollection = terminalTemplateCollection;
+    }
+
+    @XmlTransient
+    public Collection<TrxFieldsValues> getTrxFieldsValuesCollection() {
+        return trxFieldsValuesCollection;
+    }
+
+    public void setTrxFieldsValuesCollection(Collection<TrxFieldsValues> trxFieldsValuesCollection) {
+        this.trxFieldsValuesCollection = trxFieldsValuesCollection;
     }
 
 }

@@ -1,0 +1,81 @@
+<ui:composition template="/template/hometemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <h:panelGroup layout="block">
+            <h:form prependId="false">
+                <h:messages layout="list" showSummary="true" showDetail="false"
+                            errorClass="error" infoClass="error"/>
+                <p:panelGrid layout="grid" columns="4" id="panelGrid" styleClass="clearfix">
+                    <f:facet name="header">Advanced Search</f:facet>
+                    <p:outputLabel value="Transaction Type"/>
+                    <p:selectOneMenu value="#{DynamnicSearchBean.selectedTrxType}">
+                        <f:selectItem itemLabel="Select Transaction Type"
+                                      noSelectionOption="true" />
+                        <f:selectItems value="#{DynamnicSearchBean.trxTypeList}" var="trxType"
+                                       itemValue="#{trxType}" itemLabel="#{trxType}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Transaction Field"/>
+                    <p:selectOneMenu value="#{DynamnicSearchBean.selectedTrxFiled}">
+                        <f:selectItem itemLabel="Select Field Name"
+                                      noSelectionOption="true" />
+                        <f:selectItems value="#{DynamnicSearchBean.trxFieldsList}" var="trxFields"
+                                       itemValue="#{trxFields}" itemLabel="#{trxFields}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Transaction from:" />
+                    <p:calendar id="fromValueDate"
+                                value="#{DynamnicSearchBean.fromValueDate}" showOn="button"
+                                navigator="true" pattern="yyyy-MMM-dd" showButtonPanel="true" />
+
+                    <p:outputLabel value="Transaction to:" />
+                    <p:calendar id="toValueDate" value="#{DynamnicSearchBean.toValueDate}"
+                                showOn="button" navigator="true" showButtonPanel="true"
+                                pattern="yyyy-MMM-dd" />
+                </p:panelGrid>
+                <p:panelGrid layout="grid" columns="4" id="panelGrid2" styleClass="clearfix">
+                    <p:outputLabel value="Field Type"/>
+                    <p:selectOneMenu value="#{DynamnicSearchBean.selectedFiledType}">
+                        <p:ajax update="panelGrid2" />
+                        <f:selectItem itemLabel="Select Field Type"
+                                      noSelectionOption="true" />
+                        <f:selectItems value="#{DynamnicSearchBean.fieldsTypeList}" var="fieldType"
+                                       itemValue="#{fieldType}" itemLabel="#{fieldType}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="" />
+                    <p:outputLabel value="" />
+                    <c:if test="#{DynamnicSearchBean.selectedFiledType eq 'text'}">
+                        <p:outputLabel value="Field Value:" />
+                        <p:inputText value="#{DynamnicSearchBean.selectedFiledValue}" />
+                        <p:outputLabel value="" />
+                        <p:outputLabel value="" />
+                    </c:if>
+                    <c:if test="#{DynamnicSearchBean.selectedFiledType eq 'number'}">
+                        <p:outputLabel value="Field amount from:" />
+                        <p:inputText value="#{DynamnicSearchBean.fromFieldValue}" >
+                            <f:converter converterId="javax.faces.BigDecimal" />
+                        </p:inputText>
+                        <p:outputLabel value="Field amount to:" />
+                        <p:inputText value="#{DynamnicSearchBean.toFieldValue}" >
+                            <f:converter converterId="javax.faces.BigDecimal" />
+                        </p:inputText>
+                    </c:if>
+                </p:panelGrid>
+                <h:panelGroup layout="block" styleClass="btn-bar">
+                    <p:commandButton value="Search" action="#{DynamnicSearchBean.doSearch()}"
+                                     />
+                    <p:commandButton value="Refresh"
+                                     action="#{DynamnicSearchBean.refrech()}"  />
+                </h:panelGroup>
+
+            </h:form>
+        </h:panelGroup>
+    </ui:define>
+
+
+
+
+</ui:composition>

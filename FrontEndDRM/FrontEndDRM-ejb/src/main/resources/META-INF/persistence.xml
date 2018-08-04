@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="com.drm_FrontEndDRM-ejb_ejb_1.0-SNAPSHOTPU" transaction-type="JTA">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <jta-data-source>jdbc/GardianPro</jta-data-source>
-    <class>com.drm.model.entities.User</class>
-    <class>com.drm.model.entities.UserPassword</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties>
-      <property name="eclipselink.canonicalmodel.subpackage" value="foobar"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="com.drm_FrontEndDRM-ejb_ejb_1.0-SNAPSHOTPU" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>jdbc/GardianPro</jta-data-source>
+        <class>com.drm.model.entities.User</class>
+        <class>com.drm.model.entities.UserPassword</class>
+        <class>com.drm.model.entities.Audit</class>
+        <class>com.drm.model.entities.FieldType</class>
+        <class>com.drm.model.entities.Menu</class>
+        <class>com.drm.model.entities.Terminal</class>
+        <class>com.drm.model.entities.TerminalStatus</class>
+        <class>com.drm.model.entities.TerminalTemplate</class>
+        <class>com.drm.model.entities.Trx</class>
+        <class>com.drm.model.entities.TrxFields</class>
+        <class>com.drm.model.entities.TrxFieldsValues</class>
+        <class>com.drm.model.entities.TrxTypeMsg</class>
+        <class>com.drm.model.entities.TrxValues</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.canonicalmodel.subpackage" value="foobar"/>
+        </properties>
+    </persistence-unit>
 </persistence>
