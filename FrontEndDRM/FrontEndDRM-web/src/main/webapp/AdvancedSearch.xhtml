@@ -66,12 +66,62 @@
                 </p:panelGrid>
                 <h:panelGroup layout="block" styleClass="btn-bar">
                     <p:commandButton value="Search" action="#{DynamnicSearchBean.doSearch()}"
-                                     />
+                                     update="searchGrid"/>
                     <p:commandButton value="Refresh"
-                                     action="#{DynamnicSearchBean.refrech()}"  />
+                                     action="#{DynamnicSearchBean.refrech()}" update="searchGrid" />
                 </h:panelGroup>
-
             </h:form>
+            <p:panelGrid layout="grid" columns="1" styleClass="clearfix" id="searchGrid">		
+                <f:facet name="header">
+                    Search Results
+                </f:facet>
+                <h:form>
+                    <p:dataTable var="trxFieldValue" value="#{DynamnicSearchBean.searchedResult}"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{totalRecords} Transaction(s) / {totalPages} page(s)"
+                                 rowsPerPageTemplate="5,10,15" lazy="true" sortBy="#{trxFieldValue.id}" sortMode="asc">
+                        <p:column headerText="Seq">
+                            <h:outputText value="#{trxFieldValue.id}" />
+                        </p:column>
+                        <p:column headerText="User Name">
+                            <h:outputText value="#{trxFieldValue.userID.username}" />
+                        </p:column>
+                        <p:column headerText="Transaction Type">
+                            <h:outputText value="#{trxFieldValue.trxId.TRXtypemsgID.ttype}" />
+                        </p:column>
+                        <p:column headerText="Transaction Number">
+                            <h:outputText value="#{trxFieldValue.trxId.TRXnumber}" />
+                        </p:column>
+                        <p:column headerText="terminal Tid">
+                            <h:outputText value="#{trxFieldValue.trxId.terminalID.tid}" />
+                        </p:column>
+                        <p:column headerText="Transactio Creation Date">
+                            <h:outputText value="#{trxFieldValue.trxId.createDate}">
+                                <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss z" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Field Type">
+                            <h:outputText value="#{trxFieldValue.TRXfieldsID.fieldtypeID.ftype}" />
+                        </p:column>
+                        <p:column headerText="Field Name">
+                            <h:outputText value="#{trxFieldValue.TRXfieldsID.FName}" />
+                        </p:column>
+                        <p:column headerText="Field Description">
+                            <h:outputText value="#{trxFieldValue.TRXfieldsID.FDescription}" />
+                        </p:column>
+                        <p:column headerText="Field Value">
+                            <h:outputText value="#{trxFieldValue.TRXValuesID.FValue}" />
+                        </p:column>
+                        <p:column headerText="Field Value Description">
+                            <h:outputText value="#{trxFieldValue.TRXValuesID.FDescription}" />
+                        </p:column>
+
+
+                    </p:dataTable>
+                </h:form>
+            </p:panelGrid>
         </h:panelGroup>
     </ui:define>
 

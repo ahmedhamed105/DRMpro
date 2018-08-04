@@ -27,9 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "trx_fields_values")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TrxFieldsValues.findAll", query = "SELECT t FROM TrxFieldsValues t")
+    @NamedQuery(name = TrxFieldsValues.FIND_ALL_TRANSACTIONS, query = "SELECT t FROM TrxFieldsValues t")
     , @NamedQuery(name = "TrxFieldsValues.findById", query = "SELECT t FROM TrxFieldsValues t WHERE t.id = :id")})
 public class TrxFieldsValues extends AbstractEntity {
+
+    public static final String FIND_ALL_TRANSACTIONS = "TrxFieldsValues.findAll";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -121,5 +123,5 @@ public class TrxFieldsValues extends AbstractEntity {
     public String toString() {
         return "com.drm.model.entities.TrxFieldsValues[ id=" + id + " ]";
     }
-    
+
 }

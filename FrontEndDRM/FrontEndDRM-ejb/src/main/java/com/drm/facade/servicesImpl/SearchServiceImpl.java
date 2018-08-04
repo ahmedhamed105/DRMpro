@@ -14,7 +14,9 @@ import com.drm.model.entities.TrxFieldsValues;
 import com.drm.model.entities.TrxTypeMsg;
 import com.drm.utils.Logger;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -47,15 +49,17 @@ public class SearchServiceImpl extends AbstractService implements SearchService 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override
-    public List<String> getAllTrxType() {
+    public Set<String> getAllTrxType() {
         List<String> trxTypeList = getNamedQueryColumnResult(TrxTypeMsg.TRX_TYPE_FIND_ALL_TYPES, null);
-        return trxTypeList;
+        Set<String> unDuplicateTrxTypeList = new HashSet<String>(trxTypeList);
+        return unDuplicateTrxTypeList;
     }
 
     @Override
-    public List<String> getAllFieldsName() {
+    public Set<String> getAllFieldsName() {
         List<String> trxFieldsList = getNamedQueryColumnResult(TrxFields.TRX_FIELDS_FIND_ALL_NAMES, null);
-        return trxFieldsList;
+        Set<String> unDuplicateTrxFieldsList = new HashSet<String>(trxFieldsList);
+        return unDuplicateTrxFieldsList;
     }
 
     @Override
@@ -66,8 +70,15 @@ public class SearchServiceImpl extends AbstractService implements SearchService 
     }
 
     @Override
-    public List<String> getAllFieldsType() {
+    public Set<String> getAllFieldsType() {
         List<String> fieldsType = getNamedQueryColumnResult(FieldType.FIELD_TYPE_FIND_ALL_TYPES, null);
-        return fieldsType;
+        Set<String> unDuplicateFieldsType = new HashSet<String>(fieldsType);
+        return unDuplicateFieldsType;
+    }
+
+    @Override
+    public List<TrxFieldsValues> getAllTransactions() {
+        List<TrxFieldsValues> transactionsList = getNamedQueryResult(TrxFieldsValues.FIND_ALL_TRANSACTIONS, null);
+        return transactionsList;
     }
 }

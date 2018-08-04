@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -37,29 +38,29 @@ public class DynamnicSearchController extends AbstractManagedBean {
 
     @EJB
     private SearchService searchService;
-    private List<String> trxTypeList;
+    private Set<String> trxTypeList;
     private String selectedTrxType;
-    private List<String> trxFieldsList;
-    private List<String> fieldsTypeList;
+    private Set<String> trxFieldsList;
+    private Set<String> fieldsTypeList;
     private String selectedTrxFiled;
     private BigDecimal fromFieldValue;
     private BigDecimal toFieldValue;
     private String selectedFiledType;
     private String selectedFiledValue;
     private Date fromValueDate, toValueDate;
-
     private List<Trx> trxs;
+    private List<TrxFieldsValues> searchedResult;
 
     @PostConstruct
     public void init() {
         logger.debug("init.....");
-        trxTypeList = new ArrayList<String>();
+//        trxTypeList = new ArrayList<String>();
         trxTypeList = searchService.getAllTrxType();
         logger.debug("trxTypeList " + trxTypeList);
-        trxFieldsList = new ArrayList<String>();
+//        trxFieldsList = new ArrayList<String>();
         trxFieldsList = searchService.getAllFieldsName();
         logger.debug("trxFieldsList " + trxFieldsList);
-        fieldsTypeList = new ArrayList<String>();
+//        fieldsTypeList = new ArrayList<String>();
         fieldsTypeList = searchService.getAllFieldsType();
         logger.debug("fieldsTypeList " + fieldsTypeList);
 
@@ -78,7 +79,8 @@ public class DynamnicSearchController extends AbstractManagedBean {
     }
 
     public void refrech() {
-        System.out.println("trxs " + trxs);
+        searchedResult = searchService.getAllTransactions();
+        logger.debug("advanced search Result " + searchedResult);
     }
 
     private void advancedSearch(Date from, Date to, String trxType, String trxField,
@@ -130,7 +132,7 @@ public class DynamnicSearchController extends AbstractManagedBean {
 
             }
             logger.debug("sql " + sql);
-            List<TrxFieldsValues> searchedResult = searchService.getAdvancedSearchResult(sql, parmeters);
+            searchedResult = searchService.getAdvancedSearchResult(sql, parmeters);
             logger.debug("advanced search Result " + searchedResult);
 
         } else {
@@ -140,11 +142,11 @@ public class DynamnicSearchController extends AbstractManagedBean {
 
     }
 
-    public List<String> getTrxTypeList() {
+    public Set<String> getTrxTypeList() {
         return trxTypeList;
     }
 
-    public void setTrxTypeList(List<String> trxTypeList) {
+    public void setTrxTypeList(Set<String> trxTypeList) {
         this.trxTypeList = trxTypeList;
     }
 
@@ -156,11 +158,11 @@ public class DynamnicSearchController extends AbstractManagedBean {
         this.selectedTrxType = selectedTrxType;
     }
 
-    public List<String> getTrxFieldsList() {
+    public Set<String> getTrxFieldsList() {
         return trxFieldsList;
     }
 
-    public void setTrxFieldsList(List<String> trxFieldsList) {
+    public void setTrxFieldsList(Set<String> trxFieldsList) {
         this.trxFieldsList = trxFieldsList;
     }
 
@@ -204,11 +206,11 @@ public class DynamnicSearchController extends AbstractManagedBean {
         this.toFieldValue = toFieldValue;
     }
 
-    public List<String> getFieldsTypeList() {
+    public Set<String> getFieldsTypeList() {
         return fieldsTypeList;
     }
 
-    public void setFieldsTypeList(List<String> fieldsTypeList) {
+    public void setFieldsTypeList(Set<String> fieldsTypeList) {
         this.fieldsTypeList = fieldsTypeList;
     }
 
@@ -226,6 +228,14 @@ public class DynamnicSearchController extends AbstractManagedBean {
 
     public void setSelectedFiledValue(String selectedFiledValue) {
         this.selectedFiledValue = selectedFiledValue;
+    }
+
+    public List<TrxFieldsValues> getSearchedResult() {
+        return searchedResult;
+    }
+
+    public void setSearchedResult(List<TrxFieldsValues> searchedResult) {
+        this.searchedResult = searchedResult;
     }
 
     @Override

@@ -8,6 +8,7 @@ package com.drm.facade.services;
 import com.drm.model.entities.TrxFieldsValues;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Local;
 
 /**
@@ -17,12 +18,13 @@ import javax.ejb.Local;
 @Local
 public interface SearchService extends DataService {
 
-    public List<String> getAllTrxType();
+    public Set<String> getAllTrxType();
 
-    public List<String> getAllFieldsName();
+    public Set<String> getAllFieldsName();
     
-    public List<String> getAllFieldsType();
+    public Set<String> getAllFieldsType();
 
     public List<TrxFieldsValues> getAdvancedSearchResult(String sql, List<Date> parmetersList);
+    public List<TrxFieldsValues> getAllTransactions();
 
 }
