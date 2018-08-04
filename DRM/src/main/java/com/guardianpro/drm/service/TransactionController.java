@@ -137,6 +137,10 @@ public class TransactionController {
   SecureRandom random = new SecureRandom();
    char[] symbols = CHARACTERS.toCharArray();
    char[] buf = null;
+   
+   
+
+     int TRX_wrong_VALUE = 0;
 
     
     
@@ -193,7 +197,8 @@ if(res.getError() == 1){
       }
 
         
-        SECURE_TOKEN_LENGTH=Integer.parseInt(TRX_NUM_COUNT.getParameterValue().trim().trim());
+        SECURE_TOKEN_LENGTH=Integer.parseInt(TRX_NUM_COUNT.getParameterValue().trim());
+        TRX_wrong_VALUE=Integer.parseInt(TRX_VALUE_Wrong.getParameterValue().trim());
        buf = new char[SECURE_TOKEN_LENGTH];
      
      
@@ -242,7 +247,7 @@ if(res.getError() == 1){
        
         TrxValues val;
        System.out.println(fields[i].value.matches(field.getFieldtypeID().getFpaterren()));
-    if(fields[i].value == null || !fields[i].value.matches(field.getFieldtypeID().getFpaterren())){
+    if(fields[i].value == null || (!fields[i].value.matches(field.getFieldtypeID().getFpaterren()) && TRX_wrong_VALUE ==1 )){
      response.setTokean("");
     response.setStatusCode(Error_codes.value_not_correct);
     response.setExpiretime("0");
