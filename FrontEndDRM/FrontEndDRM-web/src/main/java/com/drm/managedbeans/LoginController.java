@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.drm.utils.Constants.SYSTEM_PAGES;
 import com.drm.utils.Logger;
 import com.drm.utils.UserAction;
+import java.io.IOException;
+import java.util.Date;
 import javax.faces.application.FacesMessage;
 
 /**
@@ -68,7 +70,7 @@ public class LoginController extends AbstractManagedBean {
                     break;
             }
             auditAction(UserAction.FAIL.name(), "Fail login (" + loginData.getLoginStatus() + ")");
-            
+
         } else {
             FacesMessage msg = new FacesMessage(
                     "Couldn't contacting the server, please try again later",
@@ -96,10 +98,10 @@ public class LoginController extends AbstractManagedBean {
         logger.debug("auditAction start auditing...");
         Audit audit = DrmUtils.getAuditEntity();
         User currentUser = getCurrentLoggedInUser();
-        if(currentUser!=null){
+        if (currentUser != null) {
             logger.debug("auditAction current user exist...");
             audit.setUserId(currentUser);
-        }else{
+        } else {
             logger.debug("auditAction current user not exist...");
         }
         audit.setActionValue(actionValue);
@@ -129,6 +131,24 @@ public class LoginController extends AbstractManagedBean {
         }
 
         return booleanResult;
+    }
+
+    public String logout() {
+        User currentUser = getCurrentLoggedInUser();
+        logger.debug("start logout");
+        String contextPath = JSFUtils.getExternalContext()
+                .getRequestContextPath();
+        String url = Constants.SYSTEM_PAGES.FORM_LOGIN_URL.getUrl();
+        logger.debug("go to url "+url);
+        try {
+            logger.debug("redirect to "+contextPath + url + "?faces-redirect=true");
+            JSFUtils.getExternalContext().redirect(contextPath + url + "?faces-redirect=true");
+            JSFUtils.getFacesContext().renderResponse();
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        logger.debug(currentUser.getUsername() + " has been logout successfully");
+        return null;
     }
 
     public String getUsername() {

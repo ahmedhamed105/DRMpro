@@ -17,9 +17,10 @@ public interface Constants {
     public static final String SESSION_KEYS_USER_ID = "userId";
     public static final String SESSION_KEYS_LAST_LOGIN_TIME = "lastLoginTime";
     public static final String KEYS_LOGIN_COOKIE_NAME = "LID";
-    public static final String SUFFIX_JSF_PAGE_EXTENSION = "jsf";
+//    public static final String SUFFIX_JSF_PAGE_EXTENSION = "jsf";
+    public static final String SUFFIX_JSF_PAGE_EXTENSION = "xhtml";
     public static final String JNDI_GLOBAL_SEPARATOR = "/";
-    public static final String JNDI_GLOBAL_PREFIX = "java:global".concat(JNDI_GLOBAL_SEPARATOR); 	
+    public static final String JNDI_GLOBAL_PREFIX = "java:global".concat(JNDI_GLOBAL_SEPARATOR);
     public static final String JNDI_GLOBAL_APP_NAME = JNDI_GLOBAL_PREFIX.concat("FrontEndDRM-ear").concat(JNDI_GLOBAL_SEPARATOR);
     public static final String JNDI_GLOBAL_BUSINESS_MODULE_NAME = JNDI_GLOBAL_APP_NAME
             .concat("FrontEndDRM-ejb-1.0-SNAPSHOT").concat(JNDI_GLOBAL_SEPARATOR);
@@ -60,7 +61,7 @@ public interface Constants {
         GENERAL_ERROR_URL("/error."
                 + SUFFIX_JSF_PAGE_EXTENSION), HOME_PAGE_URL("/homepage."
                 + SUFFIX_JSF_PAGE_EXTENSION), FORM_LOGIN_URL(
-                "/login." +SUFFIX_JSF_PAGE_EXTENSION), BASIC_LOGIN_URL(
+                "/login." + SUFFIX_JSF_PAGE_EXTENSION), BASIC_LOGIN_URL(
                 "/dologin"), LOGOUT_RESULT_URL("/logout."
                 + Constants.SUFFIX_JSF_PAGE_EXTENSION);
 
