@@ -2,20 +2,29 @@ package com.drm.facade.services;
 
 import static com.drm.facade.services.DataService.PU_NAME;
 import com.drm.model.entities.AbstractEntity;
+import com.drm.utils.Logger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 //@SuppressWarnAbstractEntityings("serial")
 public abstract class AbstractService implements DataService {
 //    @PersistenceContext(unitName = PU_NAME)
 //    protected EntityManager entityManager;
+
+    private static final Logger logger = Logger.getLogger(AbstractService.class);
 
     @Override
     public abstract EntityManager getEntityManager();

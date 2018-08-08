@@ -49,7 +49,7 @@ public class UserPassword implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 250)
     @Column(name = "password")
     private String password;
     @Basic(optional = false)

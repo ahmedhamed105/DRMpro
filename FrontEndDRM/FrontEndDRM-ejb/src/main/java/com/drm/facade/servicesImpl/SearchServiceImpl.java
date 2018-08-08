@@ -36,6 +36,7 @@ public class SearchServiceImpl extends AbstractService implements SearchService 
 
     @PostConstruct
     private void init() {
+        logger.debug("SearchService has been initilized");
     }
 
     @PersistenceContext(unitName = PU_NAME)

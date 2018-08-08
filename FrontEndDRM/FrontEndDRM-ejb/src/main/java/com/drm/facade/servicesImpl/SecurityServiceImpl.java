@@ -6,6 +6,7 @@ import com.drm.facade.services.AbstractService;
 import com.drm.facade.services.SecurityService;
 import com.drm.facade.services.SecurityService;
 import com.drm.model.entities.User;
+import com.drm.model.entities.UserPassword;
 import com.drm.utils.DrmUtils;
 import com.drm.utils.Logger;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class SecurityServiceImpl extends AbstractService implements
 
     @PostConstruct
     private void init() {
+        logger.debug("SecurityService has been initilized");
+
     }
 
     @PersistenceContext(unitName = PU_NAME)
@@ -89,5 +92,24 @@ public class SecurityServiceImpl extends AbstractService implements
                 User.NAMED_QUERY_USER_FIND_USER_BY_USERNAME, username);
 
         return results;
+    }
+
+    @Override
+    public String addUserPassword(String password) {
+        String hashedPassword =hashingPassword(password);
+        return hashedPassword;
+
+    }
+
+    private String hashingPassword(String newPassword) {
+        logger.debug("hashingPassword ", newPassword);
+        String hashedPassword = DrmUtils.getHash(newPassword);
+        logger.debug("password "+newPassword+" hashed Password"+hashedPassword);
+        return hashedPassword;
+//        UserPassword password = new UserPassword();
+//        password.setPassword(hashedPassword);
+//        password.setCreateDate(new Date());
+//        password.setUpdateDate(new Date());
+//        user.setUserPasswordID(password);
     }
 }

@@ -12,6 +12,7 @@ import com.drm.model.entities.Menu;
 import com.drm.utils.Logger;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -30,6 +31,12 @@ public class MenuServiceImpl extends AbstractService implements MenuService {
 
     @PersistenceContext(unitName = PU_NAME)
     private EntityManager entityManager;
+    
+    @PostConstruct
+    private void init() {
+        logger.debug("MenuService has been initilized");
+
+    }
 
     @Override
     public EntityManager getEntityManager() {

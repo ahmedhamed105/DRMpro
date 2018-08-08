@@ -15,6 +15,8 @@ public interface SecurityService extends DataService {
 
     List<User> getUserByUsername(String username);
 
+    String addUserPassword(String password);
+
     enum LOGIN_STATUS {
         SUCCESS_LOGIN, FORCE_CHANGE_PASSWORD, PASSWORD_EXPIRED, LOGIN_FAILED, USER_LOCKED, PASSWORD_LIFETIME_EXPIRED, USER_NOTFOUND, USER_INACTIVE, NO_OF_RETRIES_REACHED
     }

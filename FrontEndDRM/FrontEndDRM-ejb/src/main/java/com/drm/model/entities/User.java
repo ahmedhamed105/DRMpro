@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "user")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+    @NamedQuery(name = User.NAMED_QUERY_FIND_ALL_USERS, query = "SELECT u FROM User u")
     , @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id")
     , @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName")
     , @NamedQuery(name = "User.findByMiddlename", query = "SELECT u FROM User u WHERE u.middlename = :middlename")
@@ -47,18 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByUpdateDate", query = "SELECT u FROM User u WHERE u.updateDate = :updateDate")})
 public class User extends AbstractEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
-    private Collection<TerminalTemplate> terminalTemplateCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
-    private Collection<TrxFieldsValues> trxFieldsValuesCollection;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
-    private Collection<Menu> menuCollection;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Collection<Audit> auditCollection;
-
     public static final String NAMED_QUERY_USER_FIND_USER_BY_USERNAME = "User.findUserByUsername";
+    public static final String NAMED_QUERY_FIND_ALL_USERS = "User.findAll";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -68,20 +58,20 @@ public class User extends AbstractEntity {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+//    @Size(min = 1, max = 45)
     @Column(name = "First_Name")
     private String firstName;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+//    @Size(min = 1, max = 45)
     @Column(name = "Middle_name")
     private String middlename;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+//    @Size(min = 1, max = 45)
     @Column(name = "Last_name")
     private String lastname;
-    @Size(max = 45)
+//    @Size(max = 45)
     @Column(name = "Username")
     private String username;
     @Basic(optional = false)
@@ -95,10 +85,21 @@ public class User extends AbstractEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     @JoinColumn(name = "User_Password_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,cascade = CascadeType.ALL)
     private UserPassword userPasswordID;
     @Transient
     private Date loginTime;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<TerminalTemplate> terminalTemplateCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<TrxFieldsValues> trxFieldsValuesCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<Menu> menuCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Collection<Audit> auditCollection;
 
     public User() {
     }
@@ -210,7 +211,9 @@ public class User extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "com.drm.model.entities.User[ id=" + id + " ]";
+        return "com.drm.model.entities.User[ id=" + id + " ][ username=" + username + " ]"
+                + "[ firstName=" + firstName + " ][ middlename=" + middlename + " ]"
+                + "[ lastname=" + lastname + " ][ getPassword=" + userPasswordID.getPassword() + " ]";
     }
 
     @XmlTransient
