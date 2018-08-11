@@ -76,11 +76,25 @@ public class UserServiceImpl extends AbstractService implements UserService {
         newPassword.setPassword(hashedPassword);
         newPassword.setCreateDate(new Date());
         newPassword.setUpdateDate(new Date());
-        user.setUserPasswordID(newPassword);    
+        user.setUserPasswordID(newPassword);
         user.setCreateDate(new Date());
         user.setUpdateDate(new Date());
         logger.debug(user);
         insert(user);
+    }
+
+    @Override
+    public void updateUserInfo(User user, String updatedPassword) throws Exception {
+        if (updatedPassword != null && !updatedPassword.equalsIgnoreCase("")) {
+            String hashedPassword = securityService.addUserPassword(updatedPassword);
+            UserPassword newPassword = user.getUserPasswordID();
+            newPassword.setPassword(hashedPassword);
+            newPassword.setUpdateDate(new Date());
+            user.setUserPasswordID(newPassword);
+        }
+        user.setUpdateDate(new Date());
+        logger.debug(user);
+        update(user);
     }
 
 }

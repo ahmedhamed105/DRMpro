@@ -8,10 +8,10 @@
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <ui:define name="content">
         <h:panelGroup id="allmessages">
-<!--            <h5>
-                <h:messages errorClass="alert-danger" infoClass="alert-success"
-                            warnClass="alert-warning"></h:messages>
-            </h5>-->
+            <!--            <h5>
+                            <h:messages errorClass="alert-danger" infoClass="alert-success"
+                                        warnClass="alert-warning"></h:messages>
+                        </h5>-->
             <h:form>
                 <p:panelGrid layout="grid" columns="4" styleClass="clearfix">
 
@@ -47,7 +47,13 @@
                                  currentPageReportTemplate="{totalRecords} User(s) / {totalPages} page(s)"
                                  rowsPerPageTemplate="5,10,15" lazy="true" sortBy="#{user.id}" sortMode="asc">
                         <p:column headerText="User Name">
-                            <h:outputText value="#{user.username}" />
+                            <p:commandLink action="#{userBean.viewUser()}"
+                                           partialSubmit="true" update="dialogContents"
+                                           oncomplete="PF('dlg1').show();" process="@this" style="color: blue;">
+                                <f:setPropertyActionListener value="#{user}"
+                                                             target="#{userBean.selectedUser}"/>
+                                <h:outputText value="#{user.username}" />
+                            </p:commandLink>
                         </p:column>
                         <p:column headerText="First Name">
                             <h:outputText value="#{user.firstName}" />
@@ -80,7 +86,7 @@
                     <h:panelGroup id="addDialogContents">
                         <h:panelGroup id="messages">
                             <h5>
-                                <h:messages errorClass="alert-danger" infoClass="alert-success"></h:messages>
+                                <h:messages errorClass="alert-danger" infoClass="alert-success"/>
                             </h5>
                         </h:panelGroup>
                         <p:tabView id="add_user">
@@ -124,6 +130,81 @@
                     </h:panelGroup>
                 </p:dialog>
             </h:form>
+            <p:dialog header="View/Edit" id="userdialog" widgetVar="dlg1"
+                      minHeight="40" height="550" closeOnEscape="true" width="550">
+                <h:panelGroup id="dialogContents">
+                    <h:panelGroup id="messages">
+                        <h5>
+                            <h:messages errorClass="alert-danger" infoClass="alert-success"/>
+                        </h5>
+                    </h:panelGroup>
+                    <h:form id="editUser"
+                            pt:onsubmit="resetTabView('#{p:component('tab_register')}');">
+                        <p:tabView id="tab_register" cache="true">
+                            <p:tab title="General" id="tab0">
+                                <p:panelGrid layout="grid" columns="2" styleClass="clearfix">
+                                    <f:facet name="header">
+                                        User Details
+                                    </f:facet>
+                                    <p:outputLabel value="User Name"/>
+                                    <h:outputText value="#{userBean.selectedUser.username}"/>
+                                    <p:outputLabel value="First Name"/>
+                                    <h:inputText value="#{userBean.selectedUser.firstName}"
+                                                 required="true" requiredMessage="First Name is required" />
+                                    <p:outputLabel value="Middle Name"/>
+                                    <h:inputText value="#{userBean.selectedUser.middlename}"
+                                                 required="true" requiredMessage="Middle Name is required" />
+                                    <p:outputLabel value="Last Name"/>
+                                    <h:inputText value="#{userBean.selectedUser.lastname}"
+                                                 required="true" requiredMessage="Last Name is required" />
+                                    <!--                                    <p:outputLabel value="Password"/>
+                                                                        <h:inputSecret value="#{userBean.password}" id="password"
+                                                                                       class="text-input" />
+                                                                        <p:outputLabel value="Confirm Password"/>
+                                                                        <h:inputSecret value="#{userBean.confirmPassword}"
+                                                                                       id="cpassword" class="text-input" />-->
+
+                                </p:panelGrid>
+                            </p:tab>
+                            <p:tab title="Change Passowrd" id="tab1">
+                                <p:panelGrid layout="grid" columns="1" styleClass="clearfix">
+                                    <f:facet name="header">Password</f:facet>
+                                    <p:outputLabel value="New Password"></p:outputLabel>
+                                    <h:inputSecret value="#{userBean.password}" id="password"
+                                                   class="text-input" />
+                                    <p:outputLabel value="Confirm New Password"></p:outputLabel>
+                                    <h:inputSecret value="#{userBean.confirmPassword}"
+                                                   id="cpassword" class="text-input" />
+                                </p:panelGrid>
+                            </p:tab>
+
+                        </p:tabView>
+                        <h:panelGroup layout="block" styleClass="btn-bar">
+                            <h:panelGroup id="actionButtons"
+                                          rendered="#{userBean.allowAdd}"
+                                          pt:onclick="resetTabView('#{p:component('tab_register')}');">
+                                <!--                                <p:button value="Delete" onclick="PF('dlgConfirm').show();"
+                                                                          rendered="#{userBean.allowAdd}" href="#"/>-->
+                                <p:commandButton value="Delete" action="#{userBean.deleteUser()}"
+                                                 rendered="#{userBean.allowAdd}"
+                                                 update="searchGrid, messages, msgGlobalMessages">
+                                    <p:confirm header="Delete User #{userBean.selectedUser.username}" 
+                                               message="Are you sure your want to delete #{userBean.selectedUser.firstName} #{userBean.selectedUser.lastname}?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                                <p:commandButton value="Save" action="#{userBean.editUserInfo()}"
+                                                 rendered="#{userBean.allowAdd}"
+                                                 update="searchGrid, messages, msgGlobalMessages"
+                                                 pt:onclick="resetTabView('#{p:component('tab_register')}');" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:form>
+                </h:panelGroup>
+
+            </p:dialog>
         </h:panelGroup>
     </ui:define>
 </ui:composition>

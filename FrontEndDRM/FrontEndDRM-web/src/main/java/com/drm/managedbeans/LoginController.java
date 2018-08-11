@@ -56,8 +56,8 @@ public class LoginController extends AbstractManagedBean {
                     signInUser(user);
                     logger.debug(user.getUsername() + " signed in session successfully");
                     logger.debug("send " + user.getUsername() + " to home " + SYSTEM_PAGES.HOME_PAGE_URL.getUrl());
-                    auditAction(UserAction.SUCCESS.name(), "Success login (" + loginData.getLoginStatus()
-                            + ")");
+                    auditAction(UserAction.LOGIN, UserAction.SUCCESS.name(), "Success login (" + loginData.getLoginStatus()
+                            + ")", logger);
                     return SYSTEM_PAGES.HOME_PAGE_URL.getUrl();
                 case USER_NOTFOUND:
                 case LOGIN_FAILED:
@@ -69,7 +69,7 @@ public class LoginController extends AbstractManagedBean {
                     logger.debug("Login error! Incorrect username or password.");
                     break;
             }
-            auditAction(UserAction.FAIL.name(), "Fail login (" + loginData.getLoginStatus() + ")");
+            auditAction(UserAction.LOGIN, UserAction.FAIL.name(), "Fail login (" + loginData.getLoginStatus() + ")", logger);
 
         } else {
             FacesMessage msg = new FacesMessage(
@@ -93,24 +93,23 @@ public class LoginController extends AbstractManagedBean {
                         .getExternalContext().getRequest());
     }
 
-    @Override
-    public void auditAction(String actionResult, String actionValue) {
-        logger.debug("auditAction start auditing...");
-        Audit audit = DrmUtils.getAuditEntity();
-        User currentUser = getCurrentLoggedInUser();
-        if (currentUser != null) {
-            logger.debug("auditAction current user exist...");
-            audit.setUserId(currentUser);
-        } else {
-            logger.debug("auditAction current user not exist...");
-        }
-        audit.setActionValue(actionValue);
-        audit.setActionResult(actionResult);
-        audit.setAction(UserAction.LOGIN.name());
-        DrmUtils.saveAudit(audit);
-        logger.debug("auditAction end auditing...");
-    }
-
+//    @Override
+//    public void auditAction(String actionResult, String actionValue) {
+//        logger.debug("auditAction start auditing...");
+//        Audit audit = DrmUtils.getAuditEntity();
+//        User currentUser = getCurrentLoggedInUser();
+//        if (currentUser != null) {
+//            logger.debug("auditAction current user exist...");
+//            audit.setUserId(currentUser);
+//        } else {
+//            logger.debug("auditAction current user not exist...");
+//        }
+//        audit.setActionValue(actionValue);
+//        audit.setActionResult(actionResult);
+//        audit.setAction(UserAction.LOGIN.name());
+//        DrmUtils.saveAudit(audit);
+//        logger.debug("auditAction end auditing...");
+//    }
 //    private User getCurrentLoggedInUser() {
 //        HttpServletRequest currentRequest = getCurrentRequest();
 //        User currentUser = DrmUtils.getCurrentUser(currentRequest);
@@ -139,9 +138,9 @@ public class LoginController extends AbstractManagedBean {
         String contextPath = JSFUtils.getExternalContext()
                 .getRequestContextPath();
         String url = Constants.SYSTEM_PAGES.FORM_LOGIN_URL.getUrl();
-        logger.debug("go to url "+url);
+        logger.debug("go to url " + url);
         try {
-            logger.debug("redirect to "+contextPath + url + "?faces-redirect=true");
+            logger.debug("redirect to " + contextPath + url + "?faces-redirect=true");
             JSFUtils.getExternalContext().redirect(contextPath + url + "?faces-redirect=true");
             JSFUtils.getFacesContext().renderResponse();
         } catch (IOException e) {

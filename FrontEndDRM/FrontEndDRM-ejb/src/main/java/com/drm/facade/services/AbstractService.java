@@ -69,11 +69,12 @@ public abstract class AbstractService implements DataService {
     }
 
     public <T extends AbstractEntity> void remove(T entity) {
-        if (entity instanceof AbstractEntity) {
-            update(entity);
-        } else {
-            getEntityManager().remove(entity);
-        }
+//        if (entity instanceof AbstractEntity) {
+//            update(entity);
+//        } else {
+        T managedEntity = refresh(entity);
+        getEntityManager().remove(managedEntity);
+//        }
     }
 
     public <T extends AbstractEntity> void approve(T entity) {

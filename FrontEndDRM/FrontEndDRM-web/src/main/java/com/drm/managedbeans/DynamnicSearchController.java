@@ -238,9 +238,9 @@ public class DynamnicSearchController extends AbstractManagedBean {
         this.searchedResult = searchedResult;
     }
 
-    @Override
-    public void auditAction(String actionResult, String actionValue) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public void auditAction(String actionResult, String actionValue) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
 }

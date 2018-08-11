@@ -5,8 +5,11 @@
  */
 package com.drm.managedbeans;
 
+import com.drm.model.entities.Audit;
 import com.drm.model.entities.User;
 import com.drm.utils.DrmUtils;
+import com.drm.utils.Logger;
+import com.drm.utils.UserAction;
 import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +19,23 @@ import javax.servlet.http.HttpServletRequest;
  */
 public abstract class AbstractManagedBean implements Serializable {
 
-    public abstract void auditAction(String actionResult, String actionValue);
+//    public abstract void auditAction(String actionResult, String actionValue);
+    public void auditAction(UserAction action, String actionResult, String actionValue, Logger logger) {
+        logger.debug("auditAction start auditing...");
+        Audit audit = DrmUtils.getAuditEntity();
+        User currentUser = getCurrentLoggedInUser();
+        if (currentUser != null) {
+            logger.debug("auditAction current user exist...");
+            audit.setUserId(currentUser);
+        } else {
+            logger.debug("auditAction current user not exist...");
+        }
+        audit.setActionValue(actionValue);
+        audit.setActionResult(actionResult);
+        audit.setAction(action.name());
+        DrmUtils.saveAudit(audit);
+        logger.debug("auditAction end auditing...");
+    }
 
     public User getCurrentLoggedInUser() {
         HttpServletRequest currentRequest = getCurrentRequest();
