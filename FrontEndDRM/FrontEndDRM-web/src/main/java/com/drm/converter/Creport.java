@@ -51,12 +51,12 @@ public class Creport implements Converter{
 
         try {
 
-            Object obj = reportServiceImpl.find(Reports.class,Integer.parseInt(value));
+            Object obj = reportServiceImpl.getbyid(Integer.parseInt(value));
 
             return obj;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ConverterException(new FacesMessage(String.format("Cannot convert %s to inputtype", value)), e);
+            throw new ConverterException(new FacesMessage(String.format("Cannot convert %s to Reports", value)), e);
         }
     }
 
