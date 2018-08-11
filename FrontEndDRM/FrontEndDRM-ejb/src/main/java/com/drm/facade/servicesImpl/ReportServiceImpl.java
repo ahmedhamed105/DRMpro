@@ -26,7 +26,7 @@ import javax.persistence.Query;
  * @author mohammed.ayad
  */
 @Stateless
-@Local(UserService.class)
+@Local(ReportService.class)
 public class ReportServiceImpl extends AbstractService implements ReportService {
 
     private static final Logger logger = Logger.getLogger(ReportServiceImpl.class);
@@ -48,16 +48,15 @@ public class ReportServiceImpl extends AbstractService implements ReportService 
 
     @Override
     public Reports getbyid(int id) {
-    Query user_username = entityManager.createNamedQuery("Reports.findById");
+        Query user_username = entityManager.createNamedQuery("Reports.findById");
         user_username.setParameter("id", id);
         try {
-                Reports  Report = (Reports) user_username.getSingleResult();     
-                return Report;
+            Reports Report = (Reports) user_username.getSingleResult();
+            return Report;
         } catch (Exception e) {
             return null;
         }
-    
-    }
 
+    }
 
 }

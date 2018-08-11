@@ -8,16 +8,15 @@ package com.drm.facade.services;
 import com.drm.model.entities.Reports;
 import com.drm.model.entities.User;
 import java.util.List;
+import javax.ejb.Local;
 
 /**
  *
  * @author mohammed.ayad
  */
+@Local
 public interface ReportService extends DataService {
-    
-    
-    Reports getbyid(int id);
 
-    
+    Reports getbyid(int id);
 
 }
