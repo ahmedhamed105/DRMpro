@@ -76,12 +76,13 @@
                     Search Results
                 </f:facet>
                 <h:form>
-                    <p:dataTable var="trxFieldValue" value="#{DynamnicSearchBean.searchedResult}"
+                    <p:dataTable id="tbl"  var="trxFieldValue" value="#{DynamnicSearchBean.searchedResult}"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  currentPageReportTemplate="{totalRecords} Transaction(s) / {totalPages} page(s)"
                                  rowsPerPageTemplate="5,10,15" lazy="true" sortBy="#{trxFieldValue.id}" sortMode="asc">
+                        
                         <p:column headerText="Seq">
                             <h:outputText value="#{trxFieldValue.id}" />
                         </p:column>
@@ -120,6 +121,17 @@
 
 
                     </p:dataTable>
+                     
+
+ 
+    <h:commandLink>
+        <h3>PDF</h3>
+        <p:dataExporter type="pdf" target="tbl" fileName="sheet" pageOnly="true" />
+    </h:commandLink>
+     <h:commandLink>
+        <h3>Excel</h3>
+         <p:dataExporter type="xls" target="tbl" fileName="sheet" />
+    </h:commandLink>
                 </h:form>
             </p:panelGrid>
         </h:panelGroup>
