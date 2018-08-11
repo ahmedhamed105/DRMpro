@@ -106,6 +106,7 @@ public abstract class AbstractService implements DataService {
     public <T extends AbstractEntity, Y> T find(Class<T> clas, Y id) {
         return getEntityManager().find(clas, id);
     }
+    
 
     @Override
     public <T extends AbstractEntity> List<T> getResult(String query,

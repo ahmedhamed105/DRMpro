@@ -47,6 +47,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByUpdateDate", query = "SELECT u FROM User u WHERE u.updateDate = :updateDate")})
 public class User extends AbstractEntity {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<Reports> reportsCollection;
+
     public static final String NAMED_QUERY_USER_FIND_USER_BY_USERNAME = "User.findUserByUsername";
     public static final String NAMED_QUERY_FIND_ALL_USERS = "User.findAll";
 
@@ -250,6 +253,15 @@ public class User extends AbstractEntity {
 
     public void setTrxFieldsValuesCollection(Collection<TrxFieldsValues> trxFieldsValuesCollection) {
         this.trxFieldsValuesCollection = trxFieldsValuesCollection;
+    }
+
+    @XmlTransient
+    public Collection<Reports> getReportsCollection() {
+        return reportsCollection;
+    }
+
+    public void setReportsCollection(Collection<Reports> reportsCollection) {
+        this.reportsCollection = reportsCollection;
     }
 
 }
