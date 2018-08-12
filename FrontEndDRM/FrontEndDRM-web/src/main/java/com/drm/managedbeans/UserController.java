@@ -163,7 +163,7 @@ public class UserController extends AbstractManagedBean {
             auditAction(UserAction.VIEW, UserAction.SUCCESS.name(), "Success View User " + selectedUser.getUsername(), logger);
         } catch (Exception e) {
             auditAction(UserAction.VIEW, UserAction.FAIL.name(), "Failed View User " + selectedUser.getUsername(), logger);
-            JSFUtils.addErrorMessage("error happend while inserting");
+            JSFUtils.addErrorMessage("error happend while Viewing");
             logger.error(e);
             logger.error(e.getMessage());
             return;
@@ -190,7 +190,7 @@ public class UserController extends AbstractManagedBean {
             refrech();
         } catch (Exception e) {
             auditAction(UserAction.MODIFY, UserAction.FAIL.name(), "Failed Update User " + selectedUser.getUsername(), logger);
-            JSFUtils.addErrorMessage("error happend while inserting");
+            JSFUtils.addErrorMessage("error happend while editing");
             logger.error(e);
             logger.error(e.getMessage());
             return;
