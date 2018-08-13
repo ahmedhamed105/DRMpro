@@ -60,4 +60,16 @@ public class ApplicationsServiceImpl extends AbstractService implements Applicat
         update(application);
     }
 
+    @Override
+    public List<String> getAllApplicationCode() {
+        List<String> appCodeList = getNamedQueryColumnResult(Applications.NAMED_QUERY_FIND_ALL_APPLICATION_CODES, null);
+        return appCodeList;
+    }
+
+    @Override
+    public List<Applications> getApplicationByApplicationCode(String applicationCode) {
+        List<Applications> queryResult = getNamedQueryResult(Applications.NAMED_QUERY_FIND_APPLICATION_BY_APPLICATION_CODE, applicationCode);
+        return queryResult;
+    }
+
 }

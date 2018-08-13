@@ -19,4 +19,6 @@ public interface UserService extends DataService {
     boolean isUserNameExistBefore(String userName);
     void addNewUser(User user,String password) throws Exception;
     void updateUserInfo(User user,String updatedPassword) throws Exception;
+    List<String> getAllUserNames();
+    List<User> getUserByUserName(String userName);
 }

@@ -27,7 +27,7 @@ public class ApplicationsController extends AbstractManagedBean {
     private static final Logger logger = Logger.getLogger(ApplicationsController.class);
     private List<Applications> searchedApplicationsResult;
     @EJB
-    ApplicationsService applicationsService;
+    private ApplicationsService applicationsService;
     private Applications selectedApplication;
     private Applications newApplication;
     private boolean allowAdd = true;

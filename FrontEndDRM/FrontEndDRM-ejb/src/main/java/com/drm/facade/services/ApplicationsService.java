@@ -16,5 +16,7 @@ public interface ApplicationsService extends DataService{
     List<Applications> getAllApplications();
     void addNewApplication(Applications application);
     void updateApplicationInfo(Applications application);
+    List<String> getAllApplicationCode();
+    List<Applications> getApplicationByApplicationCode(String applicationCode);
     
 }

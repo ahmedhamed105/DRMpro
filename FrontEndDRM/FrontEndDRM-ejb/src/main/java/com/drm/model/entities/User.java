@@ -44,15 +44,19 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByLastname", query = "SELECT u FROM User u WHERE u.lastname = :lastname")
     , @NamedQuery(name = User.NAMED_QUERY_USER_FIND_USER_BY_USERNAME, query = "SELECT u FROM User u WHERE u.username =?1")
     , @NamedQuery(name = "User.findByCreateDate", query = "SELECT u FROM User u WHERE u.createDate = :createDate")
-    , @NamedQuery(name = "User.findByUpdateDate", query = "SELECT u FROM User u WHERE u.updateDate = :updateDate")})
+    , @NamedQuery(name = "User.findByUpdateDate", query = "SELECT u FROM User u WHERE u.updateDate = :updateDate")
+    ,@NamedQuery(name = User.NAMED_QUERY_FIND_ALL_USER_NAMES, query = "SELECT u.username FROM User u")})
 public class User extends AbstractEntity {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
-    private Collection<Reports> reportsCollection;
 
     public static final String NAMED_QUERY_USER_FIND_USER_BY_USERNAME = "User.findUserByUsername";
     public static final String NAMED_QUERY_FIND_ALL_USERS = "User.findAll";
+    public static final String NAMED_QUERY_FIND_ALL_USER_NAMES = "User.findAllUserNames";
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<ApplicationUser> applicationUserCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<Reports> reportsCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,7 +92,7 @@ public class User extends AbstractEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     @JoinColumn(name = "User_Password_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false,cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private UserPassword userPasswordID;
     @Transient
     private Date loginTime;
@@ -262,6 +266,15 @@ public class User extends AbstractEntity {
 
     public void setReportsCollection(Collection<Reports> reportsCollection) {
         this.reportsCollection = reportsCollection;
+    }
+
+    @XmlTransient
+    public Collection<ApplicationUser> getApplicationUserCollection() {
+        return applicationUserCollection;
+    }
+
+    public void setApplicationUserCollection(Collection<ApplicationUser> applicationUserCollection) {
+        this.applicationUserCollection = applicationUserCollection;
     }
 
 }

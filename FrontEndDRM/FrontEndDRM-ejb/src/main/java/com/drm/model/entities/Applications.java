@@ -6,8 +6,10 @@
 package com.drm.model.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,12 +17,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,12 +36,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Applications.findAll", query = "SELECT a FROM Applications a")
     , @NamedQuery(name = "Applications.findById", query = "SELECT a FROM Applications a WHERE a.id = :id")
-    , @NamedQuery(name = "Applications.findByApplicationsCode", query = "SELECT a FROM Applications a WHERE a.applicationsCode = :applicationsCode")
+    , @NamedQuery(name = Applications.NAMED_QUERY_FIND_APPLICATION_BY_APPLICATION_CODE, query = "SELECT a FROM Applications a WHERE a.applicationsCode =?1")
     , @NamedQuery(name = "Applications.findByApplicationDesc", query = "SELECT a FROM Applications a WHERE a.applicationDesc = :applicationDesc")
     , @NamedQuery(name = "Applications.findByCreateDate", query = "SELECT a FROM Applications a WHERE a.createDate = :createDate")
-    , @NamedQuery(name = "Applications.findByUpdateDate", query = "SELECT a FROM Applications a WHERE a.updateDate = :updateDate")})
+    , @NamedQuery(name = "Applications.findByUpdateDate", query = "SELECT a FROM Applications a WHERE a.updateDate = :updateDate")
+    ,@NamedQuery(name = Applications.NAMED_QUERY_FIND_ALL_APPLICATION_CODES, query = "SELECT a.applicationsCode FROM Applications a")})
 public class Applications extends AbstractEntity {
-    public static final String NAMED_QUERY_FIND_ALL_APPLICATIONS= "Applications.findAll";
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "applicationsID")
+    private Collection<ApplicationUser> applicationUserCollection;
+    public static final String NAMED_QUERY_FIND_ALL_APPLICATIONS = "Applications.findAll";
+    public static final String NAMED_QUERY_FIND_ALL_APPLICATION_CODES = "Applications.findAllApplicationCodes";
+    public static final String NAMED_QUERY_FIND_APPLICATION_BY_APPLICATION_CODE = "Applications.findByApplicationsCode";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -141,6 +151,15 @@ public class Applications extends AbstractEntity {
     @Override
     public String toString() {
         return "com.drm.model.entities.Applications[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ApplicationUser> getApplicationUserCollection() {
+        return applicationUserCollection;
+    }
+
+    public void setApplicationUserCollection(Collection<ApplicationUser> applicationUserCollection) {
+        this.applicationUserCollection = applicationUserCollection;
     }
 
 }

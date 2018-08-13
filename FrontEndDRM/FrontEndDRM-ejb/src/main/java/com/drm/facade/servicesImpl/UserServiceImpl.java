@@ -97,4 +97,17 @@ public class UserServiceImpl extends AbstractService implements UserService {
         update(user);
     }
 
+    @Override
+    public List<String> getAllUserNames() {
+        List<String> userNameList = getNamedQueryColumnResult(User.NAMED_QUERY_FIND_ALL_USER_NAMES, null);
+        return userNameList;
+    }
+
+    @Override
+    public List<User> getUserByUserName(String userName) {
+        List<User> queryResult = getNamedQueryResult(User.NAMED_QUERY_USER_FIND_USER_BY_USERNAME, userName);
+        return queryResult;
+
+    }
+
 }
