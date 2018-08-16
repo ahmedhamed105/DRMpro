@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "field_type")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "FieldType.findAll", query = "SELECT f FROM FieldType f")
+    @NamedQuery(name = FieldType.FIELD_TYPE_FIND_ALL, query = "SELECT f FROM FieldType f")
     , @NamedQuery(name = "FieldType.findById", query = "SELECT f FROM FieldType f WHERE f.id = :id")
     , @NamedQuery(name = "FieldType.findByFtype", query = "SELECT f FROM FieldType f WHERE f.ftype = :ftype")
     , @NamedQuery(name = "FieldType.findByFpaterren", query = "SELECT f FROM FieldType f WHERE f.fpaterren = :fpaterren")
@@ -44,6 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class FieldType extends AbstractEntity {
 
     public static final String FIELD_TYPE_FIND_ALL_TYPES = "FieldType.findAllTtype";
+    public static final String FIELD_TYPE_FIND_ALL = "FieldType.findAll";
 
     private static final long serialVersionUID = 1L;
     @Id
