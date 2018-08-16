@@ -1,0 +1,167 @@
+<ui:composition template="/template/hometemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:define name="content">
+        <h:panelGroup id="allmessages">
+            <p:panelGrid layout="grid" columns="1" styleClass="clearfix" id="searchGrid">		
+                <f:facet name="header">
+                    Transaction Fields
+                </f:facet>
+                <h:form>
+                    <p:dataTable var="trxField" value="#{trxFieldsBean.searchedTrxFieldsResult}"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{totalRecords} Field Type(s) / {totalPages} page(s)"
+                                 rowsPerPageTemplate="5,10,15" lazy="true" sortBy="#{trxField.id}" sortMode="asc">
+                        <p:column headerText="Field Name">
+                            <p:commandLink action="#{trxFieldsBean.viewTrxField()}"
+                                           partialSubmit="true" update="dialogContents"
+                                           oncomplete="PF('dlg1').show();" process="@this" style="color: blue;">
+                                <f:setPropertyActionListener value="#{trxField}"
+                                                             target="#{trxFieldsBean.selectedTrxField}"/>
+                                <h:outputText value="#{trxField.FName}" />
+                            </p:commandLink>
+                        </p:column>
+                        <p:column headerText="Field Description">
+                            <h:outputText value="#{trxField.FDescription}" />
+                        </p:column>
+                        <p:column headerText="Field Type">
+                            <h:outputText value="#{trxField.fieldtypeID.ftype}" />
+                        </p:column>
+                        <p:column headerText="Field Pattern">
+                            <h:outputText value="#{trxField.fieldtypeID.fpaterren}" />
+                        </p:column>
+                        <p:column headerText="Creation Date">
+                            <h:outputText value="#{trxField.createDate}">
+                                <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss z" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Updated Date">
+                            <h:outputText value="#{trxField.updateDate}">
+                                <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss z" />
+                            </h:outputText>
+                        </p:column>                       
+                    </p:dataTable>
+                    <p:commandButton value="Add Transaction Field"
+                                     action="#{trxFieldsBean.prepareNewTrxField()}" update=":addForm"
+                                     oncomplete="PF('dlg2').show();" rendered="#{trxFieldsBean.allowAdd}"/>
+                </h:form>
+            </p:panelGrid>
+            <p:dialog header="View/Edit" id="trxFieldDialog" widgetVar="dlg1"
+                      minHeight="40" height="550" closeOnEscape="true" width="550">
+                <h:panelGroup id="dialogContents">
+                    <h:panelGroup id="messages">
+                        <h5>
+                            <h:messages errorClass="alert-danger" infoClass="alert-success"/>
+                        </h5>
+                    </h:panelGroup>
+                    <h:form id="editTrxField"
+                            pt:onsubmit="resetTabView('#{p:component('tab_register')}');">
+                        <p:tabView id="tab_register" cache="true">
+                            <p:tab title="General" id="tab0">
+                                <p:panelGrid layout="grid" columns="2" styleClass="clearfix">
+                                    <f:facet name="header">
+                                        Transaction Field Details
+                                    </f:facet>
+                                    <p:outputLabel value="Field Name"/>
+                                    <h:inputText value="#{trxFieldsBean.selectedTrxField.FName}"
+                                                 required="true" requiredMessage="Field Name is required" />
+                                    <p:outputLabel value="Field Description"/>
+                                    <h:inputText value="#{trxFieldsBean.selectedTrxField.FDescription}"
+                                                 required="true" requiredMessage="Field Description is required" />
+                                    <p:outputLabel value="Field Type"/>
+
+                                    <p:selectOneMenu value="#{trxFieldsBean.selectedTrxField.fieldtypeID.ftype}">
+                                        <f:selectItems value="#{trxFieldsBean.availableFieldTypeList}" var="fieldType"
+                                                       itemValue="#{fieldType}" itemLabel="#{fieldType}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Field Pattern"/>
+                                    <h:inputText value="#{trxFieldsBean.selectedTrxField.fieldtypeID.fpaterren}"
+                                                 required="true" requiredMessage="Field Pattern is required" />
+
+                                </p:panelGrid>
+                            </p:tab>
+
+                        </p:tabView>
+                        <h:panelGroup layout="block" styleClass="btn-bar">
+                            <h:panelGroup id="actionButtons"
+                                          rendered="#{trxFieldsBean.allowAdd}"
+                                          pt:onclick="resetTabView('#{p:component('tab_register')}');">
+                                <p:commandButton value="Delete" action="#{trxFieldsBean.deleteTrxField()}"
+                                                 rendered="#{trxFieldsBean.allowAdd}"
+                                                 update="searchGrid, messages, msgGlobalMessages">
+                                    <p:confirm header="Delete Transaction Field #{trxFieldsBean.selectedTrxField.FName}" 
+                                               message="Are you sure your want to delete #{trxFieldsBean.selectedTrxField.FDescription}?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                                <p:commandButton value="Save" action="#{trxFieldsBean.editTrxFieldInfo()}"
+                                                 rendered="#{trxFieldsBean.allowAdd}"
+                                                 update="searchGrid, messages, msgGlobalMessages"
+                                                 pt:onclick="resetTabView('#{p:component('tab_register')}');" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:form>
+                </h:panelGroup>
+
+            </p:dialog>
+            <h:form id="addForm">
+                <p:dialog header="Add new Transaction Field" id="applicationDialog" widgetVar="dlg2"
+                          minHeight="40" height="550" closeOnEscape="true" width="550">
+                    <h:panelGroup id="addDialogContents">
+                        <h:panelGroup id="messages">
+                            <h5>
+                                <h:messages errorClass="alert-danger" infoClass="alert-success"/>
+                            </h5>
+                        </h:panelGroup>
+                        <p:tabView id="add_application">
+                            <p:tab title="General" id="tab0">
+                                <p:panelGrid layout="grid" columns="2" styleClass="clearfix">
+                                    <f:facet name="header">
+                                        Transaction Field Details
+                                    </f:facet>
+
+                                    <p:outputLabel value="Field Name"/>
+                                    <h:inputText value="#{trxFieldsBean.newTrxField.FName}"
+                                                 required="true" requiredMessage="Field Name is required" />
+                                    <p:outputLabel value="Field Description"/>
+                                    <h:inputText value="#{trxFieldsBean.newTrxField.FDescription}"
+                                                 required="true" requiredMessage="Field Description is required" />
+                                    <p:outputLabel value="Field Type"/>
+
+                                    <p:selectOneMenu value="#{trxFieldsBean.newTrxField.fieldtypeID.ftype}"
+                                                     required="true" requiredMessage="Field Type is required">
+                                        <f:selectItem itemLabel="Select Field Type"
+                                                      noSelectionOption="true" />
+                                        <f:selectItems value="#{trxFieldsBean.availableFieldTypeList}" var="fieldType"
+                                                       itemValue="#{fieldType}" itemLabel="#{fieldType}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Field Pattern"/>
+                                    <h:inputText value="#{trxFieldsBean.newTrxField.fieldtypeID.fpaterren}"
+                                                 required="true" requiredMessage="Field Pattern is required" />
+
+                                </p:panelGrid>
+                            </p:tab>
+                        </p:tabView>
+                        <h:panelGroup layout="block" styleClass="btn-bar">
+                            <p:commandButton value="Save" action="#{trxFieldsBean.addNewTrxField()}"
+                                             update="searchGrid, messages,allmessages,msgGlobalMessages"
+                                             rendered="#{applicationsBean.allowAdd}"
+                                             pt:onclick="resetTabView('#{p:component('add_application')}');" />
+                            <p:commandLink value="Close"
+                                           onclick="PF('dlg2').hide(); resetTabView('#{p:component('add_application')}');" />
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </p:dialog>
+            </h:form>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

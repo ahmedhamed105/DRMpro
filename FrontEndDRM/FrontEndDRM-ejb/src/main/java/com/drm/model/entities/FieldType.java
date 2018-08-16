@@ -40,11 +40,13 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "FieldType.findByFpaterren", query = "SELECT f FROM FieldType f WHERE f.fpaterren = :fpaterren")
     , @NamedQuery(name = "FieldType.findByCreateDate", query = "SELECT f FROM FieldType f WHERE f.createDate = :createDate")
     , @NamedQuery(name = "FieldType.findByUpdateDate", query = "SELECT f FROM FieldType f WHERE f.updateDate = :updateDate")
-    ,@NamedQuery(name = FieldType.FIELD_TYPE_FIND_ALL_TYPES, query = "SELECT f.ftype FROM FieldType f")})
+    ,@NamedQuery(name = FieldType.FIELD_TYPE_FIND_ALL_TYPES, query = "SELECT f.ftype FROM FieldType f")
+    ,@NamedQuery(name = FieldType.FIELD_TYPE_FIND_BY_TYPE_AND_PATTERN, query = "SELECT f FROM FieldType f where f.ftype=?1 and f.fpaterren=?2")})
 public class FieldType extends AbstractEntity {
 
     public static final String FIELD_TYPE_FIND_ALL_TYPES = "FieldType.findAllTtype";
     public static final String FIELD_TYPE_FIND_ALL = "FieldType.findAll";
+    public static final String FIELD_TYPE_FIND_BY_TYPE_AND_PATTERN = "FieldType.findAllByTypeAndPattern";
 
     private static final long serialVersionUID = 1L;
     @Id

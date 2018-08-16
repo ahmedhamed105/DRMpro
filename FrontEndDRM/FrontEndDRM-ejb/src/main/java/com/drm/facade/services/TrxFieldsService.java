@@ -6,16 +6,21 @@
 package com.drm.facade.services;
 
 import com.drm.model.entities.FieldType;
+import com.drm.model.entities.TrxFields;
 import java.util.List;
 
 /**
  *
  * @author mohammed.ayad
  */
-public interface FieldsTypeService extends DataService {
+public interface TrxFieldsService extends DataService {
 
-    List<FieldType> getAllFieldsType();
+    List<TrxFields> getAllTrxFields();
 
-    void updateFieldTypeInfo(FieldType updatedFieldType);
+    void updateFieldTypeInfo(TrxFields updatedTrxField);
+
+    boolean isTrxFieldNameExistBefore(String trxFieldName);
+
+    void addNewTrxField(TrxFields newTrxField);
 
 }

@@ -36,9 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "trx_fields")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TrxFields.findAll", query = "SELECT t FROM TrxFields t")
+    @NamedQuery(name = TrxFields.TRX_FIELDS_FIND_ALL, query = "SELECT t FROM TrxFields t")
     , @NamedQuery(name = "TrxFields.findById", query = "SELECT t FROM TrxFields t WHERE t.id = :id")
-    , @NamedQuery(name = "TrxFields.findByFName", query = "SELECT t FROM TrxFields t WHERE t.fName = :fName")
+    , @NamedQuery(name = TrxFields.TRX_FIELDS_FIND_BY_FIELD_NAME, query = "SELECT t FROM TrxFields t WHERE t.fName =?1")
     , @NamedQuery(name = "TrxFields.findByFDescription", query = "SELECT t FROM TrxFields t WHERE t.fDescription = :fDescription")
     , @NamedQuery(name = "TrxFields.findByCreateDate", query = "SELECT t FROM TrxFields t WHERE t.createDate = :createDate")
     , @NamedQuery(name = "TrxFields.findByUpdateDate", query = "SELECT t FROM TrxFields t WHERE t.updateDate = :updateDate")
@@ -46,6 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class TrxFields extends AbstractEntity {
 
     public static final String TRX_FIELDS_FIND_ALL_NAMES = "TrxFields.findAllTtype";
+    public static final String TRX_FIELDS_FIND_ALL = "TrxFields.findAll";
+    public static final String TRX_FIELDS_FIND_BY_FIELD_NAME = "TrxFields.findByFName";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,7 +76,7 @@ public class TrxFields extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tRXfieldsID")
     private Collection<TrxFieldsValues> trxFieldsValuesCollection;
     @JoinColumn(name = "Field_type_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private FieldType fieldtypeID;
 
     public TrxFields() {
