@@ -48,6 +48,9 @@ import javax.xml.bind.annotation.XmlTransient;
     ,@NamedQuery(name = User.NAMED_QUERY_FIND_ALL_USER_NAMES, query = "SELECT u.username FROM User u")})
 public class User extends AbstractEntity {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<DrmParameter> drmParameterCollection;
+
     public static final String NAMED_QUERY_USER_FIND_USER_BY_USERNAME = "User.findUserByUsername";
     public static final String NAMED_QUERY_FIND_ALL_USERS = "User.findAll";
     public static final String NAMED_QUERY_FIND_ALL_USER_NAMES = "User.findAllUserNames";
@@ -275,6 +278,15 @@ public class User extends AbstractEntity {
 
     public void setApplicationUserCollection(Collection<ApplicationUser> applicationUserCollection) {
         this.applicationUserCollection = applicationUserCollection;
+    }
+
+    @XmlTransient
+    public Collection<DrmParameter> getDrmParameterCollection() {
+        return drmParameterCollection;
+    }
+
+    public void setDrmParameterCollection(Collection<DrmParameter> drmParameterCollection) {
+        this.drmParameterCollection = drmParameterCollection;
     }
 
 }
