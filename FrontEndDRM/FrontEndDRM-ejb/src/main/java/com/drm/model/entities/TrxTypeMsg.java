@@ -34,15 +34,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "trx_type_msg")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TrxTypeMsg.findAll", query = "SELECT t FROM TrxTypeMsg t")
+    @NamedQuery(name = TrxTypeMsg.TRX_TYPE_FIND_ALL, query = "SELECT t FROM TrxTypeMsg t")
     , @NamedQuery(name = "TrxTypeMsg.findById", query = "SELECT t FROM TrxTypeMsg t WHERE t.id = :id")
     , @NamedQuery(name = "TrxTypeMsg.findByTtype", query = "SELECT t FROM TrxTypeMsg t WHERE t.ttype = :ttype")
     , @NamedQuery(name = "TrxTypeMsg.findByCreateDate", query = "SELECT t FROM TrxTypeMsg t WHERE t.createDate = :createDate")
     , @NamedQuery(name = "TrxTypeMsg.findByUpdateDate", query = "SELECT t FROM TrxTypeMsg t WHERE t.updateDate = :updateDate")
-    ,@NamedQuery(name = TrxTypeMsg.TRX_TYPE_FIND_ALL_TYPES, query = "SELECT t.ttype FROM TrxTypeMsg t")})
+    ,@NamedQuery(name = TrxTypeMsg.TRX_TYPE_FIND_ALL_TYPES, query = "SELECT t.ttype FROM TrxTypeMsg t")
+    ,@NamedQuery(name = TrxTypeMsg.TRX_TYPE_FIND_ALL_BY_TYPE, query = "SELECT t.ttype FROM TrxTypeMsg t where t.ttype=?1")})
 public class TrxTypeMsg extends AbstractEntity {
 
     public static final String TRX_TYPE_FIND_ALL_TYPES = "TrxTypeMsg.findAllTtype";
+    public static final String TRX_TYPE_FIND_ALL = "TrxTypeMsg.findAll";
+    public static final String TRX_TYPE_FIND_ALL_BY_TYPE = "TrxTypeMsg.findAllByType";
 
     private static final long serialVersionUID = 1L;
     @Id

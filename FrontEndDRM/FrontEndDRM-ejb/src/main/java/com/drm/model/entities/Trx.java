@@ -40,8 +40,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Trx.findById", query = "SELECT t FROM Trx t WHERE t.id = :id")
     , @NamedQuery(name = "Trx.findByTRXnumber", query = "SELECT t FROM Trx t WHERE t.tRXnumber = :tRXnumber")
     , @NamedQuery(name = "Trx.findByCreateDate", query = "SELECT t FROM Trx t WHERE t.createDate = :createDate")
-    , @NamedQuery(name = "Trx.findByUpdateDate", query = "SELECT t FROM Trx t WHERE t.updateDate = :updateDate")})
+    , @NamedQuery(name = "Trx.findByUpdateDate", query = "SELECT t FROM Trx t WHERE t.updateDate = :updateDate")
+    , @NamedQuery(name = Trx.TRX_FIND_ALL_BY_TRX_TYPE, query = "SELECT t FROM Trx t WHERE t.tRXtypemsgID.id =?1")})
 public class Trx extends AbstractEntity {
+
+    public static final String TRX_FIND_ALL_BY_TRX_TYPE = "TrxTypeMsg.findAllByTrxtype";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,7 +70,7 @@ public class Trx extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trxId")
     private Collection<TrxFieldsValues> trxFieldsValuesCollection;
     @JoinColumn(name = "TRX_type_msg_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private TrxTypeMsg tRXtypemsgID;
     @JoinColumn(name = "Terminal_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
@@ -168,5 +171,5 @@ public class Trx extends AbstractEntity {
     public String toString() {
         return "com.drm.model.entities.Trx[ id=" + id + " ]";
     }
-    
+
 }

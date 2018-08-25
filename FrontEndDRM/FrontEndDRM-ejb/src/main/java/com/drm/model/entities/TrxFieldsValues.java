@@ -7,6 +7,7 @@ package com.drm.model.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,7 +41,7 @@ public class TrxFieldsValues extends AbstractEntity {
     @Column(name = "ID")
     private Integer id;
     @JoinColumn(name = "TRX_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     private Trx trxId;
     @JoinColumn(name = "TRX_Values_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)

@@ -54,6 +54,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Terminal.findByScheduleEnd", query = "SELECT t FROM Terminal t WHERE t.scheduleEnd = :scheduleEnd")})
 public class Terminal extends AbstractEntity {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "terminalId")
+    private Collection<TransactionHistory> transactionHistoryCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -302,6 +305,15 @@ public class Terminal extends AbstractEntity {
     @Override
     public String toString() {
         return "com.drm.model.entities.Terminal[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<TransactionHistory> getTransactionHistoryCollection() {
+        return transactionHistoryCollection;
+    }
+
+    public void setTransactionHistoryCollection(Collection<TransactionHistory> transactionHistoryCollection) {
+        this.transactionHistoryCollection = transactionHistoryCollection;
     }
     
 }

@@ -1,0 +1,128 @@
+<ui:composition template="/template/hometemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:define name="content">
+        <h:panelGroup id="allmessages">
+            <p:panelGrid layout="grid" columns="1" styleClass="clearfix" id="searchGrid">		
+                <f:facet name="header">
+                    Transaction Types
+                </f:facet>
+                <h:form>
+                    <p:dataTable var="transactionType" value="#{transactionBean.searchedTransactionTypeResult}"
+                                 paginator="true" rows="10" paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+                                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{totalRecords} Parameter(s) / {totalPages} page(s)"
+                                 rowsPerPageTemplate="5,10,15" lazy="true" sortBy="#{transactionType.id}" sortMode="asc">
+                        <p:column headerText="Transaction Type">
+                            <p:commandLink action="#{transactionBean.viewTransactionType()}"
+                                           partialSubmit="true" update="dialogContents"
+                                           oncomplete="PF('dlg1').show();" process="@this" style="color: blue;">
+                                <f:setPropertyActionListener value="#{transactionType}"
+                                                             target="#{transactionBean.selectedTransactionType}"/>
+                                <h:outputText value="#{transactionType.ttype}" />
+                            </p:commandLink>
+                        </p:column>
+                        <p:column headerText="Creation Date">
+                            <h:outputText value="#{transactionType.createDate}">
+                                <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss z" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Updated Date">
+                            <h:outputText value="#{transactionType.updateDate}">
+                                <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss z" />
+                            </h:outputText>
+                        </p:column>                       
+                    </p:dataTable>
+                    <p:commandButton value="Add Transaction Type"
+                                     action="#{transactionBean.prepareNewTransactionType()}" update=":addForm"
+                                     oncomplete="PF('dlg2').show();" rendered="#{transactionBean.allowAdd}"/>
+
+
+                </h:form>
+            </p:panelGrid>
+            <p:dialog header="View/Edit" id="trxTypeDialog" widgetVar="dlg1"
+                      minHeight="40" height="550" closeOnEscape="true" width="550">
+                <h:panelGroup id="dialogContents">
+                    <h:panelGroup id="messages">
+                        <h5>
+                            <h:messages errorClass="alert-danger" infoClass="alert-success"/>
+                        </h5>
+                    </h:panelGroup>
+                    <h:form id="editTrxType"
+                            pt:onsubmit="resetTabView('#{p:component('tab_register')}');">
+                        <p:tabView id="tab_register" cache="true">
+                            <p:tab title="General" id="tab0">
+                                <p:panelGrid layout="grid" columns="2" styleClass="clearfix">
+                                    <f:facet name="header">
+                                        Transaction Type Details
+                                    </f:facet>
+                                    <p:outputLabel value="Transaction Type"/>
+                                    <h:inputText value="#{transactionBean.selectedTransactionType.ttype}"
+                                                 required="true" requiredMessage="Transaction Type is required" />
+                                </p:panelGrid>
+                            </p:tab>
+
+                        </p:tabView>
+                        <h:panelGroup layout="block" styleClass="btn-bar">
+                            <h:panelGroup id="actionButtons"
+                                          rendered="#{transactionBean.allowAdd}"
+                                          pt:onclick="resetTabView('#{p:component('tab_register')}');">
+                                <p:commandButton value="Delete" action="#{transactionBean.deleteTransactionType()}"
+                                                 rendered="#{transactionBean.allowAdd}"
+                                                 update="searchGrid, messages, msgGlobalMessages">
+                                    <p:confirm header="Delete Transaction Type" 
+                                               message="Are you sure your want to delete #{transactionBean.selectedTransactionType.ttype}?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                                <p:commandButton value="Save" action="#{transactionBean.editTransactionTypeInfo()}"
+                                                 rendered="#{transactionBean.allowAdd}"
+                                                 update="searchGrid, messages, msgGlobalMessages"
+                                                 pt:onclick="resetTabView('#{p:component('tab_register')}');" />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:form>
+                </h:panelGroup>
+
+            </p:dialog>
+            <h:form id="addForm">
+                <p:dialog header="Add new Transaction Type" id="applicationDialog" widgetVar="dlg2"
+                          minHeight="40" height="550" closeOnEscape="true" width="550">
+                    <h:panelGroup id="addDialogContents">
+                        <h:panelGroup id="messages">
+                            <h5>
+                                <h:messages errorClass="alert-danger" infoClass="alert-success"/>
+                            </h5>
+                        </h:panelGroup>
+                        <p:tabView id="add_Trx_Type">
+                            <p:tab title="General" id="tab0">
+                                <p:panelGrid layout="grid" columns="2" styleClass="clearfix">
+                                    <f:facet name="header">
+                                        Transaction Type Details
+                                    </f:facet>
+                                    <p:outputLabel value="Transaction Type"/>
+                                    <h:inputText value="#{transactionBean.newTransactionType.ttype}"
+                                                 required="true" requiredMessage="Transaction Type is required" />                                 
+                                </p:panelGrid>
+                            </p:tab>
+                        </p:tabView>
+                        <h:panelGroup layout="block" styleClass="btn-bar">
+                            <p:commandButton value="Save" action="#{transactionBean.addNewTrxType()}"
+                                             update="searchGrid, messages,allmessages,msgGlobalMessages"
+                                             rendered="#{transactionBean.allowAdd}"
+                                             pt:onclick="resetTabView('#{p:component('add_Trx_Type')}');" />
+                        </h:panelGroup>
+                    </h:panelGroup>
+                </p:dialog>
+            </h:form>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
