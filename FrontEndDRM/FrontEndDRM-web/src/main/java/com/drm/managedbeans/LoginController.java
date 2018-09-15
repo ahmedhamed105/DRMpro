@@ -40,7 +40,9 @@ public class LoginController extends AbstractManagedBean {
     @EJB
     private SecurityService securityService;
 
+  
     public String doLogin() {
+       
         logger.debug("doLogin user name " + username + " password " + password);
         FacesContext facesContext = JSFUtils.getFacesContext();
         if (securityService != null) {

@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author mohammed.ayad
  */
 @Entity
-@Table(name = "trx_type_msg")
+@Table(catalog = "drmpro", schema = "",name = "trx_type_msg")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = TrxTypeMsg.TRX_TYPE_FIND_ALL, query = "SELECT t FROM TrxTypeMsg t")

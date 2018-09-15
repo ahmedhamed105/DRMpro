@@ -30,10 +30,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author mohammed.ayad
+ * @author ahmedhamed
  */
 @Entity
-@Table(name = "terminal_template")
+@Table(name = "terminal_template", catalog = "drmpro", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TerminalTemplate.findAll", query = "SELECT t FROM TerminalTemplate t")
@@ -42,37 +42,37 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "TerminalTemplate.findByTdesc", query = "SELECT t FROM TerminalTemplate t WHERE t.tdesc = :tdesc")
     , @NamedQuery(name = "TerminalTemplate.findByCreateDate", query = "SELECT t FROM TerminalTemplate t WHERE t.createDate = :createDate")
     , @NamedQuery(name = "TerminalTemplate.findByUpdateDate", query = "SELECT t FROM TerminalTemplate t WHERE t.updateDate = :updateDate")})
-public class TerminalTemplate extends AbstractEntity {
+public class TerminalTemplate implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
-    @Column(name = "TName")
+    @Column(name = "TName", nullable = false, length = 150)
     private String tName;
     @Size(max = 150)
-    @Column(name = "Tdesc")
+    @Column(name = "Tdesc", length = 150)
     private String tdesc;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "create_date")
+    @Column(name = "create_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "update_date")
+    @Column(name = "update_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
-    @JoinColumn(name = "User_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "User_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private User userID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "terminaltemplateID")
-    private Collection<Terminal> terminalCollection;
+
+
 
     public TerminalTemplate() {
     }
@@ -136,14 +136,7 @@ public class TerminalTemplate extends AbstractEntity {
         this.userID = userID;
     }
 
-    @XmlTransient
-    public Collection<Terminal> getTerminalCollection() {
-        return terminalCollection;
-    }
-
-    public void setTerminalCollection(Collection<Terminal> terminalCollection) {
-        this.terminalCollection = terminalCollection;
-    }
+   
 
     @Override
     public int hashCode() {
@@ -167,7 +160,7 @@ public class TerminalTemplate extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "com.drm.model.entities.TerminalTemplate[ id=" + id + " ]";
+        return "com.guardianpro.drm.entities.TerminalTemplate[ id=" + id + " ]";
     }
     
 }

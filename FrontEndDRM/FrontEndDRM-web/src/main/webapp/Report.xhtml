@@ -7,10 +7,12 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="content">
         <h:panelGroup layout="block">
+            
+              <p:panelGrid layout="grid" columns="4" id="panelGrid" styleClass="clearfix">
             <h:form prependId="false">
                 <h:messages layout="list" showSummary="true" showDetail="false"
                             errorClass="error" infoClass="error"/>
-                <p:panelGrid layout="grid" columns="4" id="panelGrid" styleClass="clearfix">
+              
                        
                            <label for="parameterGroup">Group Choose</label>   
                            <h:selectOneMenu converter="#{creport}" class="form-control select2" id="parameterGroup" value="#{report.selectreportf}" required="true" requiredMessage="please Enter report">
@@ -22,8 +24,8 @@
                  <br/>
                   <br/>
                    <br/>
-                   <p:panelGrid columns="5" style="width: 100%" >
-                   <h:commandButton actionListener="#{report.PDF}" value="PDF" class="btn btn-block btn-primary btn-lg"/>
+                   <p:panelGrid columns="5"  >
+             <h:commandButton actionListener="#{report.PDF}" value="PDF" class="btn btn-block btn-primary btn-lg"/>
              <h:commandButton actionListener="#{report.DOCX}" value="Docx" class="btn btn-block btn-primary btn-lg"/>
               <h:commandButton actionListener="#{report.XLSX}" value="Xlsx" class="btn btn-block btn-primary btn-lg"/>
                <h:commandButton actionListener="#{report.ODT}" value="Odt" class="btn btn-block btn-primary btn-lg"/>

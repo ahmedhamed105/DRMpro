@@ -30,7 +30,7 @@
     <appender name="jdbcAppender" class="org.apache.log4j.jdbc.JDBCAppender"> 
         <param name="User" value="root"/>
         <param name="Password" value="root"/>
-        <param name="URL" value="jdbc:mysql://localhost:3306/guardianpro?zeroDateTimeBehavior=convertToNull"/>
+        <param name="URL" value="jdbc:mysql://localhost:3306/drmpro"/>
         <param name="driver" value="com.mysql.jdbc.Driver"/>
         <param name="sql" value="insert into logger (date,logger,level,message) values('%d{yyyy-MM-dd-HH-mm}','%c','%p','%m')"/>
  

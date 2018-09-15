@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author mohammed.ayad
  */
 @Entity
-@Table(name = "trx_fields_values")
+@Table(catalog = "drmpro", schema = "",name = "trx_fields_values")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = TrxFieldsValues.FIND_ALL_TRANSACTIONS, query = "SELECT t FROM TrxFieldsValues t")

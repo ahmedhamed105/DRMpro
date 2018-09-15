@@ -74,8 +74,7 @@ public class TerminalTemplate implements Serializable {
     private User userID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "terminaltemplateID")
     private Collection<TerminalHasParts> terminalHasPartsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "terminaltemplateID")
-    private Collection<Terminal> terminalCollection;
+
 
     public TerminalTemplate() {
     }
@@ -147,16 +146,6 @@ public class TerminalTemplate implements Serializable {
 
     public void setTerminalHasPartsCollection(Collection<TerminalHasParts> terminalHasPartsCollection) {
         this.terminalHasPartsCollection = terminalHasPartsCollection;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public Collection<Terminal> getTerminalCollection() {
-        return terminalCollection;
-    }
-
-    public void setTerminalCollection(Collection<Terminal> terminalCollection) {
-        this.terminalCollection = terminalCollection;
     }
 
     @Override

@@ -10,48 +10,42 @@
         <h:panelGroup id="allmessages">
             <p:panelGrid layout="grid" columns="1" styleClass="clearfix" id="searchGrid">		
                 <f:facet name="header">
-                    Transaction Types
+                    Terminal 
                 </f:facet>
                 <h:form>
-                    <p:dataTable var="transactionType" value="#{transactionBean.searchedTransactionTypeResult}"
+                    <p:dataTable var="parameter" value="#{termianlbean.searchedTerminalResult}"
                                  paginator="true" rows="10" paginatorPosition="bottom"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                                  {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  currentPageReportTemplate="{totalRecords} Parameter(s) / {totalPages} page(s)"
-                                 rowsPerPageTemplate="5,10,15" lazy="true" sortBy="#{transactionType.id}" sortMode="asc">
-                           <p:column headerText="Transaction Type ID">
-                               <h:outputText value="#{transactionType.id}">
-                            </h:outputText>
-                        </p:column>    
-                        
-                        <p:column headerText="Transaction Type">
-                            <p:commandLink action="#{transactionBean.viewTransactionType()}"
+                                 rowsPerPageTemplate="5,10,15" lazy="true" sortBy="#{parameter.id}" sortMode="asc">
+                        <p:column headerText="Terminal TID">
+                            <p:commandLink action="#{termianlbean.viewDrmParameter()}"
                                            partialSubmit="true" update="dialogContents"
                                            oncomplete="PF('dlg1').show();" process="@this" style="color: blue;">
-                                <f:setPropertyActionListener value="#{transactionType}"
-                                                             target="#{transactionBean.selectedTransactionType}"/>
-                                <h:outputText value="#{transactionType.ttype}" />
+                                <f:setPropertyActionListener value="#{parameter}"
+                                                             target="#{termianlbean.selectedTerminal}"/>
+                                <h:outputText value="#{parameter.tid}" />
                             </p:commandLink>
-                        </p:column>
+                        </p:column>                     
                         <p:column headerText="Creation Date">
-                            <h:outputText value="#{transactionType.createDate}">
+                            <h:outputText value="#{parameter.createDate}">
                                 <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss z" />
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Updated Date">
-                            <h:outputText value="#{transactionType.updateDate}">
+                            <h:outputText value="#{parameter.updateDate}">
                                 <f:convertDateTime pattern="dd-MMM-yyyy HH:mm:ss z" />
                             </h:outputText>
                         </p:column>                       
                     </p:dataTable>
-                    <p:commandButton value="Add Transaction Type"
-                                     action="#{transactionBean.prepareNewTransactionType()}" update=":addForm"
-                                     oncomplete="PF('dlg2').show();" rendered="#{transactionBean.allowAdd}"/>
-
+                    <p:commandButton value="Add Parameter"
+                                     action="#{termianlbean.prepareNewDrmParameter()}" update=":addForm"
+                                     oncomplete="PF('dlg2').show();" rendered="#{termianlbean.allowAdd}"/>
 
                 </h:form>
             </p:panelGrid>
-            <p:dialog header="View/Edit" id="trxTypeDialog" widgetVar="dlg1"
+            <p:dialog header="View/Edit" id="parameterDialog" widgetVar="dlg1"
                       minHeight="40" height="550" closeOnEscape="true" width="550">
                 <h:panelGroup id="dialogContents">
                     <h:panelGroup id="messages">
@@ -59,37 +53,39 @@
                             <h:messages errorClass="alert-danger" infoClass="alert-success"/>
                         </h5>
                     </h:panelGroup>
-                    <h:form id="editTrxType"
+                    <h:form id="editParameter"
                             pt:onsubmit="resetTabView('#{p:component('tab_register')}');">
                         <p:tabView id="tab_register" cache="true">
                             <p:tab title="General" id="tab0">
                                 <p:panelGrid layout="grid" columns="2" styleClass="clearfix">
                                     <f:facet name="header">
-                                        Transaction Type Details
+                                        Parameter Details
                                     </f:facet>
-                                    <p:outputLabel value="Transaction Type"/>
-                                    <h:inputText value="#{transactionBean.selectedTransactionType.ttype}"
-                                                 required="true" requiredMessage="Transaction Type is required" />
+                                    <p:outputLabel value="Termainl Tid"/>
+                                    <h:inputText value="#{termianlbean.selectedTerminal.tid}"
+                                                 required="true" requiredMessage="Termainl Tid is required" />
+                                    
+                                    
                                 </p:panelGrid>
                             </p:tab>
 
                         </p:tabView>
                         <h:panelGroup layout="block" styleClass="btn-bar">
                             <h:panelGroup id="actionButtons"
-                                          rendered="#{transactionBean.allowAdd}"
+                                          rendered="#{termianlbean.allowAdd}"
                                           pt:onclick="resetTabView('#{p:component('tab_register')}');">
-                                <p:commandButton value="Delete" action="#{transactionBean.deleteTransactionType()}"
-                                                 rendered="#{transactionBean.allowAdd}"
+                                <p:commandButton value="Delete" action="#{termianlbean.deleteDrmParameter()}"
+                                                 rendered="#{termianlbean.allowAdd}"
                                                  update="searchGrid, messages, msgGlobalMessages">
-                                    <p:confirm header="Delete Transaction Type" 
-                                               message="Are you sure your want to delete #{transactionBean.selectedTransactionType.ttype}?" icon="ui-icon-alert" />
+                                    <p:confirm header="Delete Parameter #{termianlbean.selectedTerminal.tid}" 
+                                               message="Are you sure your want to delete #{termianlbean.selectedTerminal.tid}?" icon="ui-icon-alert" />
                                 </p:commandButton>
                                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                                 </p:confirmDialog>
-                                <p:commandButton value="Save" action="#{transactionBean.editTransactionTypeInfo()}"
-                                                 rendered="#{transactionBean.allowAdd}"
+                                <p:commandButton value="Save" action="#{termianlbean.editDrmParameterInfo()}"
+                                                 rendered="#{termianlbean.allowAdd}"
                                                  update="searchGrid, messages, msgGlobalMessages"
                                                  pt:onclick="resetTabView('#{p:component('tab_register')}');" />
                             </h:panelGroup>
@@ -99,7 +95,7 @@
 
             </p:dialog>
             <h:form id="addForm">
-                <p:dialog header="Add new Transaction Type" id="applicationDialog" widgetVar="dlg2"
+                <p:dialog header="Add new Parameter" id="applicationDialog" widgetVar="dlg2"
                           minHeight="40" height="550" closeOnEscape="true" width="550">
                     <h:panelGroup id="addDialogContents">
                         <h:panelGroup id="messages">
@@ -107,23 +103,26 @@
                                 <h:messages errorClass="alert-danger" infoClass="alert-success"/>
                             </h5>
                         </h:panelGroup>
-                        <p:tabView id="add_Trx_Type">
+                        <p:tabView id="add_application">
                             <p:tab title="General" id="tab0">
                                 <p:panelGrid layout="grid" columns="2" styleClass="clearfix">
                                     <f:facet name="header">
-                                        Transaction Type Details
+                                        Parameter Details
                                     </f:facet>
-                                    <p:outputLabel value="Transaction Type"/>
-                                    <h:inputText value="#{transactionBean.newTransactionType.ttype}"
-                                                 required="true" requiredMessage="Transaction Type is required" />                                 
+                                    <p:outputLabel value="Terminal TID"/>
+                                    <h:inputText value="#{termianlbean.newTerminal.tid}"
+                                                 required="true" requiredMessage="Parameter Name is required" />
+                                                 
                                 </p:panelGrid>
                             </p:tab>
                         </p:tabView>
                         <h:panelGroup layout="block" styleClass="btn-bar">
-                            <p:commandButton value="Save" action="#{transactionBean.addNewTrxType()}"
+                            <p:commandButton value="Save" action="#{termianlbean.addNewDrmParameter()}"
                                              update="searchGrid, messages,allmessages,msgGlobalMessages"
-                                             rendered="#{transactionBean.allowAdd}"
-                                             pt:onclick="resetTabView('#{p:component('add_Trx_Type')}');" />
+                                             rendered="#{termianlbean.allowAdd}"
+                                             pt:onclick="resetTabView('#{p:component('add_application')}');" />
+                            <p:commandLink value="Close"
+                                           onclick="PF('dlg2').hide(); resetTabView('#{p:component('add_application')}');" />
                         </h:panelGroup>
                     </h:panelGroup>
                 </p:dialog>

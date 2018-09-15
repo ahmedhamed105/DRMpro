@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author mohammed.ayad
  */
 @Entity
-@Table(name = "field_type")
+@Table(catalog = "drmpro", schema = "",name = "field_type")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = FieldType.FIELD_TYPE_FIND_ALL, query = "SELECT f FROM FieldType f")

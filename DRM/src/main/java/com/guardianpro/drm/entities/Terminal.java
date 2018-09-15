@@ -117,12 +117,8 @@ public class Terminal implements Serializable {
     private Collection<TgroupHasTerminal> tgroupHasTerminalCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "terminalID")
     private Collection<Trx> trxCollection;
-    @JoinColumn(name = "Terminal_status_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private TerminalStatus terminalstatusID;
-    @JoinColumn(name = "Terminal_template_ID", referencedColumnName = "ID", nullable = false)
-    @ManyToOne(optional = false)
-    private TerminalTemplate terminaltemplateID;
+   
+   
 
     public Terminal() {
     }
@@ -289,21 +285,6 @@ public class Terminal implements Serializable {
         this.trxCollection = trxCollection;
     }
 
-    public TerminalStatus getTerminalstatusID() {
-        return terminalstatusID;
-    }
-
-    public void setTerminalstatusID(TerminalStatus terminalstatusID) {
-        this.terminalstatusID = terminalstatusID;
-    }
-
-    public TerminalTemplate getTerminaltemplateID() {
-        return terminaltemplateID;
-    }
-
-    public void setTerminaltemplateID(TerminalTemplate terminaltemplateID) {
-        this.terminaltemplateID = terminaltemplateID;
-    }
 
     @Override
     public int hashCode() {

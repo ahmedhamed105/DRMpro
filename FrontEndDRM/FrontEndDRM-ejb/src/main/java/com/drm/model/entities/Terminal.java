@@ -33,11 +33,12 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author mohammed.ayad
  */
 @Entity
-@Table(name = "terminal")
+@Table(catalog = "drmpro", schema = "",name = "terminal")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Terminal.findAll", query = "SELECT t FROM Terminal t")
     , @NamedQuery(name = "Terminal.findById", query = "SELECT t FROM Terminal t WHERE t.id = :id")
+         , @NamedQuery(name = "Terminal.findByTidd", query = "SELECT t FROM Terminal t WHERE t.tid =?1")
     , @NamedQuery(name = "Terminal.findByTid", query = "SELECT t FROM Terminal t WHERE t.tid = :tid")
     , @NamedQuery(name = "Terminal.findByOwnerName", query = "SELECT t FROM Terminal t WHERE t.ownerName = :ownerName")
     , @NamedQuery(name = "Terminal.findByMerchantName", query = "SELECT t FROM Terminal t WHERE t.merchantName = :merchantName")
@@ -56,6 +57,8 @@ public class Terminal extends AbstractEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "terminalId")
     private Collection<TransactionHistory> transactionHistoryCollection;
+    
+    public static final String NAMED_QUERY_FIND_ALL_BY_Terminal_tid = "Terminal.findByTidd";
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -113,12 +116,6 @@ public class Terminal extends AbstractEntity {
     @Column(name = "schedule_end")
     @Temporal(TemporalType.TIMESTAMP)
     private Date scheduleEnd;
-    @JoinColumn(name = "Terminal_status_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private TerminalStatus terminalstatusID;
-    @JoinColumn(name = "Terminal_template_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private TerminalTemplate terminaltemplateID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "terminalID")
     private Collection<Trx> trxCollection;
 
@@ -257,21 +254,7 @@ public class Terminal extends AbstractEntity {
         this.scheduleEnd = scheduleEnd;
     }
 
-    public TerminalStatus getTerminalstatusID() {
-        return terminalstatusID;
-    }
-
-    public void setTerminalstatusID(TerminalStatus terminalstatusID) {
-        this.terminalstatusID = terminalstatusID;
-    }
-
-    public TerminalTemplate getTerminaltemplateID() {
-        return terminaltemplateID;
-    }
-
-    public void setTerminaltemplateID(TerminalTemplate terminaltemplateID) {
-        this.terminaltemplateID = terminaltemplateID;
-    }
+    
 
     @XmlTransient
     public Collection<Trx> getTrxCollection() {
