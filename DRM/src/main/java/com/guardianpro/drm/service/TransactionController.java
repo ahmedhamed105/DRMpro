@@ -184,11 +184,11 @@ if(res.getError() == 1){
       
        
     DrmParameter TRX_NUM_COUNT = drmParameterFacade.para_find("TRX_NUM_COUNT");  
-        DrmParameter TRX_HAVE_SAME_FIELD = drmParameterFacade.para_find("TRX_HAVE_SAME_FIELD");  
+    //    DrmParameter TRX_HAVE_SAME_FIELD = drmParameterFacade.para_find("TRX_HAVE_SAME_FIELD");  
         DrmParameter TRX_VALUE_Wrong = drmParameterFacade.para_find("TRX_VALUE_Wrong");
      
       
-     if( TRX_NUM_COUNT == null || TRX_HAVE_SAME_FIELD == null || TRX_VALUE_Wrong == null){
+     if( TRX_NUM_COUNT == null ||  TRX_VALUE_Wrong == null){
     response.setTokean("");
     response.setStatusCode(Error_codes.TRX_ERROR_PARA);
     response.setExpiretime("0");
@@ -332,6 +332,7 @@ if(res.getError() == 1){
          Login_ouput response = new Login_ouput();
    LoginPrev pre;
    long diff=0;
+   
   
         DrmParameter Server_key = drmParameterFacade.para_find("Server_key");
         DrmParameter IP_lock_count = drmParameterFacade.para_find("IP_lock_count");
@@ -341,10 +342,10 @@ if(res.getError() == 1){
         
         
         DrmParameter TRX_NUM_COUNT = drmParameterFacade.para_find("TRX_NUM_COUNT");  
-        DrmParameter TRX_HAVE_SAME_FIELD = drmParameterFacade.para_find("TRX_HAVE_SAME_FIELD");  
+   //     DrmParameter TRX_HAVE_SAME_FIELD = drmParameterFacade.para_find("TRX_HAVE_SAME_FIELD");  
         DrmParameter TRX_VALUE_Wrong = drmParameterFacade.para_find("TRX_VALUE_Wrong");
       
-     if(Server_key == null || IP_lock_count == null || IP_lock_Admin == null || USER_lock_count == null || USER_lock_Admin == null || TRX_NUM_COUNT == null || TRX_HAVE_SAME_FIELD == null || TRX_VALUE_Wrong == null){
+     if(Server_key == null || IP_lock_count == null || IP_lock_Admin == null || USER_lock_count == null || USER_lock_Admin == null || TRX_NUM_COUNT == null || TRX_VALUE_Wrong == null){
     response.setTokean("");
     response.setStatusCode(Error_codes.HOST_notfound_key);
     response.setExpiretime("0");

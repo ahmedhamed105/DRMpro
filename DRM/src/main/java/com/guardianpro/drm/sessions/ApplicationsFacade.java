@@ -6,7 +6,6 @@
 package com.guardianpro.drm.sessions;
 
 import com.guardianpro.drm.entities.Applications;
-import com.guardianpro.drm.entities.Applications_;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

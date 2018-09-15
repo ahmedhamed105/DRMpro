@@ -7,11 +7,16 @@ package com.guardianpro.drm.service;
 
 import com.guardianpro.drm.entities.Terminal;
 import com.guardianpro.drm.entities.User;
+import javax.ws.rs.Produces;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author ahmedhamed
  */
+
+@Produces("application/json")
+@XmlRootElement
 public class respons_login {
     
     

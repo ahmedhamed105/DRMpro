@@ -34,7 +34,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author ahmedhamed
  */
 @Entity
-@Table(name = "user", catalog = "GuardianPro", schema = "")
+@Table(name = "user", catalog = "drmpro", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
@@ -144,8 +144,6 @@ public class User implements Serializable {
     @JoinColumn(name = "User_Password_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne(optional = false)
     private UserPassword userPasswordID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
-    private Collection<PhoneDataCopy1> phoneDataCopy1Collection;
 
     public User() {
     }
@@ -527,15 +525,7 @@ public class User implements Serializable {
         this.userPasswordID = userPasswordID;
     }
 
-    @XmlTransient
-    @JsonIgnore
-    public Collection<PhoneDataCopy1> getPhoneDataCopy1Collection() {
-        return phoneDataCopy1Collection;
-    }
 
-    public void setPhoneDataCopy1Collection(Collection<PhoneDataCopy1> phoneDataCopy1Collection) {
-        this.phoneDataCopy1Collection = phoneDataCopy1Collection;
-    }
 
     @Override
     public int hashCode() {

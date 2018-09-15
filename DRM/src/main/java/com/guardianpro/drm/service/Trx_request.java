@@ -5,10 +5,16 @@
  */
 package com.guardianpro.drm.service;
 
+import javax.ws.rs.Produces;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author ahmedhamed
  */
+
+@Produces("application/json")
+@XmlRootElement
 public class Trx_request {
 Check_Tokean login;
 int type;    

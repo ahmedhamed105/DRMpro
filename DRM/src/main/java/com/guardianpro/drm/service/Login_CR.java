@@ -1,5 +1,8 @@
 package com.guardianpro.drm.service;
 
+import javax.ws.rs.Produces;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,6 +14,9 @@ package com.guardianpro.drm.service;
  *
  * @author ahmed.elemam
  */
+
+@Produces("application/json")
+@XmlRootElement   
 public class Login_CR {
     
   

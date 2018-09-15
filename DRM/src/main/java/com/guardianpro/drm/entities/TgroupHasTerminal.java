@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ahmedhamed
  */
 @Entity
-@Table(name = "tgroup_has_terminal", catalog = "GuardianPro", schema = "")
+@Table(name = "tgroup_has_terminal", catalog = "drmpro", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TgroupHasTerminal.findAll", query = "SELECT t FROM TgroupHasTerminal t")

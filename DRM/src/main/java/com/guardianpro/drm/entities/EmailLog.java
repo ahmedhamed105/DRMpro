@@ -34,7 +34,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author ahmedhamed
  */
 @Entity
-@Table(name = "email_log", catalog = "GuardianPro", schema = "")
+@Table(name = "email_log", catalog = "drmpro", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EmailLog.findAll", query = "SELECT e FROM EmailLog e")

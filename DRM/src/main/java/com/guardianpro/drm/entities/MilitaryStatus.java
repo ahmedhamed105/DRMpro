@@ -32,7 +32,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author ahmedhamed
  */
 @Entity
-@Table(name = "military_status", catalog = "GuardianPro", schema = "")
+@Table(name = "military_status", catalog = "drmpro", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MilitaryStatus.findAll", query = "SELECT m FROM MilitaryStatus m")

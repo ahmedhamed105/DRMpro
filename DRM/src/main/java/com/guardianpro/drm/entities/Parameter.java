@@ -34,7 +34,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author ahmedhamed
  */
 @Entity
-@Table(name = "parameter", catalog = "GuardianPro", schema = "")
+@Table(name = "parameter", catalog = "drmpro", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Parameter.findAll", query = "SELECT p FROM Parameter p")

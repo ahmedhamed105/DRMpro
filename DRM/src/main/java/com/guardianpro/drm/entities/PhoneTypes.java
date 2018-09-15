@@ -32,7 +32,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author ahmedhamed
  */
 @Entity
-@Table(name = "phone_types", catalog = "GuardianPro", schema = "")
+@Table(name = "phone_types", catalog = "drmpro", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PhoneTypes.findAll", query = "SELECT p FROM PhoneTypes p")
@@ -63,8 +63,6 @@ public class PhoneTypes implements Serializable {
     private Date updateDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phonetypesID")
     private Collection<PhoneData> phoneDataCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phonetypesID")
-    private Collection<PhoneDataCopy1> phoneDataCopy1Collection;
 
     public PhoneTypes() {
     }
@@ -120,16 +118,7 @@ public class PhoneTypes implements Serializable {
     public void setPhoneDataCollection(Collection<PhoneData> phoneDataCollection) {
         this.phoneDataCollection = phoneDataCollection;
     }
-
-    @XmlTransient
-    @JsonIgnore
-    public Collection<PhoneDataCopy1> getPhoneDataCopy1Collection() {
-        return phoneDataCopy1Collection;
-    }
-
-    public void setPhoneDataCopy1Collection(Collection<PhoneDataCopy1> phoneDataCopy1Collection) {
-        this.phoneDataCopy1Collection = phoneDataCopy1Collection;
-    }
+ 
 
     @Override
     public int hashCode() {
