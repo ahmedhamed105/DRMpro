@@ -31,7 +31,7 @@ import javax.persistence.Query;
  * @author mohammed.ayad
  */
 @Stateless
-@Local(ReportService.class)
+@Local(TerminalService.class)
 public class TermminalServiceImpl extends AbstractService implements TerminalService {
 
     private static final Logger logger = Logger.getLogger(TermminalServiceImpl.class);
